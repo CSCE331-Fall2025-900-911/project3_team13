@@ -1,0 +1,1 @@
+SELECT * FROM ingredients WHERE quantity = 0
