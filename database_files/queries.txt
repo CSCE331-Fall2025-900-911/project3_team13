@@ -1,0 +1,128 @@
+// SELECTED BY TA VIVAN VO(1, 3, 9, 10) <<--- IMPORTANT
+
+
+/// Special Query 1 - Weekly Sales History ///
+// total orders grouped by the week
+SELECT 
+    EXTRACT(WEEK FROM timestamp) AS week_number,
+    COUNT(*) AS number_orders
+FROM orders
+GROUP BY EXTRACT(WEEK FROM timestamp)
+ORDER BY number_orders DESC
+LIMIT 1;
+
+/// Special Query 2 - Realistic Sales History ///
+// total sales grouped by the hour
+SELECT 
+    EXTRACT(HOUR FROM timestamp) AS hour_of_day,
+    COUNT(*) AS transactions,
+    SUM(total) AS total_sales
+FROM 
+    transactions
+GROUP BY 
+    hour_of_day
+ORDER BY 
+    hour_of_day;
+
+
+/// Special Query 3 - Peak Sales Day ///
+// sum of ten most popular items on given day
+SELECT SUM(total) FROM (SELECT * FROM transactions 
+WHERE timestamp >= '2025-07-09' AND timestamp < '2025-07-10' 
+ORDER BY total DESC LIMIT 10) AS transactionsResult;
+
+/// Query 4 - Sales of Past Month ///
+// total number of sales in the past month
+SELECT COUNT(*) FROM transactions 
+WHERE NOW() - interval '1 month' <= timestamp AND timestamp <= NOW();
+
+/// Query 5 - Out of Stock Inventory Items ///
+// list of items with 0 stock left
+SELECT * FROM ingredients WHERE quantity = 0
+
+/// Query 6 - Lowest Items in Inventory ///
+// list of 10 items with lowest stock in ascending order
+SELECT id, qantity
+FROM inventory
+ORDER BY quantity ASC
+LIMIT 10;
+
+/// Query 7 - Most Popular Menu Item ///
+// menu items with the highest total orders given a month
+SELECT *
+FROM (
+    SELECT
+        TO_CHAR(o.timestamp, 'YYYY-MM') AS month,
+        mi.name AS menu_item,
+        COUNT(*) AS times_ordered,
+        ROW_NUMBER() OVER (PARTITION BY TO_CHAR(o.timestamp, 'YYYY-MM') ORDER BY COUNT(*) DESC) AS rn
+    FROM 
+        orders o
+    JOIN 
+        LATERAL regexp_split_to_table(trim(both '{}' FROM o.itemlist::text), '-') AS item_id_str ON TRUE
+    JOIN 
+        menu_items mi ON mi.id = item_id_str::int
+    GROUP BY 
+        month, mi.name
+) ranked
+WHERE rn = 1
+ORDER BY month;
+
+
+/// Query 8 - Menu Item Inventory ///
+// number of ingredients in a given item
+SELECT cardinality(string_to_array(trim(both '{}' from ingredients), '-')) AS ingredient_count
+FROM menu_items WHERE id = 3;
+
+/// Query 9 - Customer's Favorite Item ///
+// item with highest total orders in a customers history
+SELECT 
+    mi.name AS drink_name,
+    COUNT(*) AS times_ordered
+FROM 
+    customers c
+JOIN 
+    LATERAL regexp_split_to_table(trim(both '{}' FROM c.history::text), '-') AS order_id_str ON TRUE
+JOIN 
+    orders o ON o.id = order_id_str::int
+JOIN 
+    LATERAL regexp_split_to_table(trim(both '{}' FROM o.itemlist::text), '-') AS item_id_str ON TRUE
+JOIN 
+    menu_items mi ON mi.id = item_id_str::int
+WHERE 
+    c.id = 1  -- Replace with any customer ID
+GROUP BY 
+    mi.name
+ORDER BY 
+    times_ordered DESC;
+
+/// Query 10 - Customer Total Spending /// 
+// the total amount of money a customer has spent
+SELECT SUM(total) AS total_spent FROM transactions WHERE customer_id = 3;
+
+/// Query 11 - Number of Customers ///
+// the total number of customers saved
+SELECT COUNT(*) FROM Customers AS total_customers;
+
+/// Query 12 - Lowest Stock Menu ///
+// list of menu items that use the ingredient with the lowest stock
+SELECT name
+FROM menu_items
+WHERE ingredients LIKE CONCAT('%-', (
+    SELECT id
+    FROM inventory
+    ORDER BY Quantity ASC
+    LIMIT 1
+), '-%') 
+    OR ingredients LIKE CONCAT('%-', (
+    SELECT id
+    FROM inventory
+    ORDER BY Quantity ASC
+    LIMIT 1
+), '}') 
+    OR ingredients LIKE CONCAT('{', (
+    SELECT id
+    FROM inventory
+    ORDER BY Quantity ASC
+    LIMIT 1
+), '-%');

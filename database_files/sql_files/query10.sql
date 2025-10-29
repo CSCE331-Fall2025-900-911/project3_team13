@@ -1,0 +1,1 @@
+SELECT SUM(total) AS total_spent FROM transactions WHERE customer_id = 3;
