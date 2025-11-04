@@ -1,1 +1,0 @@
-SELECT COUNT(*) FROM Customers AS total_customers;
