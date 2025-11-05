@@ -10,7 +10,7 @@ export function LogoutButton() {
   return (
     <>
       <Button variant="contained" onClick={() => setOpen(true)}>
-        Logout
+        Log out
       </Button>
 
       <Dialog open={open} onClose={() => setOpen(false)} aria-labelledby="dlg-title">

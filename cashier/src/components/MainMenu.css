@@ -1,0 +1,24 @@
+.main-menu {
+    display: flex;
+    flex: 1;
+    height: 100%;
+    width: 100%;
+}
+
+.button-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 24px;
+    width: 100%;
+    height: 100%;
+    padding: 0 24px;
+    justify-items: center;
+    align-items: center;
+}
+
+.button-grid .MuiButton-root {
+    width: 200px;
+    height: 200px;
+    min-width: unset;
+}

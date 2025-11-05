@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import './App.css'
+import reactLogo from './assets/react.svg'
 import {
-  // Button,
+  Button,
   // Dialog,
   // DialogTitle,
   // DialogContent,
@@ -16,6 +17,9 @@ import {
   // FormLabel
 } from '@mui/material';
 import { LogoutButton } from './components/LogoutButton.tsx';
+import { MainMenu } from './components/MainMenu.tsx';
+import { Library } from './components/Library.tsx';
+import { Orders } from './components/Orders.tsx';
 
 function App() {
   const [tabValue, setTabValue] = useState<'menu' | 'library' | 'orders'>('menu');
@@ -31,17 +35,32 @@ function App() {
           <LogoutButton />
         </div>
       </header>
-      <div className="tabPanel">
-        {/* Main content goes here */}
-        <Tabs value={tabValue} onChange={(__, newValue) => setTabValue(newValue)}>
-          <Tab label="Main Menu" value="menu" />
-          <Tab label="Library" value="library" />
-          <Tab label="Orders" value="orders" />
-        </Tabs>
+      <div className="main-content">
+        <div className="tab-panel">
+          <div className="tabs">
+            <Tabs value={tabValue} onChange={(__, newValue) => setTabValue(newValue)}>
+              <Tab label="Main Menu" value="menu" />
+              <Tab label="Library" value="library" />
+              <Tab label="Orders" value="orders" />
+            </Tabs>
+          </div>
 
-        {tabValue === 'menu' && <div>Main Menu Content</div>}
-        {tabValue === 'library' && <div>Library Content</div>}
-        {tabValue === 'orders' && <div>Orders Content</div>}
+          {tabValue === 'menu' && <div className="tab-content">
+            <MainMenu />
+            </div>}
+          {tabValue === 'library' && <div className="tab-content">
+            <Library />
+            </div>}
+          {tabValue === 'orders' && <div className="tab-content">
+            <Orders />
+            </div>}
+        </div>
+        <div className="side-panel">
+          <Button variant="contained" color="primary" startIcon={
+            <img src={reactLogo} alt="" style={{width: '24px', height: '24px'}}></img>
+            }>Add Customer</Button>
+          <h3>Current Total: $0</h3>
+        </div>
       </div>
 
     </>
