@@ -1,31 +1,75 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: white;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
   text-align: center;
 }
 
 .top-bar {
-  width: 100%;
-  height: 10%;
+  height: 10vh;
   background-color: white;
   color: #2c2c2c;
-  position: fixed;
+  position: relative;
   top: 0;
   left: 0;
   display: flex;
   align-items: center;
   padding: 0 24px; 
   z-index: 1000; 
-  border-bottom: 1px solid var(--top-bar-border);
-  border-color: #2C2C2C;
+  border-bottom: 5px solid #2C2C2C;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
 }
 
-.tabPanel {
-  top: 0;
-  left: 0;
-  height: 90%;
+.main-content {
   display: flex;
-  width: 70%;
+  flex-direction: row;
+  flex: 1 1 auto;
+  background-color: white;
+  width: 100%;
+}
+
+.tab-panel {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 70%;
+  height: 100%;
+}
+
+.tabs {
+  display: flex;
+  color: #2C2C2C;
+  background-color: #D9D9D9;
+}
+
+.tabs .MuiTabs-indicator {
+  display: none;
+}
+
+.tabs .MuiTab-root.Mui-selected {
+  color: #2C2C2C;
+  background-color: #FFFFFF;
+  font-weight: bold;
+  border: 0;
+}
+
+.tab-content {
+  display: flex;
+  flex: 1 1 auto;
+  padding: 20px;
+  background-color: #ffffff;
+  height: 100%;
+}
+
+.side-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1 1 30%;
+  height: 100%;
+  background-color: #F0F0F0;
+  padding-top: 16px;
 }
