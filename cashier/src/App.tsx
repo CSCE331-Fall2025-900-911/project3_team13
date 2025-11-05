@@ -2,32 +2,50 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import {
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+  Tabs,
+  Tab,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  FormControl,
+  FormLabel
+} from '@mui/material';
+import { LogoutButton } from './components/LogoutButton.tsx';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [tabValue, setTabValue] = useState<'menu' | 'library' | 'orders'>('menu');
+  const [open, setOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState('option1');
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <header className="top-bar" role="banner" aria-label="Top navigation">
+        <h1 style={{ margin: 0, fontSize: '1.25rem' }}>12:00</h1>
+
+        <div style={{ marginLeft: 'auto', marginRight: '48px', display: 'flex', gap: '12px' }}>
+          <LogoutButton />
+        </div>
+      </header>
+      <div className="tabPanel">
+        {/* Main content goes here */}
+        <Tabs value={tabValue} onChange={(e, newValue) => setTabValue(newValue)}>
+          <Tab label="Main Menu" value="menu" />
+          <Tab label="Library" value="library" />
+          <Tab label="Orders" value="orders" />
+        </Tabs>
+
+        {tabValue === 'menu' && <div>Main Menu Content</div>}
+        {tabValue === 'library' && <div>Library Content</div>}
+        {tabValue === 'orders' && <div>Orders Content</div>}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the  and React logos to learn more
-      </p>
+
     </>
   )
 }
