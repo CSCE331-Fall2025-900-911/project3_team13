@@ -1,7 +1,7 @@
-import { Box, Button, TextField, IconButton } from '@mui/material';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { useState } from 'react';
+import { Box, Button, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import './CustomerMenu.css';
+import './Customer.css';
 
 type Props = {
   onCartOpen: () => void;
@@ -20,7 +20,7 @@ export default function CustomerMenu({ onCartOpen }: Props) {
 
   return (
     <Box className="menu-page">
-      {/* Top bar */}
+      {/* Top bar (search only — cart handled globally) */}
       <Box className="menu-top-bar">
         <TextField
           placeholder="Search items..."
@@ -29,13 +29,6 @@ export default function CustomerMenu({ onCartOpen }: Props) {
           size="small"
           className="menu-search"
         />
-        <IconButton
-          color="primary"
-          onClick={onCartOpen}
-          className="menu-cart-button"
-        >
-          <ShoppingCartIcon />
-        </IconButton>
       </Box>
 
       {/* Series Buttons */}

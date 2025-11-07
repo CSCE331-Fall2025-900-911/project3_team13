@@ -1,51 +1,71 @@
-import { Box, Button, TextField } from '@mui/material';
-import { useParams } from 'react-router-dom';
-import './CustomerSeries.css';
+import { Box, Button, IconButton } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useNavigate, useParams } from 'react-router-dom';
+import './Customer.css';
 
-type Props = {
-  onCartOpen: () => void;
-};
-
-export default function CustomerSeries({ onCartOpen }: Props) {
+export default function CustomerSeries() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
-  // Dummy items for demo purposes
+  // Dummy items for layout demonstration
   const items = [
-    { name: 'Item 1', price: '$3.50' },
-    { name: 'Item 2', price: '$4.00' },
-    { name: 'Item 3', price: '$4.50' },
-    { name: 'Item 4', price: '$5.00' },
+    {
+      name: 'Classic Milk Tea',
+      price: '$4.50',
+      description: 'Rich black tea with creamy milk base.',
+      image: '/images/milk-tea.jpg',
+    },
+    {
+      name: 'Taro Smoothie',
+      price: '$5.00',
+      description: 'Sweet taro blended with milk and ice.',
+      image: '/images/taro-smoothie.jpg',
+    },
+    {
+      name: 'Strawberry Fruit Tea',
+      price: '$4.75',
+      description: 'Fresh strawberry flavor with green tea.',
+      image: '/images/strawberry-tea.jpg',
+    },
+    {
+      name: 'Wintermelon Tea',
+      price: '$4.25',
+      description: 'Classic wintermelon with brown sugar notes.',
+      image: '/images/wintermelon.jpg',
+    },
   ];
-
-  const [search, setSearch] = useState('');
-
-  const filteredItems = items.filter((item) =>
-    item.name.toLowerCase().includes(search.toLowerCase())
-  );
 
   return (
     <Box className="series-page">
-      {/* Top bar */}
+      {/* Top Bar */}
       <Box className="series-top-bar">
-        <TextField
-          placeholder="Search items..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          size="small"
-          className="series-search"
-        />
+        <IconButton onClick={() => navigate('/menu')} className="series-back-button">
+          <ArrowBackIcon />
+        </IconButton>
+        <h1 className="series-title">
+          {id?.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
+        </h1>
       </Box>
 
-      {/* Series Header */}
-      <h1 className="series-title">{id?.replace(/-/g, ' ').toUpperCase()}</h1>
-
-      {/* Items */}
+      {/* Item Grid */}
       <Box className="series-items-container">
-        {filteredItems.map((item, index) => (
+        {items.map((item, index) => (
           <Box key={index} className="series-item-card">
-            <p>{item.name}</p>
-            <p>{item.price}</p>
-            <Button variant="contained">Add to Cart</Button>
+            <img
+              src={item.image}
+              alt={item.name}
+              className="series-item-image"
+            />
+            <h2 className="series-item-name">{item.name}</h2>
+            <p className="series-item-desc">{item.description}</p>
+            <p className="series-item-price">{item.price}</p>
+            <Button
+              variant="contained"
+              className="series-add-button"
+              onClick={() => navigate('/item')} // ← Navigate to CustomerItem page
+            >
+              View / Modify
+            </Button>
           </Box>
         ))}
       </Box>

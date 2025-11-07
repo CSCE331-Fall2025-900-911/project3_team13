@@ -1,0 +1,194 @@
+/* === GENERAL PAGE LAYOUT === */
+body, html, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #f0f0f0; /* neutral soft background for all pages */
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* === LOGIN PAGE === */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.login-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+  max-width: 400px;
+  padding: 2rem;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.login-title {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #333;
+}
+
+/* === MENU PAGE === */
+.menu-page {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f0f0f0;
+  box-sizing: border-box;
+}
+
+.menu-top-bar {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 32px;
+  gap: 10px;
+}
+
+.menu-search {
+  flex: 1;
+  max-width: 400px;
+}
+
+.menu-series-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.menu-series-button {
+  flex: 1 1 200px;
+  max-width: 220px;
+  background-color: #555 !important;
+  color: white !important;
+  text-transform: none !important;
+  font-weight: 500 !important;
+  border-radius: 10px !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+.menu-series-button:hover {
+  background-color: #444 !important;
+}
+
+/* === SERIES PAGE === */
+.series-page {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f0f0f0;
+  color: #000;
+  box-sizing: border-box;
+}
+
+.series-top-bar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.series-back-button {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: black !important;
+}
+
+.series-title {
+  width: 100%;
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #000;
+  text-transform: capitalize;
+}
+
+/* Grid for items */
+.series-items-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+/* Item card style */
+.series-item-card {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.series-item-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+/* Image */
+.series-item-image {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+
+/* Text */
+.series-item-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #000;
+  margin: 6px 0;
+}
+
+.series-item-desc {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.series-item-price {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #000;
+  margin-bottom: 10px;
+}
+
+/* Button */
+.series-add-button {
+  background-color: #555 !important;
+  color: white !important;
+  text-transform: none !important;
+  border-radius: 8px !important;
+}
+
+.series-add-button:hover {
+  background-color: #444 !important;
+}

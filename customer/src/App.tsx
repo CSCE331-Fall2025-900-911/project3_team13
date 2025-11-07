@@ -72,7 +72,7 @@ function AppContent() {
                 overflowY: 'auto',
               }}
             >
-              <CustomerMenu />
+              <CustomerMenu onCartOpen={() => setCartOpen(true)} />
             </Box>
           }
         />
@@ -92,7 +92,7 @@ function AppContent() {
                 overflowY: 'auto',
               }}
             >
-              <CustomerSeries />
+              <CustomerSeries onCartOpen={() => setCartOpen(true)} />
             </Box>
           }
         />
