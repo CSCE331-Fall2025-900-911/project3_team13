@@ -3,7 +3,11 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate, useParams } from 'react-router-dom';
 import './Customer.css';
 
-export default function CustomerSeries() {
+interface CustomerSeriesProps {
+  onCartOpen: () => void;
+}
+
+export default function CustomerSeries({ onCartOpen }: CustomerSeriesProps) {
   const { id } = useParams();
   const navigate = useNavigate();
 
