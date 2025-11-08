@@ -9,7 +9,7 @@ export function LogoutButton() {
 
   return (
     <>
-      <Button variant="contained" onClick={() => setOpen(true)}>
+      <Button variant="contained" className='black-button' onClick={() => setOpen(true)}>
         Log out
       </Button>
 

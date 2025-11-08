@@ -3,6 +3,7 @@ import './MainMenu.css'
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 import reactLogo from '../assets/react.svg'
+import { SeriesLoad } from './SeriesLoad'
 
 
 export function MainMenu() {
@@ -41,9 +42,12 @@ export function MainMenu() {
             </div>}
 
 
-            {openValue === 'series-m' && <div>
-                Milk Series
-                <Button onClick={() => setOpenValue('menu')}>Return</Button>
+            {openValue === 'series-m' && <div className='series-page'>
+                <div className='series-head'>
+                    Milk Series
+                    <Button onClick={() => setOpenValue('menu')}>Return</Button>
+                </div>
+                <SeriesLoad />
             </div>}
 
 

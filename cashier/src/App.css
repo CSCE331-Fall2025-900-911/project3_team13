@@ -74,3 +74,30 @@
   color: white;
   padding-top: 16px;
 }
+
+.white-button {
+  background-color: white !important;
+  color: #2c2c2c !important;
+  margin: 8px 0;
+}
+
+.success-button {
+  background-color: #4798F5 !important;
+  color: white !important;
+  margin: 8px 0;
+}
+
+.side-panel .save-cancel-button-container .white-button {
+  height: 70px;
+}
+
+.side-panel .checkout-button-container .success-button {
+  width: 280 px;
+  height: 70px;
+}
+
+.black-button {
+  background-color: #2C2C2C !important;
+  color: white !important;
+  margin: 8px 0;
+}
