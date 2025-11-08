@@ -1,4 +1,4 @@
-import {dummyItems, formatPrice} from '../../../../../project3/cashier/src/data/dummyItems';
+import {dummyItems, formatPrice} from '../data/dummyItems';
 import { useState, useEffect } from "react";
 import IconButton from '@mui/material/IconButton';
 import './OrderSummary.css';

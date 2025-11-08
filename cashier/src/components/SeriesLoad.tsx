@@ -1,4 +1,4 @@
-import {dummySeries} from '../../../../../project3/cashier/src/data/dummySeries';
+import {dummySeries} from '../data/dummySeries';
 import { useState, useEffect } from "react";
 import IconButton from '@mui/material/IconButton';
 
