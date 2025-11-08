@@ -1,15 +1,28 @@
 const express = require('express');
-const { Pool } = require('pg');
+const pool = require('./db/pool');
 const dotenv = require('dotenv');
 
+
+
+dotenv.config();
 const app = express();
 const port = 3000;
 
-const pool = new Pool({
-    user: process.env.PSQL_USER,
-    host: process.env.PSQL_HOST,
-    database: process.env.PSQL_DB,
-    password: process.env.PSQL_PASS,
-    port: process.env.PSQL_PORT,
-    ssl: {rejectUnauthorized: false}
+app.use(express.json());
+
+
+// Routes
+app.use('/item-editing', require('./routes/itemEditingRoute'));
+
+
+//shutdown hook
+process.on('SIGINT', () => {
+  pool.end();
+  console.log('Application successfully shutdown');
+  process.exit(0);
+});
+
+
+app.listen(port, () => {
+  console.log(`✅ Server running on http://localhost:${port}`);
 });

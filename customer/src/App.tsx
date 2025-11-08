@@ -6,6 +6,7 @@ import CustomerLogin from "./components/CustomerLogin";
 import CustomerMenu from "./components/CustomerMenu";
 import CustomerSeries from "./components/CustomerSeries";
 import CustomerCartSidebar from "./components/CustomerCartSidebar";
+import CustomerItem from "./components/CustomerItem";
 
 function AppContent() {
   const location = useLocation();
@@ -38,45 +39,14 @@ function AppContent() {
       {/* Page Content */}
       <Routes>
         {/* LOGIN PAGE */}
-        <Route
-          path="/"
-          element={
-            <Box
-              sx={{
-                width: '100%',
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-                px: 2,
-              }}
-            >
-              <CustomerLogin />
-            </Box>
-          }
-        />
+        <Route path="/" element={<Box sx={styles.pageContainer}><CustomerLogin /></Box>} />
 
         {/* MENU PAGE */}
         <Route
           path="/menu"
-          element={
-            <Box
-              sx={{
-                width: '100%',
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                px: { xs: 2, sm: 4 },
-                overflowY: 'auto',
-              }}
-            >
-              <CustomerMenu onCartOpen={() => setCartOpen(true)} />
-            </Box>
-          }
+          element={<Box sx={styles.pageContainer}><CustomerMenu onCartOpen={() => setCartOpen(true)} /></Box>}
         />
-
+        
         {/* SERIES PAGE */}
         <Route
           path="/series/:id"
@@ -96,30 +66,63 @@ function AppContent() {
             </Box>
           }
         />
+
+        {/* ITEM PAGE */}
+        <Route
+          path="/item/:seriesName"
+          element={
+            <Box
+              sx={{
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                px: { xs: 2, sm: 4 },
+                overflowY: 'auto',
+              }}
+            >
+              <CustomerItem
+                onBack={() => window.history.back()}
+              />
+            </Box>
+          }
+        />
       </Routes>
 
       {/* Cart Sidebar */}
       <Slide direction="left" in={cartOpen} mountOnEnter unmountOnExit>
-        <Box
-          sx={{
-            position: 'fixed',
-            top: 0,
-            right: 0,
-            height: '100vh',
-            width: { xs: '85%', sm: 400 },
-            bgcolor: 'white',
-            boxShadow: '-4px 0 12px rgba(0,0,0,0.4)',
-            zIndex: 3000,
-            display: 'flex',
-            flexDirection: 'column',
-          }}
-        >
+        <Box sx={styles.cartSidebar}>
           <CustomerCartSidebar onClose={() => setCartOpen(false)} />
         </Box>
       </Slide>
     </Box>
   );
 }
+
+const styles = {
+  pageContainer: {
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    px: { xs: 2, sm: 4 },
+    overflowY: 'auto',
+  },
+  cartSidebar: {
+    position: 'fixed',
+    top: 0,
+    right: 0,
+    height: '100vh',
+    width: { xs: '85%', sm: 400 },
+    bgcolor: 'white',
+    boxShadow: '-4px 0 12px rgba(0,0,0,0.4)',
+    zIndex: 3000,
+    display: 'flex',
+    flexDirection: 'column',
+  },
+};
 
 export default function App() {
   return (

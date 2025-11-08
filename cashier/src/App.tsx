@@ -10,7 +10,7 @@ import {
   // TextField,
   Tabs,
   Tab,
-  // Radio,
+  // Radio
   // RadioGroup,
   // FormControlLabel,
   // FormControl,
@@ -20,13 +20,14 @@ import { LogoutButton } from './components/LogoutButton.tsx';
 import { MainMenu } from './components/MainMenu.tsx';
 import { Library } from './components/Library.tsx';
 import { Orders } from './components/Orders.tsx';
+import { OrderSummary } from './components/OrderSummary.tsx';
 
 function App() {
   const [tabValue, setTabValue] = useState<'menu' | 'library' | 'orders'>('menu');
   // const [open, setOpen] = useState(false);
   // const [selectedOption, setSelectedOption] = useState('option1');
-
   return (
+    
     <>
       <header className="top-bar" role="banner" aria-label="Top navigation">
         <h1 style={{ margin: 0, fontSize: '1.25rem' }}>12:00</h1>
@@ -56,10 +57,20 @@ function App() {
             </div>}
         </div>
         <div className="side-panel">
-          <Button variant="contained" color="primary" startIcon={
+          <Button variant="contained" className='white-button' startIcon={
             <img src={reactLogo} alt="" style={{width: '24px', height: '24px'}}></img>
             }>Add Customer</Button>
-          <h3>Current Total: $0</h3>
+          <div className="order-summary">
+            <OrderSummary />
+          </div>
+
+          <div className="save-cancel-button-container">
+            <Button variant="contained" className="white-button">Save Order</Button>
+            <Button variant="contained" className="white-button">Cancel Order</Button>
+          </div>
+          <div className="checkout-button-container">
+            <Button variant="contained" className='success-button' size="large">Checkout</Button>
+          </div>
         </div>
       </div>
 
