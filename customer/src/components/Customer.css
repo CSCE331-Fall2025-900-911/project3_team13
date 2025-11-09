@@ -4,8 +4,9 @@ body, html, #root {
   padding: 0;
   width: 100%;
   height: 100%;
-  background-color: #f0f0f0; /* neutral soft background for all pages */
+  background-color: #f0f0f0;
   font-family: 'Inter', system-ui, sans-serif;
+  color: #000; /* default text color black */
 }
 
 /* === LOGIN PAGE === */
@@ -34,7 +35,7 @@ body, html, #root {
   font-weight: 600;
   margin-bottom: 1.5rem;
   text-align: center;
-  color: #333;
+  color: #000;
 }
 
 /* === MENU PAGE === */
@@ -48,6 +49,7 @@ body, html, #root {
   align-items: center;
   background-color: #f0f0f0;
   box-sizing: border-box;
+  color: #000;
 }
 
 .menu-top-bar {
@@ -181,14 +183,92 @@ body, html, #root {
   margin-bottom: 10px;
 }
 
-/* Button */
-.series-add-button {
+/* Buttons */
+.series-add-button, .series-modify-button, .cart-checkout-button, .cart-cancel-button {
   background-color: #555 !important;
   color: white !important;
   text-transform: none !important;
   border-radius: 8px !important;
+  width: 100%;
+  padding: 8px 0;
+  margin-top: 8px;
 }
 
-.series-add-button:hover {
+.series-add-button:hover, .series-modify-button:hover, .cart-checkout-button:hover, .cart-cancel-button:hover {
   background-color: #444 !important;
+}
+
+/* === CART SIDEBAR === */
+.cart-sidebar {
+  width: 100%;
+  max-width: 400px;
+  height: 100%;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+  color: #000; /* all text black */
+}
+
+.cart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.cart-list {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 16px;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 1rem;
+}
+
+.cart-total {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+}
+
+.cart-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.cart-checkout-button {
+  flex: 1;
+  background-color: #555;
+  color: white;
+  text-transform: none;
+  border-radius: 8px;
+}
+
+.cart-checkout-button:hover {
+  background-color: #444;
+}
+
+.cart-cancel-button {
+  flex: 1;
+  background-color: #eee;
+  color: #000;
+  text-transform: none;
+  border-radius: 8px;
+}
+
+.cart-cancel-button:hover {
+  background-color: #ddd;
 }

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { Box, IconButton, Slide } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CustomerLogin from "./components/CustomerLogin";
@@ -7,17 +7,40 @@ import CustomerMenu from "./components/CustomerMenu";
 import CustomerSeries from "./components/CustomerSeries";
 import CustomerCartSidebar from "./components/CustomerCartSidebar";
 import CustomerItem from "./components/CustomerItem";
+import { FoodItem } from './types';
+import CustomerCheckout from './components/CustomerCheckout';
 
 function AppContent() {
   const location = useLocation();
+  const navigate = useNavigate();
+
   const [cartOpen, setCartOpen] = useState(false);
+  const [cartItems, setCartItems] = useState<FoodItem[]>([]);
+
+  // Add an item to the cart
+  const addToCart = (item: FoodItem) => {
+    setCartItems(prev => [...prev, item]);
+    setCartOpen(true); // automatically open sidebar
+  };
+
+  // Clear cart AND close sidebar
+  const clearCart = () => {
+    setCartItems([]);
+    setCartOpen(false);
+  };
+
+  // Checkout
+  const onCheckout = () => {
+    setCartOpen(false);
+    navigate('/checkout');
+  };
 
   const showCartButton = location.pathname !== '/';
 
   return (
     <Box sx={{ width: '100vw', height: '100vh', position: 'relative', overflow: 'hidden' }}>
       
-      {/* Cart Button */}
+      {/* Cart Icon Button */}
       {showCartButton && (
         <IconButton
           color="primary"
@@ -38,62 +61,43 @@ function AppContent() {
 
       {/* Page Content */}
       <Routes>
-        {/* LOGIN PAGE */}
         <Route path="/" element={<Box sx={styles.pageContainer}><CustomerLogin /></Box>} />
 
-        {/* MENU PAGE */}
-        <Route
-          path="/menu"
-          element={<Box sx={styles.pageContainer}><CustomerMenu onCartOpen={() => setCartOpen(true)} /></Box>}
-        />
-        
-        {/* SERIES PAGE */}
-        <Route
-          path="/series/:id"
-          element={
-            <Box
-              sx={{
-                width: '100%',
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                px: { xs: 2, sm: 4 },
-                overflowY: 'auto',
-              }}
-            >
-              <CustomerSeries onCartOpen={() => setCartOpen(true)} />
-            </Box>
-          }
-        />
+        <Route path="/menu" element={
+          <Box sx={styles.pageContainer}>
+            <CustomerMenu onCartOpen={() => setCartOpen(true)} />
+          </Box>
+        } />
 
-        {/* ITEM PAGE */}
-        <Route
-          path="/item/:seriesName"
-          element={
-            <Box
-              sx={{
-                width: '100%',
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                px: { xs: 2, sm: 4 },
-                overflowY: 'auto',
-              }}
-            >
-              <CustomerItem
-                onBack={() => window.history.back()}
-              />
-            </Box>
-          }
-        />
+        <Route path="/series/:id" element={
+          <Box sx={styles.pageContainer}>
+            <CustomerSeries onCartOpen={() => setCartOpen(true)} />
+          </Box>
+        } />
+
+        <Route path="/item/:seriesName" element={
+          <Box sx={styles.pageContainer}>
+            <CustomerItem onBack={() => window.history.back()} onAddToCart={addToCart} />
+          </Box>
+        } />
+
+        <Route path="/checkout" element={
+          <Box sx={styles.pageContainer}>
+            <CustomerCheckout cartItems={cartItems} /> {/* remove clearCart prop to fix TS error */}
+          </Box>
+        } />
       </Routes>
 
-      {/* Cart Sidebar */}
+      {/* Shared Cart Sidebar */}
       <Slide direction="left" in={cartOpen} mountOnEnter unmountOnExit>
         <Box sx={styles.cartSidebar}>
-          <CustomerCartSidebar onClose={() => setCartOpen(false)} />
+          <CustomerCartSidebar
+            open={cartOpen}
+            onClose={() => setCartOpen(false)}
+            cartItems={cartItems}
+            clearCart={clearCart} // this now clears AND closes
+            onCheckout={onCheckout}
+          />
         </Box>
       </Slide>
     </Box>

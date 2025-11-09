@@ -4,6 +4,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { FoodItem } from '../types';
 import { foodItems } from '../mockDatabase';
 import PhotoIcon from '@mui/icons-material/Photo';
+import './Customer.css';
+
 interface CustomerSeriesProps {
   onCartOpen: () => void;
 }
