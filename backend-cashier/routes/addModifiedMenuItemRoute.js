@@ -4,6 +4,8 @@ const pool = require('../db/pool');
 
 // add modified menu item to order
 router.post('/', async (req, res) => {
+    // requests to this route should contain order ID, menu item ID, and a list of modifications
+    // ideally the modifications should be of the form [{itemName: "item name", quantity: x}, ...]
     const { orderId, menuItemId, modifications } = req.body;
     
     try {
@@ -16,7 +18,6 @@ router.post('/', async (req, res) => {
             orderId
         ]);
 
-        // ideally it should be of the form [{itemName: "item name", quantity: x}, ...]
         // how is quantity represented?
         for(const mod of modifications) {
             let { itemName, quantity } = mod;
