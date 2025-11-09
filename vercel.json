@@ -1,6 +1,19 @@
 {
     "rewrites": [
-        { "source": "/cashier/:path*", "destination": "https://cashier-project3-team13.vercel.app/:path*" },
-        { "source": "/customer/:path*", "destination": "https://customer-project3-team13.vercel.app/:path*" }
+        { 
+            "source": "/cashier/:path*", 
+            "destination": "https://cashier-project3-team13.vercel.app/:path*" 
+        },
+        { 
+            "source": "/customer/:path*", 
+            "destination": "https://customer-project3-team13.vercel.app/:path*" 
+        }
+    ],
+    "redirects": [
+        {
+            "source": "/",
+            "destination": "/customer",
+            "permanent": false
+        }
     ]
 }
