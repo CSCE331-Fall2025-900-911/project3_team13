@@ -14,6 +14,7 @@ app.use(express.json());
 // Routes
 app.use('/item-editing', require('./routes/itemEditingRoute'));
 app.use('/new-order', require('./routes/newOrderRoute'));
+app.use('/add-customer', require('./routes/addCustomerRoute'));
 
 //shutdown hook
 process.on('SIGINT', () => {
