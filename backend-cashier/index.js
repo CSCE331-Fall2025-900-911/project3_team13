@@ -13,6 +13,9 @@ app.use(express.json());
 
 // Routes
 app.use('/item-editing', require('./routes/itemEditingRoute'));
+app.use('/new-order', require('./routes/newOrderRoute'));
+app.use('/add-customer', require('./routes/addCustomerRoute'));
+app.use('/add-modified-menu-item', require('./routes/addModifiedMenuItemRoute'));
 app.use('/cart', require('./routes/cartRoute'));
 
 
