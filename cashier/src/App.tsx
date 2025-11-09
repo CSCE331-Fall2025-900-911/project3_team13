@@ -16,11 +16,11 @@ import {
   // FormControl,
   // FormLabel
 } from '@mui/material';
-import { LogoutButton } from './components/LogoutButton.tsx';
-import { MainMenu } from './components/MainMenu.tsx';
-import { Library } from './components/Library.tsx';
-import { Orders } from './components/Orders.tsx';
-import { OrderSummary } from './components/OrderSummary.tsx';
+import { LogoutButton } from './components/LogoutButton';
+import { MainMenu } from './components/MainMenu';
+import { Library } from './components/Library';
+import { Orders } from './components/Orders';
+import { OrderSummary } from './components/OrderSummary';
 
 function App() {
   const [tabValue, setTabValue] = useState<'menu' | 'library' | 'orders'>('menu');
