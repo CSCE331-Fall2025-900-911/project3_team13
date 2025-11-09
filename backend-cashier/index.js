@@ -13,6 +13,7 @@ app.use(express.json());
 
 // Routes
 app.use('/item-editing', require('./routes/itemEditingRoute'));
+app.use('/cart', require('./routes/cartRoute'));
 
 
 //shutdown hook
