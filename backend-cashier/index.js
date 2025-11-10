@@ -7,6 +7,7 @@ dotenv.config();
 const app = express();
 const port = 3000;
 
+// change origin link to deployment link when deploying
 const corsConfig = {
   origin: 'http://localhost:5173',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
