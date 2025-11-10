@@ -34,39 +34,64 @@ inventory_items = [ # possibly expand later into more detailed items with set qu
     "Matcha", "Whipped Cream", "Chocolate Syrup", "Caramel",
     "Brown Sugar", "Coconut Jelly"
 ]
-
 menu_items_data = [
     {
         "Name": "Classic Milk Tea",
         "Ingredients": ["Black Tea", "Milk", "Sugar", "Boba", "Ice"],
         "Category": "Milk Tea",
-        "Price": 4.50
+        "Price": 4.50,
+        "Modifications": {
+            "Sugar": ["0%", "25%", "50%", "75%", "100%"],
+            "Ice": ["0%", "25%", "50%", "75%", "100%"],
+            "Size": ["Small", "Medium", "Large"]
+        }
     },
     {
         "Name": "Taro Milk Tea",
         "Ingredients": ["Taro Powder", "Milk", "Sugar", "Boba", "Ice"],
         "Category": "Milk Tea",
-        "Price": 9.50
+        "Price": 9.50,
+        "Modifications": {
+            "Sugar": ["0%", "25%", "50%", "75%", "100%"],
+            "Ice": ["0%", "25%", "50%", "75%", "100%"],
+            "Size": ["Small", "Medium", "Large"]
+        }
     },
     {
         "Name": "Matcha Latte",
         "Ingredients": ["Matcha", "Milk", "Sugar", "Ice"],
         "Category": "Milk Tea",
-        "Price": 5.00
+        "Price": 5.00,
+        "Modifications": {
+            "Sugar": ["0%", "25%", "50%", "75%", "100%"],
+            "Ice": ["0%", "25%", "50%", "75%", "100%"],
+            "Size": ["Small", "Medium", "Large"]
+        }
     },
     {
         "Name": "Strawberry Smoothie",
         "Ingredients": ["Strawberry Syrup", "Milk", "Ice", "Whipped Cream"],
         "Category": "Specialty Drink",
-        "Price": 6.50
+        "Price": 6.50,
+        "Modifications": {
+            "Sugar": ["0%", "25%", "50%", "75%", "100%"],
+            "Ice": ["0%", "25%", "50%", "75%", "100%"],
+            "Size": ["Small", "Medium", "Large"]
+        }
     },
     {
         "Name": "Brown Sugar Boba",
         "Ingredients": ["Brown Sugar", "Milk", "Boba", "Ice"],
         "Category": "Milk Tea",
-        "Price": 5.50
+        "Price": 5.50,
+        "Modifications": {
+            "Sugar": ["0%", "25%", "50%", "75%", "100%"],
+            "Ice": ["0%", "25%", "50%", "75%", "100%"],
+            "Size": ["Small", "Medium", "Large"]
+        }
     }
 ]
+
 # -----------------------------------------------
 # Utility Functions
 # -----------------------------------------------
@@ -170,7 +195,8 @@ def gen_menu_items():
             "ID": i,
             "Name": item["Name"],
             "Category": item["Category"],
-            "Price": item["Price"]
+            "Price": item["Price"],
+            "Modifications": item.get("Modifications", {})
         })
 
         # Link ingredients to inventory
@@ -199,7 +225,7 @@ def gen_orders_transactions():
 
         order = {
             "ID": order_id,
-            "Status": True,  #Status could be changed to enum later
+            "Status": True,
             "Timestamp": ts.strftime("%Y-%m-%d %H:%M")
         }
 
@@ -210,27 +236,25 @@ def gen_orders_transactions():
             item = random.choice(menu_items)
             total += item["Price"]
 
+            # Create menu_item_order entry
             menu_item_order.append({
                 "ID": combo_counter,
                 "MenuItemID": item["ID"],
                 "OrderID": order_id
             })
 
-            # Optional customization edits
-            num_edits = random.randint(0, 2)
-            edited_inv_ids = set()
+            # --- Generate modifications for this drink ---
+            modifications = {
+                "Sugar": random.choice(["0%", "25%", "50%", "75%", "100%"]),
+                "Ice": random.choice(["0%", "25%", "50%", "75%", "100%"]),
+                "Size": random.choice(["Small", "Medium", "Large"])
+            }
 
-            for _ in range(num_edits):
-                inv = random.choice(inventory)
-                while inv["ID"] in edited_inv_ids:
-                    inv = random.choice(inventory)
-                edited_inv_ids.add(inv["ID"])
-
-                qty = round(random.uniform(0.5, 2.0), 1)
+            for mod_name, mod_value in modifications.items():
                 item_editing_table.append({
                     "ComboID": combo_counter,
-                    "InventoryID": inv["ID"],
-                    "Quantity": qty
+                    "ModificationType": mod_name,
+                    "Value": mod_value
                 })
 
             combo_counter += 1
@@ -263,12 +287,15 @@ def export_all():
     
     write_csv("employees.csv", ["ID", "Name", "Username", "Password", "Permissions"], employees)
     write_csv("inventory.csv", ["ID", "Name", "Quantity"], inventory)
-    write_csv("menu_items.csv", ["ID", "Name", "Category", "Price"], menu_items)
+    write_csv("menu_items.csv", ["ID", "Name", "Category", "Price", "Modifications"], [
+        {**m, "Modifications": str(m["Modifications"])} for m in menu_items
+    ])
     write_csv("menu_item_inventory.csv", ["MenuItemID", "InventoryID"], menu_item_inventory)
     write_csv("orders.csv", ["ID", "Status", "Timestamp"], orders)
     write_csv("transactions.csv", ["ID", "CustomerID", "EmployeeID", "Total", "Timestamp"], transactions)
     write_csv("menu_item_order.csv", ["ID", "MenuItemID", "OrderID"], menu_item_order)
-    write_csv("item_editing_table.csv", ["ComboID", "InventoryID", "Quantity"], item_editing_table)
+    write_csv("item_editing_table.csv", ["ComboID", "ModificationType", "Value"], item_editing_table)
+
     
     print("✅ All CSVs generated successfully.")
 
