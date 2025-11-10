@@ -25,13 +25,11 @@ router.post('/', async (req, res) => {
 
         let customerId = null;
         if(findCustomer.rows.length == 0) {
-            const lastCustomerIdRes = await client.query('SELECT MAX(id) FROM customers;');
-            customerId = (lastCustomerIdRes.rows[0].max || 0) + 1;
-            await client.query('INSERT INTO customers (id, name, phone) VALUES ($1, $2, $3) RETURNING id;', [
-                customerId,
+            const insertRes = await client.query('INSERT INTO customers (name, phone) VALUES ($1, $2) RETURNING id;', [
                 customerName,
                 customerPhone
             ]);
+            customerId = insertRes.rows[0].id;
         } else {
             customerId = findCustomer.rows[0].id;
         }
