@@ -2,6 +2,14 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../db/pool');
 
+/**
+ * await axios.post('http://localhost:3000/add-customer', {
+ *  orderId: 1,
+ * customerName: "John Doe",
+ * employeeId: 2, // pass this from the eventual login
+ * customerPhone: "123-456-7890"
+ * });
+ */
 // add customer to order
 router.post('/', async (req, res) => {
     // requests to this route should contain order ID, customer name, employee ID, and customer phone number.
