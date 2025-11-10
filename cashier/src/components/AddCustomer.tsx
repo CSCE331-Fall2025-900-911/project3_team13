@@ -15,9 +15,11 @@ export function AddCustomer({ orderID}: {orderID: number}) {
 
     async function SaveCustomer() {
         try {
-            { /* CHANGE THIS TO MATCH BACKEND */ }
-            await axios.post('../../../backend-cashier/routes/addCustomer', {
-                name: customerName
+            await axios.post('http://localhost:3000/api/addCustomerRoute', {
+                orderId: orderID,
+                customerName: customerName,
+                employeeId: 2, // pass this from the eventual login
+                customerPhone: customerPhone
             });
             alert("Customer added successfully!");
         } catch (error) {

@@ -27,7 +27,7 @@ import axios from 'axios';
 function App() {
   const [tabValue, setTabValue] = useState<'menu' | 'library' | 'orders'>('menu');
   const [open, setOpen] = useState(false);
-  const [orderId, setOrderId] = useState<number | null>(null);
+  const [orderId, setOrderId] = useState<number>(0);
 
   async function CreateOrder() {
     try {
@@ -83,17 +83,17 @@ function App() {
         </div>
 
         <div className="side-panel">
-          <Button variant="contained" onClick={() => AddCustomer({orderId: orderId})} className='white-button' startIcon={
+          <Button variant="contained" onClick={() => setOpen(true)} className='white-button' startIcon={
             <img src={reactLogo} alt="" style={{width: '24px', height: '24px'}}></img>
             }>Add Customer</Button>
-          <Diglog open={open} onClose={() => setOpen(false)} aria-labelledby="dlg-title">
+          <Dialog open={open} onClose={() => setOpen(false)} aria-labelledby="dlg-title">
             <DialogTitle id="dlg-title">Add Customer</DialogTitle>
             <DialogContent>
               <AddCustomer orderID={orderId}/>
             </DialogContent>
-          </Diglog>
+          </Dialog>
           <div className="order-summary">
-            <OrderSummary />
+            <OrderSummary orderIdentifier={orderId}/>
           </div>
 
           <div className="save-cancel-button-container">

@@ -17,7 +17,7 @@ export function ModifyItem({modifyID}: {modifyID: number}) {
     async function SaveItem() {
         try {
             { /* CHANGE THIS TO MATCH BACKEND */ }
-            await axios.post('../../../backend-cashier/routes/addModifiedItem', {
+            await axios.post('http://localhost:3000/api/add-modified-menu-item', {
                 itemId: modifyID,
                 ice: percentIce,
                 sugar: percentSugar,
