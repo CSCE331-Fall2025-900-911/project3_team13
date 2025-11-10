@@ -18,7 +18,7 @@ export function ModifyItem({modifyID}: {modifyID: number}) {
         try {
             { /* CHANGE THIS TO MATCH BACKEND */ }
             await axios.post('http://localhost:3000/api/add-modified-menu-item', {
-                itemId: modifyID,
+                itemId: 1,
                 ice: percentIce,
                 sugar: percentSugar,
                 size: size,

@@ -69,11 +69,11 @@ export function OrderSummary({ orderIdentifier}: {orderIdentifier: number}) {
     }, [])
 
     if (isLoading) {
-        return <div>Loading order summary...</div>;
+        return <div className="order-items">Loading order summary...</div>;
     }
 
     if (!OrderData || OrderData.length == 0) {
-        return <div>No order data available.</div>;
+        return <div className="order-items">No order data available.</div>;
     }
 
     return (
@@ -87,6 +87,9 @@ export function OrderSummary({ orderIdentifier}: {orderIdentifier: number}) {
                             <div className="item-header">
                                 <span className="item-name">{orderItem.drink_name}</span>
                                 <span className="item-price">${orderItem.price.toFixed(2)}</span>
+                            </div>
+                            <div className="item-modifications">
+                                <span>Modifications: None</span>
                             </div>
                         </div>
                         <div className='x-button'>
