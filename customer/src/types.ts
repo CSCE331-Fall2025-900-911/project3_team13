@@ -4,4 +4,10 @@ export interface FoodItem {
   description: string;
   price: number;
   series: string;
+  customizations?: {
+    ice?: string;
+    sugar?: string;
+    shots?: string;
+    notes?: string;
+  };
 }
