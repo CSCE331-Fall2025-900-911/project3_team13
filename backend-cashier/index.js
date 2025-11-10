@@ -16,7 +16,7 @@ app.use('/api/new-order', require('./routes/newOrderRoute'));
 app.use('/api/add-customer', require('./routes/addCustomerRoute'));
 app.use('/api/add-modified-menu-item', require('./routes/addModifiedMenuItemRoute'));
 app.use('/api/cart', require('./routes/cartRoute'));
-
+app.use('/api/get-menu-items', require('./routes/getMenuItemsRoute'));
 
 //shutdown hook
 process.on('SIGINT', () => {
