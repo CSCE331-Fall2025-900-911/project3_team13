@@ -1,11 +1,12 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 import reactLogo from './assets/react.svg'
+import { AddCustomer } from './components/AddCustomer';
 import {
   Button,
-  // Dialog,
-  // DialogTitle,
-  // DialogContent,
+  Dialog,
+  DialogTitle,
+  DialogContent,
   // DialogActions,
   // TextField,
   Tabs,
@@ -21,11 +22,35 @@ import { MainMenu } from './components/MainMenu';
 import { Library } from './components/Library';
 import { Orders } from './components/Orders';
 import { OrderSummary } from './components/OrderSummary';
+import axios from 'axios';
 
 function App() {
   const [tabValue, setTabValue] = useState<'menu' | 'library' | 'orders'>('menu');
-  // const [open, setOpen] = useState(false);
-  // const [selectedOption, setSelectedOption] = useState('option1');
+  const [open, setOpen] = useState(false);
+  const [orderId, setOrderId] = useState<number>(0);
+
+  async function CreateOrder() {
+    try {
+        const response = await axios.post('http://localhost:3000/api/new-order');
+        const orderId = response.data.orderId;
+        return orderId;
+    } catch (error) {
+        console.error("Error creating new order:", error);
+        alert("Failed to create new order.");
+        return null;
+    }
+  }
+
+  useEffect(() => {
+    async function initializeOrder() {
+      const orderId = await CreateOrder();
+      if (orderId) {
+        setOrderId(orderId);
+      }
+    }
+    initializeOrder();
+  }, []);
+
   return (
     
     <>
@@ -56,12 +81,19 @@ function App() {
             <Orders />
             </div>}
         </div>
+
         <div className="side-panel">
-          <Button variant="contained" className='white-button' startIcon={
+          <Button variant="contained" onClick={() => setOpen(true)} className='white-button' startIcon={
             <img src={reactLogo} alt="" style={{width: '24px', height: '24px'}}></img>
             }>Add Customer</Button>
+          <Dialog open={open} onClose={() => setOpen(false)} aria-labelledby="dlg-title">
+            <DialogTitle id="dlg-title">Add Customer</DialogTitle>
+            <DialogContent>
+              <AddCustomer orderID={orderId}/>
+            </DialogContent>
+          </Dialog>
           <div className="order-summary">
-            <OrderSummary />
+            <OrderSummary orderIdentifier={orderId}/>
           </div>
 
           <div className="save-cancel-button-container">
