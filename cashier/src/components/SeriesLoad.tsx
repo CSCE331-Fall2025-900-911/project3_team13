@@ -10,6 +10,14 @@ interface MenuItem {
     iconUrl: string;
 }
 
+interface SeriesData {
+    menuItems: {
+        itemId: number;
+        name: string;
+        iconUrl: string;
+    }
+}
+
 export function SeriesLoad() {
     const [SeriesData, setSeriesData] = useState<MenuItem[] | null>(null);
     const [isLoading, setIsLoading] = useState(true);
