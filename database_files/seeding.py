@@ -38,23 +38,33 @@ inventory_items = [ # possibly expand later into more detailed items with set qu
 menu_items_data = [
     {
         "Name": "Classic Milk Tea",
-        "Ingredients": ["Black Tea", "Milk", "Sugar", "Boba", "Ice"]
+        "Ingredients": ["Black Tea", "Milk", "Sugar", "Boba", "Ice"],
+        "Category": "Milk Tea",
+        "Price": 4.50
     },
     {
         "Name": "Taro Milk Tea",
-        "Ingredients": ["Taro Powder", "Milk", "Sugar", "Boba", "Ice"]
+        "Ingredients": ["Taro Powder", "Milk", "Sugar", "Boba", "Ice"],
+        "Category": "Milk Tea",
+        "Price": 9.50
     },
     {
         "Name": "Matcha Latte",
-        "Ingredients": ["Matcha", "Milk", "Sugar", "Ice"]
+        "Ingredients": ["Matcha", "Milk", "Sugar", "Ice"],
+        "Category": "Milk Tea",
+        "Price": 5.00
     },
     {
         "Name": "Strawberry Smoothie",
-        "Ingredients": ["Strawberry Syrup", "Milk", "Ice", "Whipped Cream"]
+        "Ingredients": ["Strawberry Syrup", "Milk", "Ice", "Whipped Cream"],
+        "Category": "Specialty Drink",
+        "Price": 6.50
     },
     {
         "Name": "Brown Sugar Boba",
-        "Ingredients": ["Brown Sugar", "Milk", "Boba", "Ice"]
+        "Ingredients": ["Brown Sugar", "Milk", "Boba", "Ice"],
+        "Category": "Milk Tea",
+        "Price": 5.50
     }
 ]
 # -----------------------------------------------
@@ -155,23 +165,23 @@ def gen_inventory():
 def gen_menu_items():
     menu_items.clear()
     menu_item_inventory.clear()
-    # Build item list
     for i, item in enumerate(menu_items_data, start=1):
         menu_items.append({
             "ID": i,
             "Name": item["Name"],
-            "Price": round(random.uniform(6.0, 8.5), 2)
+            "Category": item["Category"],
+            "Price": item["Price"]
         })
 
-        # Map ingredient names to inventory IDs
+        # Link ingredients to inventory
         for ing_name in item["Ingredients"]:
-            # Find the inventory entry matching the ingredient
             inv_match = next((inv for inv in inventory if inv["Name"].lower() == ing_name.lower()), None)
             if inv_match:
                 menu_item_inventory.append({
                     "MenuItemID": i,
                     "InventoryID": inv_match["ID"]
                 })
+
 
 # -----------------------------------------------
 # 5. Orders, Transactions, MenuItem_Order, ItemEditingTable
@@ -253,7 +263,7 @@ def export_all():
     
     write_csv("employees.csv", ["ID", "Name", "Username", "Password", "Permissions"], employees)
     write_csv("inventory.csv", ["ID", "Name", "Quantity"], inventory)
-    write_csv("menu_items.csv", ["ID", "Name", "Price"], menu_items)
+    write_csv("menu_items.csv", ["ID", "Name", "Category", "Price"], menu_items)
     write_csv("menu_item_inventory.csv", ["MenuItemID", "InventoryID"], menu_item_inventory)
     write_csv("orders.csv", ["ID", "Status", "Timestamp"], orders)
     write_csv("transactions.csv", ["ID", "CustomerID", "EmployeeID", "Total", "Timestamp"], transactions)

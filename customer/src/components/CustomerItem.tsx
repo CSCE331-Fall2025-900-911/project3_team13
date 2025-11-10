@@ -10,13 +10,19 @@ import CustomerModify from './CustomerModify';
 interface CustomerItemProps {
   onBack: () => void;
   onAddToCart: (item: FoodItem) => void;
+  onModify?: (item: FoodItem) => void; // optional prop for modifying
 }
 
-export default function CustomerItem({ onBack, onAddToCart }: CustomerItemProps) {
+export default function CustomerItem({ onBack, onAddToCart, onModify }: CustomerItemProps) {
   const { seriesName } = useParams();
   const item: FoodItem | undefined = foodItems.find((i) => i.name === seriesName);
 
   const [modifyOpen, setModifyOpen] = useState(false);
+
+  const handleAddModified = (modified: FoodItem) => {
+    onAddToCart(modified);
+    setModifyOpen(false);
+  };
 
   if (!item) {
     return (
@@ -28,18 +34,9 @@ export default function CustomerItem({ onBack, onAddToCart }: CustomerItemProps)
   }
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      sx={{ mt: 2, position: 'relative', overflow: 'hidden' }}
-    >
+    <Box display="flex" flexDirection="column" alignItems="center" sx={{ mt: 2 }}>
       {/* Back Arrow */}
-      <IconButton
-        color="primary"
-        onClick={onBack}
-        sx={{ alignSelf: 'flex-start', ml: 4, mb: 1 }}
-      >
+      <IconButton color="primary" onClick={onBack} sx={{ alignSelf: 'flex-start', ml: 4, mb: 1 }}>
         <ArrowBackIcon />
       </IconButton>
 
@@ -56,12 +53,7 @@ export default function CustomerItem({ onBack, onAddToCart }: CustomerItemProps)
         }}
       >
         {/* LEFT: Name + Icon */}
-        <Box
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
-          width="30%"
-        >
+        <Box display="flex" flexDirection="column" alignItems="center" width="30%">
           <Typography variant="h6" sx={{ color: '#000' }}>
             {item.name}
           </Typography>
@@ -89,13 +81,7 @@ export default function CustomerItem({ onBack, onAddToCart }: CustomerItemProps)
           width="40%"
           textAlign="center"
         >
-          <Button
-            variant="contained"
-            color="primary"
-            className="series-add-button"
-            sx={{ mb: 1 }}
-            onClick={() => onAddToCart(item)}
-          >
+          <Button variant="contained" color="primary" sx={{ mb: 1 }} onClick={() => onAddToCart(item)}>
             Add to Order
           </Button>
           <Typography variant="body2" sx={{ mb: 1, color: '#000' }}>
@@ -104,8 +90,13 @@ export default function CustomerItem({ onBack, onAddToCart }: CustomerItemProps)
           <Button
             variant="outlined"
             color="secondary"
-            className="series-modify-button"
-            onClick={() => setModifyOpen(true)}
+            onClick={() => {
+              if (onModify) {
+                onModify(item);
+              } else {
+                setModifyOpen(true);
+              }
+            }}
           >
             Modify
           </Button>
@@ -120,7 +111,12 @@ export default function CustomerItem({ onBack, onAddToCart }: CustomerItemProps)
       </Card>
 
       {/* MODIFY DIALOG */}
-      <CustomerModify open={modifyOpen} onClose={() => setModifyOpen(false)} />
+      <CustomerModify
+        open={modifyOpen}
+        item={item}
+        onClose={() => setModifyOpen(false)}
+        onAddToCart={handleAddModified}
+      />
     </Box>
   );
 }
