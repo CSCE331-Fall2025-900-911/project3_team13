@@ -12,11 +12,11 @@ app.use(express.json());
 
 
 // Routes
-app.use('/item-editing', require('./routes/itemEditingRoute'));
-app.use('/new-order', require('./routes/newOrderRoute'));
-app.use('/add-customer', require('./routes/addCustomerRoute'));
-app.use('/add-modified-menu-item', require('./routes/addModifiedMenuItemRoute'));
-app.use('/cart', require('./routes/cartRoute'));
+app.use('/api/item-editing', require('./routes/itemEditingRoute'));
+app.use('/api/new-order', require('./routes/newOrderRoute'));
+app.use('/api/add-customer', require('./routes/addCustomerRoute'));
+app.use('/api/add-modified-menu-item', require('./routes/addModifiedMenuItemRoute'));
+app.use('/api/cart', require('./routes/cartRoute'));
 
 
 //shutdown hook
