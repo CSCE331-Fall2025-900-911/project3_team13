@@ -18,11 +18,12 @@ export function ModifyItem({modifyID}: {modifyID: number}) {
         try {
             { /* CHANGE THIS TO MATCH BACKEND */ }
             await axios.post('http://localhost:3000/api/add-modified-menu-item', {
-                itemId: 1,
+                orderId: modifyID,
+                menuItemId: 1,
                 ice: percentIce,
                 sugar: percentSugar,
                 size: size,
-                extraShots: extraShots,
+                shots: extraShots,
                 notes: notes
             });
             alert("Item saved successfully!");
