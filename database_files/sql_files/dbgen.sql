@@ -85,9 +85,12 @@ CREATE TABLE IF NOT EXISTS menu_item_order (
 -- ItemEditingTable (customizations)
 CREATE TABLE item_editing_table (
     comboid INT NOT NULL,
-    modificationtype VARCHAR(50) NOT NULL,
-    value VARCHAR(50) NOT NULL,
-    PRIMARY KEY (comboid, modificationtype),
+    Sugar VARCHAR(50) NOT NULL,
+    Ice VARCHAR(50) NOT NULL,
+    Size VARCHAR(50) NOT NULL,
+    Shots VARCHAR(50) NOT NULL,
+    Notes TEXT,
+    PRIMARY KEY (comboid),
     FOREIGN KEY (comboid) REFERENCES menu_item_order(id)
 );
 
