@@ -37,11 +37,12 @@ CREATE TABLE IF NOT EXISTS inventory (
 );
 
 
-CREATE TABLE IF NOT EXISTS menu_items (
+CREATE TABLE menu_items (
     id INT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    category VARCHAR(100) NOT NULL,
-    price DECIMAL(8,2) NOT NULL
+    category VARCHAR(255) NOT NULL,
+    price DECIMAL(8,2) NOT NULL,
+    modifications TEXT  -- store the JSON-like string here
 );
 
 --MenuItem_Inventory (junction)
@@ -82,13 +83,12 @@ CREATE TABLE IF NOT EXISTS menu_item_order (
 );
 
 -- ItemEditingTable (customizations)
-CREATE TABLE IF NOT EXISTS item_editing_table (
+CREATE TABLE item_editing_table (
     comboid INT NOT NULL,
-    inventoryid INT NOT NULL,
-    quantity DECIMAL(4,1) NOT NULL,
-    PRIMARY KEY (comboid, inventoryid),
-    FOREIGN KEY (comboid) REFERENCES menu_item_order(id),
-    FOREIGN KEY (inventoryid) REFERENCES inventory(id)
+    modificationtype VARCHAR(50) NOT NULL,
+    value VARCHAR(50) NOT NULL,
+    PRIMARY KEY (comboid, modificationtype),
+    FOREIGN KEY (comboid) REFERENCES menu_item_order(id)
 );
 
 
