@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS inventory (
 CREATE TABLE IF NOT EXISTS menu_items (
     id INT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
+    category VARCHAR(100) NOT NULL,
     price DECIMAL(8,2) NOT NULL
 );
 

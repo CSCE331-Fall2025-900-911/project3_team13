@@ -1,6 +1,6 @@
-ID,Name,Price
-1,Classic Milk Tea,8.43
-2,Taro Milk Tea,6.74
-3,Matcha Latte,6.51
-4,Strawberry Smoothie,6.13
-5,Brown Sugar Boba,6.25
+ID,Name,Category,Price
+1,Classic Milk Tea,Milk Tea,4.5
+2,Taro Milk Tea,Milk Tea,9.5
+3,Matcha Latte,Milk Tea,5.0
+4,Strawberry Smoothie,Specialty Drink,6.5
+5,Brown Sugar Boba,Milk Tea,5.5
