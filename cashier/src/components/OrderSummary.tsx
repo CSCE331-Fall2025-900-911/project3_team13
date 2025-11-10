@@ -1,4 +1,4 @@
-import {dummyItems, formatPrice} from '../data/dummyItems';
+//import {dummyItems, formatPrice} from '../data/dummyItems';
 import { useState, useEffect } from "react";
 import IconButton from '@mui/material/IconButton';
 import './OrderSummary.css';
@@ -19,21 +19,35 @@ export function OrderSummary() {
 
     async function fetchOrderData(): Promise<OrderItem[]> {
         { /* For testing only, REMOVE FOR DEPLOYMENT */ }
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                const items = dummyItems.map(item => ({
-                    itemId: item.id,
-                    name: item.name,
-                    price: item.price,
-                    iconUrl: item.icon,
-                    modifications: item.modifications
-                }));
-                resolve(items);
-            }, 1000); // Simulate network delay
-        });
+        // return new Promise((resolve) => {
+        //     setTimeout(() => {
+        //         const items = dummyItems.map(item => ({
+        //             itemId: item.id,
+        //             name: item.name,
+        //             price: item.price,
+        //             iconUrl: item.icon,
+        //             modifications: item.modifications
+        //         }));
+        //         resolve(items);
+        //     }, 1000); // Simulate network delay
+        // });
 
         { /* Actual fetch code for deployment */ }
-        // this is where the fetch code will go
+        
+        try {
+            const response = await axios.get('http://localhost:3000/api/cart');
+            const data = await response.json();
+            return data.map((item: any) => ({
+                itemId: item.id,
+                name: item.name,
+                price: item.price,
+                iconUrl: item.iconUrl,
+                modifications: item.modifications
+            }));
+        } catch (error) {
+            console.error("Error fetching order data:", error);
+            return [];
+        }
     }
 
     useEffect(() => {
@@ -70,7 +84,7 @@ export function OrderSummary() {
                         <div className="item-details">
                             <div className="item-header">
                                 <span className="item-name">{orderItem.name}</span>
-                                <span className="item-price">{formatPrice(orderItem.price)}</span>
+                                <span className="item-price">${orderItem.price.toFixed(2)}</span>
                             </div>
                             <p className="item-modifications">
                                 {orderItem.modifications ? orderItem.modifications.join(', ') : 'No modifications'}

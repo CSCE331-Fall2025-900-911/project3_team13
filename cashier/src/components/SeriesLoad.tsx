@@ -1,8 +1,8 @@
 import {dummySeries} from '../data/dummySeries';
 import { useState, useEffect } from "react";
+import Dialogue from '@mui/material/Dialog';
 import IconButton from '@mui/material/IconButton';
-
-
+import { ModifyItem }  from './ModifyItem';
 
 interface MenuItem {
     itemId: number;
@@ -13,6 +13,17 @@ interface MenuItem {
 export function SeriesLoad() {
     const [SeriesData, setSeriesData] = useState<MenuItem[] | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [openDialog, setOpenDialog] = useState(false);
+    const [modID, setModID] = useState(0);
+
+    async function OpenModifications({ itemId } : { itemId: number }) {
+        try {
+            setModID(itemId);
+            setOpenDialog(true);
+        } catch (error) {
+            console.error("Error opening modifications:", error);
+        }
+    }
 
     async function fetchSeriesData(): Promise<MenuItem[]> {
         { /* For testing only, REMOVE FOR DEPLOYMENT */ }
@@ -58,13 +69,16 @@ export function SeriesLoad() {
     return (
         <div>
             {SeriesData.map((item) => (
-                <IconButton key={item.itemId} >
+                <IconButton key={item.itemId} onClick={() => OpenModifications({ itemId: item.itemId })}>
                     <div className='series-item-card'>
                         <img src={item.iconUrl} alt={item.name} />
                         <h4>{item.name}</h4>
                     </div>
                 </IconButton>
             ))}
+            <Dialogue open={openDialog} onClose={() => setOpenDialog(false)}>
+                <ModifyItem modifyID={modID} />
+            </Dialogue>
         </div>
     );
     
