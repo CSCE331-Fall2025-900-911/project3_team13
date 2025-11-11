@@ -1,5 +1,5 @@
 const express = require('express');
-nconst router = express.Router();
+const router = express.Router();
 const pool = require('../db/pool');
 
 // add modified menu item to order
