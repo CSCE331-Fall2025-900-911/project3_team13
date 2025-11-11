@@ -2,7 +2,8 @@ import axios from 'axios';
 import { createContext, useContext, useState } from 'react';
 
 export interface OrderItem {
-    id: number;
+    comboId: number,
+    itemId: number;
     name: string;
     price: number;
     ice: string;
@@ -47,25 +48,35 @@ export default function OrderProvider({ children }: { children: React.ReactNode 
     }
 
     const addItemToOrder = async (item: OrderItem) => {
-        setOrderItems((prevItems) => [...prevItems, item]);
         try {
-            await axios.post("http://localhost:3000/api/add-modified-menu-item", {
+            const res = await axios.post("http://localhost:3000/api/add-modified-menu-item", {
                 orderId: orderId,
-                menuItemId: item.id,
+                menuItemId: item.itemId,
                 sugar: item.sugar,
                 ice: item.ice,
                 size: item.size,
                 shots: item.extraShots,
                 notes: item.notes
             });
+            item.comboId = res.data.comboId;
+            console.log(item.comboId);
+            setOrderItems((prevItems) => [...prevItems, item]);
         } catch(err) {
             console.error("Error adding item to order:", err);
             alert("Failed to add item to order.");
         }
     }
-    const deleteItemFromOrder = (itemId: number) => {
-        setOrderItems((prevItems) => prevItems.filter(item => item.id !== itemId));
-        console.log("API call to delete from menu item-order table");
+
+    const deleteItemFromOrder = async (comboId: number) => {
+        try {
+            const res = await axios.delete(`http://localhost:3000/api/delete-menu-item/item/${comboId}`);
+            setOrderItems((prevItems) => prevItems.filter(item => item.comboId !== comboId));
+            alert("Item deleted successfully!");
+        } catch(error) {
+            console.error("Error deleting item:", error);
+            alert("Failed to delete item.");
+        }
+        
     }
 
     const completeOrder = async () => {
@@ -75,9 +86,17 @@ export default function OrderProvider({ children }: { children: React.ReactNode 
     }
 
     const cancelOrder = async () => {
-        console.log("Order cancelled!");
-        setOrderStatus('cancelled');
-        setOrderItems([]);
+        try {
+            for(const item of orderItems) {
+                await deleteItemFromOrder(item.comboId);
+            }
+            setOrderStatus('cancelled');
+            setOrderItems([]);
+            alert("Order cancelled!");
+        } catch (error) {
+            console.error("Error trying to cancel order:", error);
+            alert("Could not cancel order.");
+        }
     }
 
     const value = {

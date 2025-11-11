@@ -49,25 +49,6 @@ export function SeriesLoad({ seriesName }: { seriesName: string }) {
         }
     }
 
-    /*
-    async function fetchSeriesData(): Promise<MenuItem[]> {
-        { For testing only, REMOVE FOR DEPLOYMENT }
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                const items = dummySeries.map(item => ({
-                    itemId: item.id,
-                    name: item.name,
-                    iconUrl: item.icon
-                }));
-                resolve(items);
-            }, 1000); // Simulate network delay
-        });
-
-        {  Actual fetch code for deployment }
-        // this is where the fetch code will go
-        Order
-    } */
-
     const fetchItemData = async () => {
         console.log(seriesName);
         const res = await axios.get(encodeURI(`http://localhost:3000/api/get-menu-items?category=${seriesName}`));
@@ -76,9 +57,10 @@ export function SeriesLoad({ seriesName }: { seriesName: string }) {
                 res.data.drinks.map((drink: MenuItemResponse) => [
                     drink.id, 
                     {
-                        id: drink.id,
+                        comboId: 0,
+                        itemId: drink.id,
                         name: drink.name,
-                        price: parseFloat(drink.price),
+                        price: parseFloat(String(drink.price)),
                         ice: '100%',
                         sugar: '100%',
                         size: 'Medium',

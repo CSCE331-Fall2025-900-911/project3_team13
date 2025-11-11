@@ -22,7 +22,6 @@ import { MainMenu } from './components/MainMenu';
 import { Library } from './components/Library';
 import { Orders } from './components/Orders';
 import { OrderSummary } from './components/OrderSummary';
-// import axios from 'axios';
 import { useOrder } from './OrderContext';
 
 function App() {
@@ -35,31 +34,7 @@ function App() {
       createOrder();
     }
   }, []);
-  /*
-  const [orderId, setOrderId] = useState<number>(0);
-
-  async function CreateOrder() {
-    try {
-        const response = await axios.post('http://localhost:3000/api/new-order');
-        const orderId = response.data.orderId;
-        return orderId;
-    } catch (error) {
-        console.error("Error creating new order:", error);
-        alert("Failed to create new order.");
-        return null;
-    }
-  }
-
-  useEffect(() => {
-    async function initializeOrder() {
-      const orderId = await CreateOrder();
-      if (orderId) {
-        setOrderId(orderId);
-      }
-    }
-    initializeOrder();
-  }, []); */
-
+  
   return (
     
     <>

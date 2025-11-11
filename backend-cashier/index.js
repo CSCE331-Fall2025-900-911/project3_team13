@@ -22,6 +22,7 @@ app.use(cors(corsConfig));
 app.use('/api/new-order', require('./routes/newOrderRoute'));
 app.use('/api/add-customer', require('./routes/addCustomerRoute'));
 app.use('/api/add-modified-menu-item', require('./routes/addModifiedMenuItemRoute'));
+app.use('/api/delete-menu-item', require('./routes/deleteMenuItems'));
 app.use('/api/cart', require('./routes/cartRoute'));
 app.use('/api/get-menu-items', require('./routes/getMenuItemsRoute'));
 
