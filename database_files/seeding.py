@@ -41,9 +41,10 @@ menu_items_data = [
         "Category": "Milk Tea",
         "Price": 4.50,
         "Modifications": {
-            "Sugar": ["0%", "25%", "50%", "75%", "100%"],
-            "Ice": ["0%", "25%", "50%", "75%", "100%"],
-            "Size": ["Small", "Medium", "Large"]
+            "Sugar": ["0%", "25%", "50%", "100%", "150%", "200%"],
+            "Ice": ["0%", "25%", "50%", "100%", "150%", "200%"],
+            "Size": ["Small", "Medium", "Large"],
+            "Shots": ["0", "1", "2", "3", "4", "5"]
         }
     },
     {
@@ -52,9 +53,10 @@ menu_items_data = [
         "Category": "Milk Tea",
         "Price": 9.50,
         "Modifications": {
-            "Sugar": ["0%", "25%", "50%", "75%", "100%"],
-            "Ice": ["0%", "25%", "50%", "75%", "100%"],
-            "Size": ["Small", "Medium", "Large"]
+           "Sugar": ["0%", "25%", "50%", "100%", "150%", "200%"],
+            "Ice": ["0%", "25%", "50%", "100%", "150%", "200%"],
+            "Size": ["Small", "Medium", "Large"],
+            "Shots": ["0", "1", "2", "3", "4", "5"]
         }
     },
     {
@@ -63,9 +65,10 @@ menu_items_data = [
         "Category": "Milk Tea",
         "Price": 5.00,
         "Modifications": {
-            "Sugar": ["0%", "25%", "50%", "75%", "100%"],
-            "Ice": ["0%", "25%", "50%", "75%", "100%"],
-            "Size": ["Small", "Medium", "Large"]
+           "Sugar": ["0%", "25%", "50%", "100%", "150%", "200%"],
+            "Ice": ["0%", "25%", "50%", "100%", "150%", "200%"],
+            "Size": ["Small", "Medium", "Large"],
+            "Shots": ["0", "1", "2", "3", "4", "5"]
         }
     },
     {
@@ -74,9 +77,10 @@ menu_items_data = [
         "Category": "Specialty Drink",
         "Price": 6.50,
         "Modifications": {
-            "Sugar": ["0%", "25%", "50%", "75%", "100%"],
-            "Ice": ["0%", "25%", "50%", "75%", "100%"],
-            "Size": ["Small", "Medium", "Large"]
+            "Sugar": ["0%", "25%", "50%", "100%", "150%", "200%"],
+            "Ice": ["0%", "25%", "50%", "100%", "150%", "200%"],
+            "Size": ["Small", "Medium", "Large"],
+            "Shots": ["0", "1", "2", "3", "4", "5"]
         }
     },
     {
@@ -85,9 +89,10 @@ menu_items_data = [
         "Category": "Milk Tea",
         "Price": 5.50,
         "Modifications": {
-            "Sugar": ["0%", "25%", "50%", "75%", "100%"],
-            "Ice": ["0%", "25%", "50%", "75%", "100%"],
-            "Size": ["Small", "Medium", "Large"]
+            "Sugar": ["0%", "25%", "50%", "100%", "150%", "200%"],
+            "Ice": ["0%", "25%", "50%", "100%", "150%", "200%"],
+            "Size": ["Small", "Medium", "Large"],
+            "Shots": ["0", "1", "2", "3", "4", "5"]
         }
     }
 ]
@@ -245,17 +250,22 @@ def gen_orders_transactions():
 
             # --- Generate modifications for this drink ---
             modifications = {
-                "Sugar": random.choice(["0%", "25%", "50%", "75%", "100%"]),
-                "Ice": random.choice(["0%", "25%", "50%", "75%", "100%"]),
-                "Size": random.choice(["Small", "Medium", "Large"])
+                "Sugar": random.choice(["0%", "25%", "50%", "100%", "150%", "200%"]),
+                "Ice": random.choice(["0%", "25%", "50%", "100%", "150%", "200%"]),
+                "Size": random.choice(["Small", "Medium", "Large"]),
+                "Shots": random.choice(["0", "1", "2", "3", "4", "5"])
             }
 
-            for mod_name, mod_value in modifications.items():
-                item_editing_table.append({
-                    "ComboID": combo_counter,
-                    "ModificationType": mod_name,
-                    "Value": mod_value
-                })
+        
+            item_editing_table.append({
+                "ComboID": combo_counter,
+                "Sugar": modifications["Sugar"],
+                "Ice": modifications["Ice"],
+                "Size": modifications["Size"],
+                "Shots": modifications["Shots"],
+                "Notes": "test"
+            })
+        
 
             combo_counter += 1
 
@@ -294,7 +304,7 @@ def export_all():
     write_csv("orders.csv", ["ID", "Status", "Timestamp"], orders)
     write_csv("transactions.csv", ["ID", "CustomerID", "EmployeeID", "Total", "Timestamp"], transactions)
     write_csv("menu_item_order.csv", ["ID", "MenuItemID", "OrderID"], menu_item_order)
-    write_csv("item_editing_table.csv", ["ComboID", "ModificationType", "Value"], item_editing_table)
+    write_csv("item_editing_table.csv", ["ComboID", "Sugar", "Ice", "Size", "Shots", "Notes"], item_editing_table)
 
     
     print("✅ All CSVs generated successfully.")
