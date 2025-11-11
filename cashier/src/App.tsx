@@ -22,11 +22,20 @@ import { MainMenu } from './components/MainMenu';
 import { Library } from './components/Library';
 import { Orders } from './components/Orders';
 import { OrderSummary } from './components/OrderSummary';
-import axios from 'axios';
+// import axios from 'axios';
+import { useOrder } from './OrderContext';
 
 function App() {
   const [tabValue, setTabValue] = useState<'menu' | 'library' | 'orders'>('menu');
   const [open, setOpen] = useState(false);
+  const { orderId, createOrder, cancelOrder, completeOrder } = useOrder();
+
+  useEffect(() => {
+    if(!orderId) {
+      createOrder();
+    }
+  }, []);
+  /*
   const [orderId, setOrderId] = useState<number>(0);
 
   async function CreateOrder() {
@@ -49,7 +58,7 @@ function App() {
       }
     }
     initializeOrder();
-  }, []);
+  }, []); */
 
   return (
     
@@ -72,7 +81,7 @@ function App() {
           </div>
 
           {tabValue === 'menu' && <div className="tab-content">
-            <MainMenu />
+            <MainMenu orderId={orderId} />
             </div>}
           {tabValue === 'library' && <div className="tab-content">
             <Library />
@@ -97,8 +106,25 @@ function App() {
           </div>
 
           <div className="save-cancel-button-container">
-            <Button variant="contained" className="white-button">Save Order</Button>
-            <Button variant="contained" className="white-button">Cancel Order</Button>
+            <Button 
+              variant="contained" 
+              className="white-button" 
+              onClick={() => {
+                console.log("Order saving to be implemented");
+              }}
+            >
+              Save Order
+            </Button>
+            <Button 
+              variant="contained" 
+              className="white-button"
+              onClick={async () => {
+                await cancelOrder();
+                await createOrder();
+              }}
+            >
+              Cancel Order
+            </Button>
           </div>
           <div className="checkout-button-container">
             <Button variant="contained" className='success-button' size="large">Checkout</Button>
