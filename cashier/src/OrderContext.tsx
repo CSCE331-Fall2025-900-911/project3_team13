@@ -1,6 +1,13 @@
 import axios from 'axios';
 import { createContext, useContext, useState } from 'react';
 
+/**
+ * This creates our OrderContext, which enables persistence of order-related attributes across
+ * the components of the cashier view. This will likely also be applied to the customer view.
+ * The context also contains support for order-related API calls (create/cancel order, add/delete item)
+ */
+
+// large OrderItem object, supports all order/item-related queries
 export interface OrderItem {
     comboId: number,
     itemId: number;
@@ -13,6 +20,8 @@ export interface OrderItem {
     notes: string;
 }
 
+// Our context primarily consists of the order, its items, its status, 
+// and any methods that can act on it.
 export const OrderContext = createContext<{
     orderId: number;
     orderStatus: 'pending' | 'completed' | 'cancelled';
@@ -29,11 +38,15 @@ export function useOrder() {
     if(!context) throw new Error("useOrder must be used within OrderProvider");
     return context;
 }
+
+// The OrderProvider surrounds the app so that the context can be provided, giving "global" access to order properties
 export default function OrderProvider({ children }: { children: React.ReactNode }) {
     const [orderId, setOrderId] = useState<number>(0);
     const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
     const [orderStatus, setOrderStatus] = useState<'pending' | 'completed' | 'cancelled'>('pending');
 
+    // Creates a new order. Intended to happen on first render, when an order is cancelled, or when a  order is completed.
+    // Known issue: Refreshing causes this to be called
     const createOrder = async () => {
         try {
             const res = await axios.post('http://localhost:3000/api/new-order');
@@ -47,6 +60,7 @@ export default function OrderProvider({ children }: { children: React.ReactNode 
         }
     }
 
+    // Adds item to the order.
     const addItemToOrder = async (item: OrderItem) => {
         try {
             const res = await axios.post("http://localhost:3000/api/add-modified-menu-item", {
@@ -67,6 +81,8 @@ export default function OrderProvider({ children }: { children: React.ReactNode 
         }
     }
 
+    // Deletes item from order. It takes in the combo ID so that the right instance of the
+    // right menu item can be deleted.
     const deleteItemFromOrder = async (comboId: number) => {
         try {
             const res = await axios.delete(`http://localhost:3000/api/delete-menu-item/item/${comboId}`);
@@ -79,12 +95,14 @@ export default function OrderProvider({ children }: { children: React.ReactNode 
         
     }
 
+    // To be implemented in the future; checkout process
     const completeOrder = async () => {
         // update transactions table
         console.log("API call to update transactions table");
         setOrderStatus('completed');
     }
 
+    // Cancels the current order and starts over
     const cancelOrder = async () => {
         try {
             for(const item of orderItems) {
@@ -99,6 +117,7 @@ export default function OrderProvider({ children }: { children: React.ReactNode 
         }
     }
 
+    // Below are the attributes we will use for our order context.
     const value = {
         orderId,
         orderStatus,
