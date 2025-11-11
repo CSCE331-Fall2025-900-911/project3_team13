@@ -3,11 +3,12 @@ export interface FoodItem {
   name: string;
   description: string;
   price: number;
-  series: string;
+  series?: string;
   customizations?: {
     ice?: string;
     sugar?: string;
     shots?: string;
+    size?: string;
     notes?: string;
   };
 }

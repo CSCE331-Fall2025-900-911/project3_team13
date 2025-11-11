@@ -12,15 +12,14 @@ export default function CustomerMenu({ onCartOpen }: Props) {
   const [search, setSearch] = useState('');
 
   const seriesList = [
-    { name: 'Milk Tea Series', id: 'milk-tea' },
-    { name: 'Fruit Teas Series', id: 'fruit-teas' },
-    { name: 'Specialty Drinks', id: 'specialty' },
-    { name: 'Seasonal Items', id: 'seasonal' },
+    { id: 'Milk Tea', name: 'Milk Tea Series' },
+    { id: 'Fruit Tea', name: 'Fruit Tea Series' },
+    { id: 'Signature', name: 'Signature Series' },
+    { id: 'Seasonal', name: 'Seasonal Series' },
   ];
 
   return (
     <Box className="menu-page">
-      {/* Top bar (search only — cart handled globally) */}
       <Box className="menu-top-bar">
         <TextField
           placeholder="Search items..."
@@ -31,18 +30,23 @@ export default function CustomerMenu({ onCartOpen }: Props) {
         />
       </Box>
 
-      {/* Series Buttons */}
       <Box className="menu-series-container">
-        {seriesList.map((series) => (
-          <Button
-            key={series.id}
-            variant="contained"
-            className="menu-series-button"
-            onClick={() => navigate(`/series/${series.id}`)}
-          >
-            {series.name}
-          </Button>
-        ))}
+        {seriesList
+          .filter((series) =>
+            series.name.toLowerCase().includes(search.toLowerCase())
+          )
+          .map((series) => (
+            <Button
+              key={series.id}
+              variant="contained"
+              className="menu-series-button"
+              onClick={() =>
+                navigate(`/series/${encodeURIComponent(series.id)}`)
+              }
+            >
+              {series.name}
+            </Button>
+          ))}
       </Box>
     </Box>
   );

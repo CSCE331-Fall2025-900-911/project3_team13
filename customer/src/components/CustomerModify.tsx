@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -18,31 +18,39 @@ interface Props {
 }
 
 export default function CustomerModify({ open, item, onClose, onAddToCart }: Props) {
+  // Default values
   const [ice, setIce] = useState("100%");
   const [sugar, setSugar] = useState("100%");
+  const [size, setSize] = useState("Medium");
   const [shots, setShots] = useState("0");
   const [notes, setNotes] = useState("");
 
-  const handleAdd = () => {
-    const mods: string[] = [];
-    if (ice !== "100%") mods.push(`Ice: ${ice}`);
-    if (sugar !== "100%") mods.push(`Sugar: ${sugar}`);
-    if (shots !== "0") mods.push(`Shots: ${shots}`);
-    if (notes.trim()) mods.push(`Notes: ${notes}`);
+  // Reset state whenever modal opens or item changes
+  useEffect(() => {
+    if (open) {
+      setIce("100%");
+      setSugar("100%");
+      setSize("Medium");
+      setShots("0");
+      setNotes("");
+    }
+  }, [open, item]);
 
+  const handleAdd = () => {
     const modifiedItem: FoodItem = {
       id: Date.now(),
-      name: item.name + (mods.length ? ` - ${mods.join(", ")}` : ""),
+      name: item.name,
       description: item.description,
-      series: item.series,
       price: item.price,
       customizations: {
         ice,
         sugar,
+        size,
         shots,
         notes,
       },
     };
+
     onAddToCart(modifiedItem);
     onClose();
   };
@@ -58,7 +66,8 @@ export default function CustomerModify({ open, item, onClose, onAddToCart }: Pro
             <MenuItem value="50%">50%</MenuItem>
             <MenuItem value="75%">75%</MenuItem>
             <MenuItem value="100%">100%</MenuItem>
-            <MenuItem value="Extra">Extra</MenuItem>
+            <MenuItem value="150%">150%</MenuItem>
+            <MenuItem value="200%">200%</MenuItem>
           </TextField>
 
           <TextField select label="Sugar" value={sugar} onChange={(e) => setSugar(e.target.value)}>
@@ -67,7 +76,13 @@ export default function CustomerModify({ open, item, onClose, onAddToCart }: Pro
             <MenuItem value="50%">50%</MenuItem>
             <MenuItem value="75%">75%</MenuItem>
             <MenuItem value="100%">100%</MenuItem>
-            <MenuItem value="Extra">Extra</MenuItem>
+            <MenuItem value="150%">150%</MenuItem>
+          </TextField>
+
+          <TextField select label="Size" value={size} onChange={(e) => setSize(e.target.value)}>
+            <MenuItem value="Small">Small</MenuItem>
+            <MenuItem value="Medium">Medium</MenuItem>
+            <MenuItem value="Large">Large</MenuItem>
           </TextField>
 
           <TextField select label="Extra Shots" value={shots} onChange={(e) => setShots(e.target.value)}>
