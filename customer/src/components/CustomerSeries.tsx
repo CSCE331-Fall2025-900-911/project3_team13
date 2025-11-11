@@ -33,7 +33,7 @@ export default function CustomerSeries({ onCartOpen }: CustomerSeriesProps) {
     const fetchItems = async () => {
       try {
         const res = await axios.get<MenuResponse>(
-          'http://project3-team13-backend.onrender.com/api/get-menu-items',
+          'https://project3-team13-backend.onrender.com/api/get-menu-items',
           { params: { category: id } }
         );
 

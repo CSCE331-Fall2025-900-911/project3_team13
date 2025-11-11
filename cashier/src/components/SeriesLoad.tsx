@@ -51,7 +51,7 @@ export function SeriesLoad({ seriesName }: { seriesName: string }) {
 
     const fetchItemData = async () => {
         console.log(seriesName);
-        const res = await axios.get(encodeURI(`http://project3-team13-backend.onrender.com/api/get-menu-items?category=${seriesName}`));
+        const res = await axios.get(encodeURI(`https://project3-team13-backend.onrender.com/api/get-menu-items?category=${seriesName}`));
         setOrderItemData(
             Object.fromEntries(
                 res.data.drinks.map((drink: MenuItemResponse) => [

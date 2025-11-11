@@ -39,7 +39,7 @@ export default function CustomerCheckout({ cartItems, clearCart }: CheckoutProps
       };
 
       // Send POST request to create new order
-      const res = await axios.post("http://project3-team13-backend.onrender.com/api/new-order", payload);
+      const res = await axios.post("https://project3-team13-backend.onrender.com/api/new-order", payload);
       console.log("Order created:", res.data);
 
       // Clear cart and show success dialog
