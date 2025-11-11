@@ -12,13 +12,11 @@ export function ModifyItem({modifyID}: {modifyID: number}) {
     const writeNotes = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         setNotes(event.target.value);
     }
-    
 
     async function SaveItem() {
         try {
             { /* CHANGE THIS TO MATCH BACKEND */ }
             await axios.post('http://localhost:3000/api/add-modified-menu-item', {
-                orderId : 1,  // Placeholder orderId
                 menuItemId: modifyID,
                 ice: percentIce,
                 sugar: percentSugar,

@@ -3,7 +3,7 @@ const router = express.Router();
 const pool = require('../db/pool');
 
 // DELETE /api/order/item/:comboID
-// Deletes one drink (combo) from the order
+// Deletes (combo) from the order
 router.delete('/item/:comboID', async (req, res) => {
     const { comboID } = req.params;
 
