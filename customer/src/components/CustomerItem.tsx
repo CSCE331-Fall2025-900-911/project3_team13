@@ -32,7 +32,7 @@ export default function CustomerItem({ onBack, onAddToCart, onModify }: Customer
 
       try {
         const res = await axios.get<{ drinks: MenuItemResponse[] }>(
-          'http://localhost:3000/api/get-menu-items',
+          'http://project3-team13-backend.onrender.com/api/get-menu-items',
           { params: { category: decodeURIComponent(categoryName) } }
         );
 

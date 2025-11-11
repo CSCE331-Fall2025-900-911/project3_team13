@@ -49,7 +49,7 @@ export default function OrderProvider({ children }: { children: React.ReactNode 
     // Known issue: Refreshing causes this to be called
     const createOrder = async () => {
         try {
-            const res = await axios.post('http://localhost:3000/api/new-order');
+            const res = await axios.post('https://project3-team13-backend.onrender.com/api/new-order');
             setOrderId(res.data.orderId);
             setOrderStatus('pending');
             setOrderItems([]);
@@ -63,7 +63,7 @@ export default function OrderProvider({ children }: { children: React.ReactNode 
     // Adds item to the order.
     const addItemToOrder = async (item: OrderItem) => {
         try {
-            const res = await axios.post("http://localhost:3000/api/add-modified-menu-item", {
+            const res = await axios.post("http://project3-team13-backend.onrender.com/api/add-modified-menu-item", {
                 orderId: orderId,
                 menuItemId: item.itemId,
                 sugar: item.sugar,
@@ -85,7 +85,7 @@ export default function OrderProvider({ children }: { children: React.ReactNode 
     // right menu item can be deleted.
     const deleteItemFromOrder = async (comboId: number) => {
         try {
-            const res = await axios.delete(`http://localhost:3000/api/delete-menu-item/item/${comboId}`);
+            const res = await axios.delete(`http://project3-team13-backend.onrender.com/api/delete-menu-item/item/${comboId}`);
             setOrderItems((prevItems) => prevItems.filter(item => item.comboId !== comboId));
             alert("Item deleted successfully!");
         } catch(error) {

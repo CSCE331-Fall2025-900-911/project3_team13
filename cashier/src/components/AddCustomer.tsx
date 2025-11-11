@@ -16,7 +16,7 @@ export function AddCustomer({ orderID}: {orderID: number}) {
 
     async function SaveCustomer() {
         try {
-            const res = await axios.post('http://localhost:3000/api/add-customer', {
+            const res = await axios.post('http://project3-team13-backend.onrender.com/api/add-customer', {
                 orderId: orderID,
                 customerName: customerName,
                 customerPhone: customerPhone
@@ -31,7 +31,7 @@ export function AddCustomer({ orderID}: {orderID: number}) {
 
     async function LinkCustomerToOrder() {
         try {
-            await axios.post('http://localhost:3000/api/link-customer-to-order', {
+            await axios.post('http://project3-team13-backend.onrender.com/api/link-customer-to-order', {
                 orderId: orderID,
                 customerId: customerId,
                 employeeId: 2
