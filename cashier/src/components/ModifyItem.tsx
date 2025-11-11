@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { Button, TextField } from '@mui/material';
 import axios from "axios";
+import { useOrder } from "../OrderContext";
+import type { OrderItem } from "../OrderContext";
 
-export function ModifyItem({modifyID}: {modifyID: number}) {
+export function ModifyItem({modifyID, item}: {modifyID: number, item: OrderItem | null}) {
+    const { addItemToOrder } = useOrder();
     const [percentIce, setPercentIce] = useState<1.0 | 0.0 | 0.25 | 0.5 | 1.50 | 2.0>(1.0);
     const [percentSugar, setPercentSugar] = useState<1.0 | 0.0 | 0.25 | 0.5 | 1.50 | 2.0>(1.0);
     const [size, setSize] = useState<'Small' | 'Medium' | 'Large'>('Medium');
@@ -16,17 +19,15 @@ export function ModifyItem({modifyID}: {modifyID: number}) {
 
     async function SaveItem() {
         try {
-            { /* CHANGE THIS TO MATCH BACKEND */ }
-            await axios.post('http://localhost:3000/api/add-modified-menu-item', {
-                orderId : 1,  // Placeholder orderId
-                menuItemId: modifyID,
-                ice: percentIce,
-                sugar: percentSugar,
-                size: size,
-                shots: extraShots,
-                notes: notes
-            });
-            alert("Item saved successfully!");
+            if(item) {
+                item.ice = String(percentIce * 100) + "%";
+                item.sugar = String(percentSugar * 100) + "%";
+                item.extraShots = String(extraShots);
+                item.size = size;
+                item.notes = notes;
+                await addItemToOrder(item);
+                alert("Item saved successfully!");
+            }
         } catch (error) {
             console.error("Error saving modified item:", error);
             alert("Failed to save item.");

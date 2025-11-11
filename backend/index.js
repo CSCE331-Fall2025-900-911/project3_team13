@@ -9,7 +9,7 @@ const port = 3000;
 
 // change origin link to deployment link when deploying
 const corsConfig = {
-  origin: 'http://localhost:5173',
+  origin: ['https://cashier-project3-team13.vercel.app', 'https://customer-project3-team13.vercel.app'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization']
@@ -21,7 +21,9 @@ app.use(cors(corsConfig));
 // Routes
 app.use('/api/new-order', require('./routes/newOrderRoute'));
 app.use('/api/add-customer', require('./routes/addCustomerRoute'));
+app.use('/api/link-customer-to-order', require('./routes/linkCustomerToOrder'));
 app.use('/api/add-modified-menu-item', require('./routes/addModifiedMenuItemRoute'));
+app.use('/api/delete-menu-item', require('./routes/deleteMenuItems'));
 app.use('/api/cart', require('./routes/cartRoute'));
 app.use('/api/get-menu-items', require('./routes/getMenuItemsRoute'));
 
