@@ -9,7 +9,7 @@ const port = 3000;
 
 // change origin link to deployment link when deploying
 const corsConfig = {
-  origin: 'http://localhost:5173',
+  origin: ['https://cashier-project3-team13.vercel.app', 'https://customer-project3-team13.vercel.app'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization']
