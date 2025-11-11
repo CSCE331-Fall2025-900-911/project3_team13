@@ -88,7 +88,7 @@ function AppContent() {
           element={<Box sx={styles.pageContainer}><CustomerSeries onCartOpen={() => setCartOpen(true)} /></Box>}
         />
         <Route
-          path="/item/:seriesName"
+          path="/series/:categoryName/item/:itemName"
           element={
             <Box sx={styles.pageContainer}>
               <CustomerItem
