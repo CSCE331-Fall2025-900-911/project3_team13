@@ -1,8 +1,8 @@
 import { Box, Typography, Button, IconButton, Divider, Dialog } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import { FoodItem } from "../types";
 
 interface CheckoutProps {
@@ -14,6 +14,7 @@ export default function CustomerCheckout({ cartItems, clearCart }: CheckoutProps
   const navigate = useNavigate();
   const [items, setItems] = useState(cartItems);
   const [doneOpen, setDoneOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const removeItem = (index: number) => {
     setItems((prev) => prev.filter((_, i) => i !== index));
@@ -21,9 +22,36 @@ export default function CustomerCheckout({ cartItems, clearCart }: CheckoutProps
 
   const total = items.reduce((sum, item) => sum + item.price, 0);
 
-  const handleSend = () => {
-    clearCart();
-    setDoneOpen(true);
+  const handleSend = async () => {
+    if (items.length === 0) return;
+    setLoading(true);
+
+    try {
+      // Prepare payload for backend
+      const payload = {
+        items: items.map((item) => ({
+          id: item.id,
+          name: item.name,
+          price: item.price,
+          customizations: item.customizations || {},
+        })),
+        total,
+      };
+
+      // Send POST request to create new order
+      const res = await axios.post("http://localhost:3000/api/new-order", payload);
+      console.log("Order created:", res.data);
+
+      // Clear cart and show success dialog
+      clearCart();
+      setItems([]);
+      setDoneOpen(true);
+    } catch (err) {
+      console.error("Failed to create order:", err);
+      alert("Failed to send order. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleClose = () => {
@@ -54,9 +82,7 @@ export default function CustomerCheckout({ cartItems, clearCart }: CheckoutProps
             }}
           >
             <Box textAlign="left" sx={{ flex: 1 }}>
-              <Typography variant="h6">
-                {item.name}
-              </Typography>
+              <Typography variant="h6">{item.name}</Typography>
               {item.customizations && (
                 <Typography variant="body2" color="text.secondary">
                   {Object.entries(item.customizations)
@@ -82,9 +108,9 @@ export default function CustomerCheckout({ cartItems, clearCart }: CheckoutProps
           variant="contained"
           color="primary"
           onClick={handleSend}
-          disabled={items.length === 0}
+          disabled={items.length === 0 || loading}
         >
-          Send to Cashier
+          {loading ? "Sending..." : "Send to Cashier"}
         </Button>
       </Box>
 

@@ -15,7 +15,7 @@ export function ModifyItem({modifyID, item}: {modifyID: number, item: OrderItem 
     const writeNotes = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         setNotes(event.target.value);
     }
-
+    
 
     async function SaveItem() {
         try {
@@ -28,7 +28,6 @@ export function ModifyItem({modifyID, item}: {modifyID: number, item: OrderItem 
                 await addItemToOrder(item);
                 alert("Item saved successfully!");
             }
-            
         } catch (error) {
             console.error("Error saving modified item:", error);
             alert("Failed to save item.");
