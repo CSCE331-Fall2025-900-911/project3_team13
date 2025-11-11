@@ -7,15 +7,8 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  // DialogActions,
-  // TextField,
   Tabs,
   Tab,
-  // Radio
-  // RadioGroup,
-  // FormControlLabel,
-  // FormControl,
-  // FormLabel
 } from '@mui/material';
 import { LogoutButton } from './components/LogoutButton';
 import { MainMenu } from './components/MainMenu';
@@ -102,7 +95,14 @@ function App() {
             </Button>
           </div>
           <div className="checkout-button-container">
-            <Button variant="contained" className='success-button' size="large">Checkout</Button>
+            <Button 
+              variant="contained" 
+              className='success-button' 
+              size="large" 
+              onClick={() => alert("Checkout to be implemented later.")}
+            >
+              Checkout
+            </Button>
           </div>
         </div>
       </div>
