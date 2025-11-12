@@ -17,8 +17,6 @@ router.post('/', async (req, res) => {
             menuItemId,
             orderId
         ]);
-
-        // how is quantity represented?
         
         await client.query('INSERT INTO item_editing_table (comboid, sugar, ice, size, shots, notes) VALUES ($1, $2, $3, $4, $5, $6);', [
             menuItemOrderId,
@@ -29,9 +27,8 @@ router.post('/', async (req, res) => {
             notes
         ]);
         
-        
         client.release();
-        res.status(201).json({ message: 'Item added to order successfully' });
+        res.status(201).json({ message: 'Item added to order successfully', comboId: menuItemOrderId });
     } catch(err) {
         console.error(err);
         res.status(500).json({ error: 'Internal server error' });
