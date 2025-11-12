@@ -35,7 +35,7 @@ export function OrderSummary({ orderIdentifier }: { orderIdentifier: number }) {
 
     return (
         <div>
-            <h3>Order Total = ${totalPrice.toFixed(2)}</h3>
+            <h3>Order Total = ${totalPrice}</h3>
             <div className = "order-items">
                 {orderItems.map((orderItem) => (
                     <div key={orderItem.comboId} className="order-item">
