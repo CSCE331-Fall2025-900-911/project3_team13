@@ -64,7 +64,6 @@ export default function CustomerModify({ open, item, onClose, onAddToCart }: Pro
             <MenuItem value="0%">0%</MenuItem>
             <MenuItem value="25%">25%</MenuItem>
             <MenuItem value="50%">50%</MenuItem>
-            <MenuItem value="75%">75%</MenuItem>
             <MenuItem value="100%">100%</MenuItem>
             <MenuItem value="150%">150%</MenuItem>
             <MenuItem value="200%">200%</MenuItem>
@@ -74,7 +73,6 @@ export default function CustomerModify({ open, item, onClose, onAddToCart }: Pro
             <MenuItem value="0%">0%</MenuItem>
             <MenuItem value="25%">25%</MenuItem>
             <MenuItem value="50%">50%</MenuItem>
-            <MenuItem value="75%">75%</MenuItem>
             <MenuItem value="100%">100%</MenuItem>
             <MenuItem value="150%">150%</MenuItem>
           </TextField>
