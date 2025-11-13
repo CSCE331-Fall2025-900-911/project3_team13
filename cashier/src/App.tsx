@@ -77,8 +77,9 @@ function App() {
             <Button 
               variant="contained" 
               className="white-button" 
-              onClick={() => {
-                console.log("Order saving to be implemented");
+              onClick={async () => {
+                alert("Order saved successfully!");
+                await createOrder();
               }}
             >
               Save Order
