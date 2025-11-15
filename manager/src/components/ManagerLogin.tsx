@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button, TextField } from '@mui/material';
 import './ManagerLogin.css';
 
-export default function CustomerLogin() {
+export default function ManagerLogin() {
   const [username, setUserame] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
