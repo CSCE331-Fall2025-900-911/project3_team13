@@ -3,20 +3,23 @@ import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
+import { useNavigate } from 'react-router-dom'
 
 export function LogoutButton() {
   const [open, setOpen] = useState(false)
+  const navigate = useNavigate();
+  
+  const Logout = () => {
+          localStorage.setItem('username', '');
+          localStorage.setItem('password', '');
+          navigate('/');
+      };
 
   return (
     <>
-      <Button variant="contained" className='black-button' onClick={() => setOpen(true)}>
+      <Button variant="contained" className='black-button' onClick={Logout}>
         Log out
       </Button>
-
-      <Dialog open={open} onClose={() => setOpen(false)} aria-labelledby="dlg-title">
-        <DialogTitle id="dlg-title">Hello</DialogTitle>
-        <DialogContent>Dialog content here</DialogContent>
-      </Dialog>
     </>
   )
 }

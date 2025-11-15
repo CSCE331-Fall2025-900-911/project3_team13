@@ -1,0 +1,114 @@
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: white;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.layout-content {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: white;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.top-bar {
+  height: 10vh;
+  background-color: white;
+  color: #2c2c2c;
+  position: relative;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 24px; 
+  z-index: 1000; 
+  border-bottom: 5px solid #2C2C2C;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.main-content {
+  display: flex;
+  flex-direction: row;
+  flex: 1 1 auto;
+  background-color: white;
+  width: 100%;
+}
+
+.tab-panel {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 70%;
+  height: 100%;
+}
+
+.tabs {
+  display: flex;
+  color: #2C2C2C;
+  background-color: #D9D9D9;
+}
+
+.tabs .MuiTabs-indicator {
+  display: none;
+}
+
+.tabs .MuiTab-root.Mui-selected {
+  color: #2C2C2C;
+  background-color: #FFFFFF;
+  font-weight: bold;
+  border: 0;
+}
+
+.tab-content {
+  display: flex;
+  flex: 1 1 auto;
+  padding: 20px;
+  background-color: #ffffff;
+  height: 100%;
+}
+
+.side-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1 1 30%;
+  height: 100%;
+  background-color: #2c2c2c;
+  color: white;
+  padding-top: 16px;
+}
+
+.white-button {
+  background-color: white !important;
+  color: #2c2c2c !important;
+  margin: 8px 0;
+}
+
+.success-button {
+  background-color: #4798F5 !important;
+  color: white !important;
+  margin: 8px 0;
+}
+
+.side-panel .save-cancel-button-container .white-button {
+  height: 70px;
+}
+
+.side-panel .checkout-button-container .success-button {
+  width: 280 px;
+  height: 70px;
+}
+
+.black-button {
+  background-color: #2C2C2C !important;
+  color: white !important;
+  margin: 8px 0;
+}
