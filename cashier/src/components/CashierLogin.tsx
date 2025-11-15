@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, TextField } from '@mui/material';
-import './ManagerLogin.css';
+import './CashierLogin.css';
 
-export default function ManagerLogin() {
+export default function CashierLogin() {
   const [username, setUserame] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
