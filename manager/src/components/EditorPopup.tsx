@@ -40,8 +40,22 @@ export function EditorPopup<T extends { id: number; name: string }>(
   };
 
   const handleAdd = () => {
-    const newId = Math.max(...data.map((d) => d.id)) + 1;
-    const newItem: any = { id: newId, name: '', quantity: 0, category: '', price: 0, username: '', permissions: 0 };
+    const nextId =
+      data.length > 0
+        ? Math.max(...data.map((d) => d.id)) + 1
+        : 1;
+    const template = data[0];
+    const newItem = {} as T;
+    (Object.keys(template) as (keyof T)[]).forEach((key) => {
+      if (key === "id") {
+        newItem[key] = nextId as T[keyof T];
+      } else {
+        const oldValue = template[key];
+        const defaultValue =
+          typeof oldValue === "number" ? 0 : "";
+        newItem[key] = defaultValue as T[keyof T];
+      }
+    });
     setData((prev) => [...prev, newItem]);
     setSearchTerm('');
   };
@@ -97,7 +111,7 @@ export function EditorPopup<T extends { id: number; name: string }>(
             value={value}
             onChange={(e) => setValue(e.target.value)}
           />
-          <button onClick={handleSave}>Save</button>
+          <button className="save-btn" onClick={handleSave}>Save</button>
           <button className="delete-btn" onClick={handleDelete}>Delete</button>
         </div>
       </div>

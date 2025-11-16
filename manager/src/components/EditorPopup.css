@@ -145,9 +145,45 @@
 
 /* Popup title text */
 .popup h2 {
-  color: #000; /* Explicit black */
+  color: #000;
   margin: 0;
   font-size: 1.5rem;
   flex: 1;
   text-align: center;
+}
+
+.popup,
+.popup * {
+  color: #000 !important;
+}
+
+.edit-row select,
+.edit-row input,
+.search-input {
+  color: #000 !important;
+}
+
+.edit-row select,
+.edit-row input,
+.search-input {
+  background-color: #fff !important;
+}
+
+.edit-row select option {
+  color: #000 !important;
+}
+
+.save-btn {
+  background-color: #4caf50;  /* green */
+  color: #fff;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+.save-btn:hover {
+  background-color: #45a049;
 }
