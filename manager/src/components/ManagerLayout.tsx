@@ -9,6 +9,7 @@ import {
   Tab,
 } from '@mui/material';
 import './ManagerLayout.css';
+import { ManagerOverview } from "./ManagerOverview"
 
 
 export function ManagerLayout() {
@@ -34,7 +35,7 @@ export function ManagerLayout() {
             </div>
 
             {tabValue === 'overview' && <div className="tab-content">
-                <h1>Manager Overview Page</h1>
+                <ManagerOverview />
             </div>}
             {tabValue === 'reports' && <div className="tab-content">
                 <h1>Reports Page</h1>
