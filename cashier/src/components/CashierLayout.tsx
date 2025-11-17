@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react'
-import './CashierLayout.css'
-import reactLogo from '../assets/react.svg'
+import { useState, useEffect } from 'react';
+import './CashierLayout.css';
+import reactLogo from '../assets/react.svg';
+import customerIcon from '../assets/person.svg'
 import { AddCustomer } from './AddCustomer';
 import {
   Button,
@@ -61,7 +62,7 @@ export function CashierLayout() {
 
         <div className="side-panel">
           <Button variant="contained" onClick={() => setOpen(true)} className='white-button' startIcon={
-            <img src={reactLogo} alt="" style={{width: '24px', height: '24px'}}></img>
+            <img src={customerIcon} alt="" style={{width: '24px', height: '24px'}}></img>
             }>Add Customer</Button>
           <Dialog open={open} onClose={() => setOpen(false)} aria-labelledby="dlg-title">
             <DialogTitle id="dlg-title">Add Customer</DialogTitle>
