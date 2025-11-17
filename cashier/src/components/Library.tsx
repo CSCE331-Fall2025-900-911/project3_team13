@@ -5,7 +5,6 @@ import IconButton from '@mui/material/IconButton';
 import type { OrderItem } from '../OrderContext';
 import { ModifyItem } from './ModifyItem';
 
-
 interface MenuItem {
     itemId: number;
     name: string;
@@ -29,8 +28,6 @@ export function Library() {
     const [item, setItem] = useState<OrderItem | null>(null);
     const [orderItemData, setOrderItemData] = useState<Record<number, OrderItem> | null>();
     const [openDialog, setOpenDialog] = useState(false);
-
-    // Flesh out: i don't want to work on this at 1am
 
     async function OpenModifications({ itemId } : { itemId: number }) {
         try {
@@ -61,6 +58,7 @@ export function Library() {
     }
 
     useEffect(() => {
+        // self-invoking function to get all menu items
         (async () => {
             try {
                 setIsLoading(true);
