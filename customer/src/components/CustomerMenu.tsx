@@ -11,6 +11,14 @@ interface MenuItem {
   price?: number;
 }
 
+interface MenuItemResponse {
+    id: number,
+    name: string,
+    category: string,
+    price: number,
+    modifications: string
+}
+
 type Props = {
   onCartOpen: () => void;
 };
@@ -35,15 +43,16 @@ export default function CustomerMenu({ onCartOpen }: Props) {
   useEffect(() => {
     const fetchAllItems = async () => {
       try {
-        const requests = categories.map(category =>
-          axios.get('http://localhost:3000/api/get-menu-items', { params: { category } })
+        const results = await axios.get<{ items: MenuItemResponse[] }>(
+          "http://localhost:3000/api/get-all-items"
         );
 
-        const results = await Promise.allSettled(requests);
-
-        const allItems: MenuItem[] = results
-          .filter((r): r is PromiseFulfilledResult<any> => r.status === 'fulfilled')
-          .flatMap(r => Array.isArray(r.value.data?.drinks) ? r.value.data.drinks : []);
+        const allItems: MenuItem[] = results.data.items.map((item: MenuItemResponse) => ({
+          id: item.id,
+          name: item.name,
+          category: item.category,
+          price: item.price
+        }));
 
         setItems(allItems);
         setFilteredItems(allItems);
