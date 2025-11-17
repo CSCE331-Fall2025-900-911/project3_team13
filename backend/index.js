@@ -26,6 +26,7 @@ app.use('/api/add-modified-menu-item', require('./routes/addModifiedMenuItemRout
 app.use('/api/delete-menu-item', require('./routes/deleteMenuItems'));
 app.use('/api/cart', require('./routes/cartRoute'));
 app.use('/api/get-menu-items', require('./routes/getMenuItemsRoute'));
+app.use('/api/get-all-items', require('./routes/getAllItemsRoute'));
 
 //shutdown hook
 process.on('SIGINT', () => {

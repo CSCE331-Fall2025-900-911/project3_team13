@@ -1,4 +1,3 @@
-import {dummySeries} from '../data/dummySeries';
 import { useState, useEffect } from "react";
 import Dialogue from '@mui/material/Dialog';
 import IconButton from '@mui/material/IconButton';

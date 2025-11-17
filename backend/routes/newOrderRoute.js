@@ -7,7 +7,7 @@ router.post('/', async (req, resp) => {
     try {
         const client = await pool.connect();
         const res = await client.query('INSERT INTO orders (status, timestamp) VALUES ($1, $2) RETURNING id;', [
-            false,
+            'pending',
             new Date().toISOString()
         ]);
 
