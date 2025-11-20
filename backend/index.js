@@ -26,8 +26,10 @@ app.use('/api/add-modified-menu-item', require('./routes/addModifiedMenuItemRout
 app.use('/api/delete-menu-item', require('./routes/deleteMenuItems'));
 app.use('/api/cart', require('./routes/cartRoute'));
 app.use('/api/get-menu-items', require('./routes/getMenuItemsRoute'));
-app.use('/api/get-all-items', require('./routes/getAllItemsRoute.js'));
+app.use('/api/get-all-items', require('./routes/getAllItemsRoute'));
 app.use('/api/order-list', require('./routes/orderList'));
+app.use('/api/get-x-report', require('./routes/getXReportInfoRoute'));
+
 //shutdown hook
 process.on('SIGINT', () => {
   pool.end();
