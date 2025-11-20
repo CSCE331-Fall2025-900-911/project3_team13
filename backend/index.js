@@ -29,7 +29,7 @@ app.use('/api/get-menu-items', require('./routes/getMenuItemsRoute'));
 app.use('/api/get-all-items', require('./routes/getAllItemsRoute'));
 app.use('/api/order-list', require('./routes/orderList'));
 app.use('/api/get-x-report', require('./routes/getXReportInfoRoute'));
-
+app.use('/api/get-z-report', require('./routes/getZReportInfoRoute'));
 //shutdown hook
 process.on('SIGINT', () => {
   pool.end();
