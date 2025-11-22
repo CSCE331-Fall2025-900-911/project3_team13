@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const { requireRole } = require('../middleware/auth');
 const pool = require('../db/pool');
-
+//will add requireRole('manager') later
 router.get('/', async (req, res) => {
     try {
         const client = await pool.connect();
