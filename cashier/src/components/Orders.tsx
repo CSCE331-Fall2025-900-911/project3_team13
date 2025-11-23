@@ -30,7 +30,7 @@ export function Orders() {
     const [isLoading, setIsLoading] = useState(true);
 
     const fetchItemData = async () => {
-        const res = await axios.get(encodeURI(`http://localhost:3000/api/order-list?`));
+        const res = await axios.get(encodeURI(`https://project3-team13-backend.onrender.com/api/order-list?`));
         setOrderData(res.data.drinks.map((customerOrder: Order) => ({
             orderId: customerOrder.orderId,
             status: customerOrder.status,
@@ -41,7 +41,7 @@ export function Orders() {
     }
 
     async function orderToSummary(orderId: number) {
-        await axios.post(encodeURI(`http://localhost:3000/api/load-order?id=${orderId}`))
+        await axios.post(encodeURI(`https://project3-team13-backend.onrender.com/api/load-order?id=${orderId}`))
     }
     
     useEffect(() => {

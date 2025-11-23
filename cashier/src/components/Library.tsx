@@ -47,7 +47,7 @@ export function Library() {
     const fetchAllItems = async () => {
       try {
         const results = await axios.get<{ items: MenuItemResponse[] }>(
-          "http://localhost:3000/api/get-all-items"
+          "https://project3-team13-backend.onrender.com/api/get-all-items"
         );
 
         const allItems: MenuItem[] = results.data.items.map((item: MenuItemResponse) => ({
