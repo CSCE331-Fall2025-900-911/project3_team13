@@ -47,7 +47,7 @@ router.delete('/delete-employee', async (req, res) => {
 	try {
 		const client = await pool.connect();
 		const deleteRes = await client.query('DELETE FROM employees WHERE id = $1 RETURNING id;', [id]);
-		if (del.rowCount === 0) return res.status(404).json({ error: 'Employee not found' });
+		if (deleteRes.rowCount === 0) return res.status(404).json({ error: 'Employee not found' });
 		res.status(200).json({ message: 'Employee deleted', id: deleteRes.rows[0].id });
 	} catch (err) {
 		console.error('Error deleting employee:', err);
@@ -63,7 +63,7 @@ router.patch('/promote-employee', async (req, res) => {
 	try {
 		const client = await pool.connect();
 		const updateRes = await client.query('UPDATE employees SET permissions = 1 WHERE id = $1 RETURNING id, name, permissions;', [id]);
-		if (update.rowCount === 0) return res.status(404).json({ error: 'Employee not found' });
+		if (updateRes.rowCount === 0) return res.status(404).json({ error: 'Employee not found' });
 		res.status(200).json({ message: 'Employee promoted', employee: updateRes.rows[0] });
 	} catch (err) {
 		console.error('Error promoting employee:', err);
