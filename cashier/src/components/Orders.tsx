@@ -9,46 +9,39 @@ interface Order {
     customerName: string;
     status: string;
     timestamp: string;
+    items: [
+        {
+            comboId: number,
+            menuItemId: number,
+            menuItemName: string,
+            modifications: {
+                Sugar: string,
+                Ice: string,
+                Size: string,
+                Shots: string, 
+                Notes: string
+            }
+        }
+    ]
 }
 
 export function Orders() {
     const [orderData, setOrderData] = useState<Order[] | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
-    const dummyOrders = [
-    {
-        orderId: 1,
-        customerName: "John Doe",
-        status: "Completed",
-        timestamp: "2025-01-12T14:05:00Z"
-    },
-    {
-        orderId: 2,
-        customerName: "Sarah Smith",
-        status: "In Progress",
-        timestamp: "2025-01-12T14:20:00Z"
-    }
-    ];
-
     const fetchItemData = async () => {
-        // const res = await axios.get(encodeURI(`http://localhost:3000/api/order-list?`));
-        // setOrderData(res.data.drinks.map((customerOrder: Order) => ({
-        //     orderId: customerOrder.orderId,
-        //     customerName: customerOrder.customerName,
-        //     status: customerOrder.status,
-        //     timestamp: dayjs(customerOrder.timestamp).format("MMM D, YYYY h:mm A")
-        // })));
-        // TEMPORARY: use dummy data instead of API call
-        setOrderData(dummyOrders.map((o) => ({
-            orderId: o.orderId,
-            customerName: o.customerName,
-            status: o.status,
-            timestamp: dayjs(o.timestamp).format("MMM D, YYYY h:mm A")
+        const res = await axios.get(encodeURI(`http://localhost:3000/api/order-list?`));
+        setOrderData(res.data.drinks.map((customerOrder: Order) => ({
+            orderId: customerOrder.orderId,
+            status: customerOrder.status,
+            timestamp: dayjs(customerOrder.timestamp).format("MMM D, YYYY h:mm A"),
+            customerName: customerOrder.customerName,
+            items: customerOrder.items
         })));
     }
 
-    const orderToSummary = async() => {
-        await axios.post(encodeURI(`http://localhost:3000/api/?`))
+    async function orderToSummary(orderId: number) {
+        await axios.post(encodeURI(`http://localhost:3000/api/load-order?id=${orderId}`))
     }
     
     useEffect(() => {
@@ -81,7 +74,7 @@ export function Orders() {
                     <h2>{item.customerName}</h2>
                     <p>{item.status}</p>
                     <p>{item.timestamp}</p>
-                    <Button variant='contained' onClick={() => alert("Hi!")}>Add to Order</Button>
+                    <Button variant='contained' onClick={() => orderToSummary(item.orderId)}>Add to Order</Button>
                 </div>
             ))}
         </div>

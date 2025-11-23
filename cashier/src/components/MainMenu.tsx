@@ -2,7 +2,10 @@ import { useState } from 'react'
 import './MainMenu.css'
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
-import reactLogo from '../assets/react.svg'
+import milk from '../assets/milk.svg'
+import fruit from '../assets/fruit.svg'
+import special from '../assets/special.svg'
+import seasonal from '../assets/calendar.svg'
 import { SeriesLoad } from './SeriesLoad'
 
 
@@ -18,7 +21,7 @@ export function MainMenu({ orderId }: { orderId: number }) {
                     setSeriesName("Milk Tea");
                 }}>
                     <Stack direction="column" alignItems="center" spacing={3}>
-                        <img src={reactLogo} alt="Milk Series" style={{ width: '120px', height: '120px' }} />
+                        <img src={milk} alt="Milk Series" style={{ width: '120px', height: '120px' }} />
                         <h3>Milk Teas</h3>
                     </Stack>
                 </Button>
@@ -28,7 +31,7 @@ export function MainMenu({ orderId }: { orderId: number }) {
                     setSeriesName("Fruit Tea");
                 }}>
                     <Stack direction="column" alignItems="center" spacing={3}>
-                        <img src={reactLogo} alt="Milk Series" style={{ width: '120px', height: '120px' }} />
+                        <img src={fruit} alt="Milk Series" style={{ width: '120px', height: '120px' }} />
                         <h3>Fruit Teas</h3>
                     </Stack>
                 </Button>
@@ -38,7 +41,7 @@ export function MainMenu({ orderId }: { orderId: number }) {
                     setSeriesName('Specialty Drink');
                 }}>
                     <Stack direction="column" alignItems="center" spacing={3}>
-                        <img src={reactLogo} alt="Milk Series" style={{ width: '120px', height: '120px' }} />
+                        <img src={special} alt="Milk Series" style={{ width: '120px', height: '120px' }} />
                         <h3>Special Teas</h3>
                     </Stack>
                 </Button>
@@ -48,7 +51,7 @@ export function MainMenu({ orderId }: { orderId: number }) {
                     setSeriesName('Seasonal Drink');
                 }}>
                     <Stack direction="column" alignItems="center" spacing={3}>
-                        <img src={reactLogo} alt="Milk Series" style={{ width: '120px', height: '120px' }} />
+                        <img src={seasonal} alt="Milk Series" style={{ width: '120px', height: '120px' }} />
                         <h3>Seasonal Drinks</h3>
                     </Stack>
                 </Button>
@@ -65,20 +68,29 @@ export function MainMenu({ orderId }: { orderId: number }) {
 
 
             {openValue === 'series-f' && <div>
-                Fruit Series
-                <Button onClick={() => setOpenValue('menu')}>Return</Button>
+                <div className='series-head'>
+                    Fruit Series
+                    <Button onClick={() => setOpenValue('menu')}>Return</Button>
+                </div>
+                <SeriesLoad seriesName={seriesName} />
             </div>}
 
 
             {openValue === 'series-sp' && <div>
-                Special Series
-                <Button onClick={() => setOpenValue('menu')}>Return</Button>
+                <div className='series-head'>
+                    Special Series
+                    <Button onClick={() => setOpenValue('menu')}>Return</Button>
+                </div>
+                <SeriesLoad seriesName={seriesName} />
             </div>}
 
 
             {openValue === 'series-se' && <div>
-                Seasonal Series
-                <Button onClick={() => setOpenValue('menu')}>Return</Button>
+                <div className='series-head'>
+                    Seasonal Series
+                    <Button onClick={() => setOpenValue('menu')}>Return</Button>
+                </div>
+                <SeriesLoad seriesName={seriesName} />
               </div>}
         </div>
     );
