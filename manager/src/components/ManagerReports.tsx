@@ -7,6 +7,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import axios from 'axios';
+import type { Dayjs } from 'dayjs';
 
 type XReport = {
     totalSales: number,
@@ -21,11 +22,11 @@ type ZReport = {
 }
 
 export function ManagerReports() {
-    const [trendStart, setTrendStart] = useState(null)
-    const [trendEnd, setTrendEnd] = useState(null)
+    const [trendStart, setTrendStart] = useState<Dayjs | null>(null)
+    const [trendEnd, setTrendEnd] = useState<Dayjs | null>(null)
     const [trendItem, setTrendItem] = useState('')
-    const [transactionStart, setTransactionStart] = useState(null)
-    const [transactionEnd, setTransactionEnd] = useState(null)
+    const [transactionStart, setTransactionStart] = useState<Dayjs | null>(null)
+    const [transactionEnd, setTransactionEnd] = useState<Dayjs | null>(null)
 
     const [xReportData, setXReportData] = useState<XReport | null>(null)
     const [zReportData, setZReportData] = useState<ZReport | null>(null)

@@ -10,7 +10,7 @@ const router = express.Router();
 // Configure session middleware (required for OAuth)
 router.use(
   session({
-    secret: 'supersecretkey',
+    secret: process.env.AUTH_ROUTER_SECRET,
     resave: false,
     saveUninitialized: false
   })
@@ -25,7 +25,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: 'http://localhost:3000/auth/google/callback'
+      callbackURL: 'https://project3-team13-backend.onrender.com/auth/google/callback'
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
@@ -70,10 +70,10 @@ router.get(
 router.get(
   '/google/callback',
   passport.authenticate('google', {
-    failureRedirect: 'http://localhost:5173/login' //will change later when deploying
+    failureRedirect: 'https://cashier-project3-team13.vercel.app' //will change later when deploying
   }),
   (req, res) => {
-    res.redirect('http://localhost:5173/layout'); 
+    res.redirect('https://cashier-project3-team13.vercel.app/layout'); 
   }
 );
 
@@ -87,7 +87,7 @@ router.get('/me', (req, res) => { //returns logged in user info
 // Logout
 router.get('/logout', (req, res) => {
   req.logout(() => {});
-  res.redirect('http://localhost:5173');
+  res.redirect('https://cashier-project3-team13.vercel.app');
 });
 
 module.exports = router;
