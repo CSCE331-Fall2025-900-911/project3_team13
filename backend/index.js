@@ -48,7 +48,7 @@ app.use('/api/get-x-report', require('./routes/getXReportInfoRoute'));
 app.use('/api/get-z-report', require('./routes/getZReportInfoRoute'));
 app.use('/api/store', require('./routes/getStoreData'));
 app.use('/auth', require('./routes/authRoute'));
-
+app.use('/api/inventory', require('./routes/managerInventoryRoutes'));
 
 //shutdown hook
 process.on('SIGINT', () => {
