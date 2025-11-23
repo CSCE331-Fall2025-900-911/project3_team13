@@ -2,84 +2,71 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../db/pool');
 
-// GET /inventory/get-item?itemID=<item id>
-router.get('/get-item', async (req, res) => {
-    const { itemID } = req.query;
-
+// GET api/inventory/get-all-items
+router.get('/get-all-items', async (req, res) => {
     try {
         const client = await pool.connect();
-        const itemSearchRes = await pool.query('SELECT id, name, category, price FROM menu_items WHERE id = $1', [itemID]);
+        const inventoryRes = await client.query('SELECT * FROM inventory ORDER BY id ASC;');
 
-        res.status(200).json({
-            id: itemID,
-            name: itemSearchRes.rows[0].name,
-            category: itemSearchRes.rows[0].category,
-            price: parseFloat(itemSearchRes.rows[0].price)
-        });
+        res.status(200).json({ items: inventoryRes.rows });
     } catch(error) {
         console.error(error);
         res.status(500).json({ message: "Internal Server Error" });
     }
 });
 
-/** 
- * PATCH /update-item, pass in JSON object of:
- * {
- *  itemID
- *  attribute
- *  value
- * }
-*/
-router.patch('/update-item', async (req, res) => {
-    const { itemID, attribute, value } = req.body;
-    try {
-        const client = await pool.connect();
-
-        await client.query('UPDATE menu_items SET ' + attribute + ' = $1 WHERE id = $2', [
-            value,
-            itemID
-        ]);
-
-        res.status(200).json({ message: "Item updated successfully" });
-    } catch(error) {
-        console.error(error);
-        res.status(500).json({ message: "Internal Server Error" });
-    }
-});
-
-// add delete item from inventory
+// DELETE api/inventory/delete-item?id=<item id>
 router.delete('/delete-item', async (req, res) => {
-    const { itemID } = req.query;
+    const { id } = req.query;
+
+    if(!id) {
+        return res.status(400).json({ error: 'Missing id parameter' });
+    }
 
     try {
         const client = await pool.connect();
-        await client.query('DELETE FROM menu_items WHERE id = $1', [itemID]);
-
-        res.status(200).json({ message: "Item deleted successfully" });
+        const deleteRes = await client.query('DELETE FROM inventory WHERE id = $1 RETURNING id;', [id]);
+		if (deleteRes.rowCount === 0) return res.status(404).json({ error: 'Item not found' });
+        res.status(200).json({ message: "Item deleted successfully", id: deleteRes.rows[0].id });
     } catch(error) {
         console.error(error);
         res.status(500).json({ message: "Internal Server Error" });
     }
 });
 
-// add add new item to inventory
+// POST api/inventory/add-item (body; { name, quantity })
 router.post('/add-item', async (req, res) => {
-    const { name, category, price } = req.body;
-    const modificationsStr = "{'Sugar': ['0%', '25%', '50%', '100%', '150%', '200%']," +
-                                "'Ice': ['0%', '25%', '50%', '100%', '150%', '200%']," + 
-                                "'Size': ['Small', 'Medium', 'Large']," +
-                                "'Shots': ['0', '1', '2', '3', '4', '5']}";
+    const { name, quantity } = req.body;
+
+    if(!name || !quantity) {
+        return res.status(400).json({ message: "Invalid/missing name or quantity" });
+    }
 
     try {
         const client = await pool.connect();
-        await client.query('INSERT INTO menu_items (name, category, price, modifications) VALUES ($1, $2, $3, $4)', [
+        const insertRes = await client.query('INSERT INTO inventory (name, quantity) VALUES ($1, $2) RETURNING id', [
             name,
-            category,
-            price,
-            modificationsStr
+            quantity
         ]);
+        res.status(201).json({ message: "Item added successfully", id: insertRes.rows[0].id, name });
+    } catch(error) {
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+});
 
-        res.status(200).json({ message: "Item added successfully" });
+// PATCH api/inventory/update-quantity (body: { id, quantity })
+router.patch('/update-quantity', async (req, res) => {
+    const { id, quantity } = req.body;
+
+    if(!id || !quantity) {
+        return res.status(400).json({ message: "Missing/invalid ID or quantity" });
+    }
+
+    try {
+        const client = await pool.connect();
+        const updateRes = await client.query('UPDATE inventory SET quantity = $1 WHERE id = $2 RETURNING id;', [quantity, id]);
+		if (updateRes.rowCount === 0) return res.status(404).json({ error: 'Item not found' });
+        res.status(200).json({ message: "Item updated successfully", id: updateRes.rows[0].id, quantity }); 
     } catch(error) {
         console.error(error);
         res.status(500).json({ message: "Internal Server Error" });
