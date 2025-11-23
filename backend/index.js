@@ -15,8 +15,24 @@ const corsConfig = {
   allowedHeaders: ['Content-Type', 'Authorization']
 };
 
+
 app.use(express.json());
 app.use(cors(corsConfig));
+
+const session = require('express-session');
+const passport = require('passport');
+
+
+app.use(
+  session({
+    secret: "supersecret",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Routes
 app.use('/api/new-order', require('./routes/newOrderRoute'));
@@ -26,8 +42,14 @@ app.use('/api/add-modified-menu-item', require('./routes/addModifiedMenuItemRout
 app.use('/api/delete-menu-item', require('./routes/deleteMenuItems'));
 app.use('/api/cart', require('./routes/cartRoute'));
 app.use('/api/get-menu-items', require('./routes/getMenuItemsRoute'));
-app.use('/api/get-all-items', require('./routes/getAllItemsRoute.js'));
+app.use('/api/get-all-items', require('./routes/getAllItemsRoute'));
 app.use('/api/order-list', require('./routes/orderList'));
+app.use('/api/get-x-report', require('./routes/getXReportInfoRoute'));
+app.use('/api/get-z-report', require('./routes/getZReportInfoRoute'));
+
+app.use('/auth', require('./routes/authRoute'));
+
+
 //shutdown hook
 process.on('SIGINT', () => {
   pool.end();
