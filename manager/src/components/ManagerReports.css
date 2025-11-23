@@ -12,3 +12,38 @@
     display: flex;
     flex-direction: row;
 }
+
+.report-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5%;
+}
+
+.report-buttons .button {
+    width: 200px;
+    height: 80px;
+    margin: 0 200px;
+    font-size: large;
+}
+
+.trends-input {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.transactions-input {
+    width: 50%;
+    padding: 5% 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.text-box {
+    width: 300px;
+}
