@@ -49,6 +49,7 @@ app.use('/api/get-z-report', require('./routes/getZReportInfoRoute'));
 app.use('/api/store', require('./routes/getStoreData'));
 app.use('/auth', require('./routes/authRoute'));
 app.use('/api/inventory', require('./routes/managerInventoryRoutes'));
+app.use('/api/employees', require('./routes/managerEmployeeRoutes'));
 
 //manager update
 app.use('/api/update-menu-item', require('./routes/updateMenuItem'));
