@@ -1,0 +1,61 @@
+hr {
+    border-color: #2c2c2c;
+    border-width: 2px;
+    margin: 20px 0;
+    width: 90%;
+    display: flex;
+}
+
+.reports-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.trends {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.transactions {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.report-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2%;
+}
+
+.report-buttons .button {
+    width: 200px;
+    height: 80px;
+    margin: 0 200px;
+    font-size: large;
+}
+
+.trends-input {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.transactions-input {
+    width: 50%;
+    padding: 5% 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.text-box {
+    width: 300px;
+}

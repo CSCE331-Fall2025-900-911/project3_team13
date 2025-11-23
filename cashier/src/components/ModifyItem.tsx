@@ -15,7 +15,6 @@ export function ModifyItem({modifyID, item}: {modifyID: number, item: OrderItem 
     const writeNotes = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         setNotes(event.target.value);
     }
-    
 
     async function SaveItem() {
         try {

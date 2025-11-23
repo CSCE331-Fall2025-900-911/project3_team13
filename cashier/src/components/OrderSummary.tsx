@@ -3,7 +3,7 @@
 import IconButton from '@mui/material/IconButton';
 import './OrderSummary.css';
 //import axios from "axios";
-import reactIcon from '../assets/react.svg';
+import drink from '../assets/drink.svg';
 import { useOrder } from '../OrderContext';
 
 /*
@@ -35,11 +35,11 @@ export function OrderSummary({ orderIdentifier }: { orderIdentifier: number }) {
 
     return (
         <div>
-            <h3>Order Total = ${totalPrice.toFixed(2)}</h3>
+            <h3>Order Total = ${totalPrice}</h3>
             <div className = "order-items">
                 {orderItems.map((orderItem) => (
                     <div key={orderItem.comboId} className="order-item">
-                        <img src={reactIcon} alt='' />
+                        <img src={drink} alt='' />
                         <div className="item-details">
                             <div className="item-header">
                                 <span className="item-name">{orderItem.name}</span>

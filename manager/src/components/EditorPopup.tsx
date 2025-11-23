@@ -1,0 +1,208 @@
+import { useState, useEffect } from 'react';
+import './EditorPopup.css';
+
+interface EditorPopupProps<T> {
+  open: boolean;
+  onClose: () => void;
+  data: T[];
+  setData: React.Dispatch<React.SetStateAction<T[]>>;
+  title: string;
+  tableType: "menu" | "inventory" | "employees";
+}
+
+const editableFields: Record<string, string[]> = {
+  menu: ["name", "category", "price"],
+  inventory: ["name", "quantity"],
+  employees: ["name", "username", "permissions"]
+};
+
+export function EditorPopup<T extends { id: number; name: string }>(
+  { open, onClose, data, setData, title, tableType }: EditorPopupProps<T>
+) {
+  const [searchTerm, setSearchTerm] = useState('');
+  const selected = data.find(
+    (item) => item.name.toLowerCase() === searchTerm.toLowerCase()
+  );
+
+  const [field, setField] = useState('');
+  const [value, setValue] = useState('');
+
+  useEffect(() => {
+    setField('');
+    setValue('');
+  }, [searchTerm]);
+
+  // Save / Update
+  const handleSave = async () => {
+    if (!selected || !field) return;
+
+    const updatedValue = isNaN(Number(value)) ? value : Number(value);
+    const updated = { ...selected, [field]: updatedValue } as T;
+
+    try {
+      if (tableType === "inventory") {
+        const res = await fetch(`https://project3-team13-backend.onrender.com/api/inventory/update-quantity`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: selected.id, quantity: updatedValue })
+        });
+        const dataRes = await res.json();
+        if (!res.ok) throw new Error(dataRes.message || "Update failed");
+      } else if (tableType === "employees") {
+        if (field === "permissions") {
+          const res = await fetch(`https://project3-team13-backend.onrender.com/api/employees/promote-employee?id=${selected.id}`, {
+            method: "PATCH"
+          });
+          const dataRes = await res.json();
+          if (!res.ok) throw new Error(dataRes.message || "Promotion failed");
+        } else {
+          console.log("Only permissions update supported on backend for now");
+        }
+      } else {
+        // Placeholder: menu updates can be implemented later
+        console.log("Menu update placeholder", updated);
+      }
+
+      setData(prev =>
+        prev.map(item => item.id === selected.id ? updated : item)
+      );
+    } catch (error) {
+      console.error("Update failed:", error);
+    }
+
+    setValue('');
+  };
+
+  // Add new item
+  const handleAdd = async () => {
+    if (tableType === "inventory") {
+      const name = "New Item";
+      const quantity = 1;
+
+      try {
+        const res = await fetch("https://project3-team13-backend.onrender.com/api/inventory/add-item", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, quantity })
+        });
+        const dataRes = await res.json();
+        if (!res.ok) throw new Error(dataRes.message || "Add failed");
+
+        const newItem = { id: dataRes.id, name, quantity } as unknown as T;
+        setData(prev => [...prev, newItem]);
+      } catch (err) {
+        console.error("Add inventory failed:", err);
+      }
+    } else if (tableType === "employees") {
+      const name = "New Employee";
+      const permissions = 0;
+
+      try {
+        const res = await fetch("https://project3-team13-backend.onrender.com/api/employees/add-employee", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, permissions })
+        });
+        const dataRes = await res.json();
+        if (!res.ok) throw new Error(dataRes.error || "Add failed");
+
+        const newEmployee = {
+          id: dataRes.employee.id,
+          name,
+          username: dataRes.employee.username,
+          permissions
+        } as unknown as T;
+        setData(prev => [...prev, newEmployee]);
+        console.log("Generated password:", dataRes.password);
+      } catch (err) {
+        console.error("Add employee failed:", err);
+      }
+    } else {
+      // Placeholder: menu
+      const nextId = data.length > 0 ? Math.max(...data.map(d => d.id)) + 1 : 1;
+      const template = data[0];
+      const newItem = {} as T;
+
+      (Object.keys(template) as (keyof T)[]).forEach(key => {
+        if (key === "id") {
+          newItem[key] = nextId as unknown as T[keyof T];
+        } else {
+          const oldValue = template[key];
+          const defaultValue = typeof oldValue === "number" ? 0 : "";
+          newItem[key] = defaultValue as unknown as T[keyof T];
+        }
+      });
+      setData(prev => [...prev, newItem]);
+    }
+
+    setSearchTerm('');
+  };
+
+  // Delete item
+  const handleDelete = async () => {
+    if (!selected) return;
+
+    try {
+      if (tableType === "inventory") {
+        const res = await fetch(`https://project3-team13-backend.onrender.com/api/inventory/delete-item?id=${selected.id}`, { method: "DELETE" });
+        if (!res.ok) throw new Error("Delete failed");
+      } else if (tableType === "employees") {
+        const res = await fetch(`https://project3-team13-backend.onrender.com/api/employees/delete-employee?id=${selected.id}`, { method: "DELETE" });
+        if (!res.ok) throw new Error("Delete failed");
+      } else {
+        // Placeholder: menu
+      }
+      setData(prev => prev.filter(item => item.id !== selected.id));
+    } catch (err) {
+      console.error("Delete failed:", err);
+    }
+
+    setSearchTerm('');
+  };
+
+  if (!open) return null;
+
+  return (
+    <div className="popup-backdrop">
+      <div className="popup">
+        <div className="popup-header">
+          <button className="close-btn" onClick={onClose}>X</button>
+          <h2>{title}</h2>
+          <button className="add-btn" onClick={handleAdd}>Add</button>
+        </div>
+
+        <input
+          className="search-input"
+          placeholder="Search by name..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+
+        {selected && (
+          <table className="popup-table">
+            <thead>
+              <tr>{Object.keys(selected).map(key => <th key={key}>{key}</th>)}</tr>
+            </thead>
+            <tbody>
+              <tr>{Object.values(selected).map((val, i) => <td key={`${selected.id}-${i}`}>{val as string | number}</td>)}</tr>
+            </tbody>
+          </table>
+        )}
+
+        <div className="edit-row">
+          <select value={field} onChange={(e) => setField(e.target.value)}>
+            <option value="">Select field</option>
+            {selected && editableFields[tableType].map(k => <option key={k} value={k}>{k}</option>)}
+          </select>
+          <input
+            placeholder="New value"
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+          />
+          <button className="save-btn" onClick={handleSave}>Save</button>
+          <button className="delete-btn" onClick={handleDelete}>Delete</button>
+        </div>
+      </div>
+    </div>
+  );
+}

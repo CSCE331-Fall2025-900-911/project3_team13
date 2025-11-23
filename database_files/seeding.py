@@ -223,14 +223,45 @@ def gen_orders_transactions():
     total_sales = 0.0
     order_id = 1
 
+    # ENUM statuses
+    all_statuses = ["pending", "completed", "canceled", "in progress", "ready to pay"]
+
+    # Preassign exactly 2 of each *non-completed* status
+    special_statuses = {
+        "pending": 2,
+        "canceled": 2,
+        "in progress": 2,
+        "ready to pay": 2
+    }
+
+    # Convert to a list such as:
+    # ["pending", "pending", "canceled", "canceled", ...]
+    predefined_status_pool = []
+    for status, count in special_statuses.items():
+        predefined_status_pool += [status] * count
+
+    # Keep track of where we are inserting special statuses
+    special_index = 0
+    total_special = len(predefined_status_pool)
+
     while total_sales <= 500000.0:
+
         ts = random_datetime(one_year_ago, today)
         customer = random.choice(customers)
         employee = random.choice(employees)
 
+        # Assign status:
+        #   First N orders use special predefined statuses
+        #   All others are completed
+        if special_index < total_special:
+            status = predefined_status_pool[special_index]
+            special_index += 1
+        else:
+            status = "completed"
+
         order = {
             "ID": order_id,
-            "Status": True,
+            "Status": status,
             "Timestamp": ts.strftime("%Y-%m-%d %H:%M")
         }
 
@@ -248,7 +279,6 @@ def gen_orders_transactions():
                 "OrderID": order_id
             })
 
-            # --- Generate modifications for this drink ---
             modifications = {
                 "Sugar": random.choice(["0%", "25%", "50%", "100%", "150%", "200%"]),
                 "Ice": random.choice(["0%", "25%", "50%", "100%", "150%", "200%"]),
@@ -256,7 +286,6 @@ def gen_orders_transactions():
                 "Shots": random.choice(["0", "1", "2", "3", "4", "5"])
             }
 
-        
             item_editing_table.append({
                 "ComboID": combo_counter,
                 "Sugar": modifications["Sugar"],
@@ -265,7 +294,6 @@ def gen_orders_transactions():
                 "Shots": modifications["Shots"],
                 "Notes": "test"
             })
-        
 
             combo_counter += 1
 

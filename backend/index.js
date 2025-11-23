@@ -9,14 +9,30 @@ const port = 3000;
 
 // change origin link to deployment link when deploying
 const corsConfig = {
-  origin: ['https://cashier-project3-team13.vercel.app', 'https://customer-project3-team13.vercel.app'],
+  origin: ['https://cashier-project3-team13.vercel.app', 'https://customer-project3-team13.vercel.app', 'https://manager-project3-team13.vercel.app'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization']
 };
 
+
 app.use(express.json());
 app.use(cors(corsConfig));
+
+const session = require('express-session');
+const passport = require('passport');
+
+
+app.use(
+  session({
+    secret: process.env.APP_SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Routes
 app.use('/api/new-order', require('./routes/newOrderRoute'));
@@ -26,6 +42,18 @@ app.use('/api/add-modified-menu-item', require('./routes/addModifiedMenuItemRout
 app.use('/api/delete-menu-item', require('./routes/deleteMenuItems'));
 app.use('/api/cart', require('./routes/cartRoute'));
 app.use('/api/get-menu-items', require('./routes/getMenuItemsRoute'));
+app.use('/api/get-all-items', require('./routes/getAllItemsRoute'));
+app.use('/api/order-list', require('./routes/orderList'));
+app.use('/api/get-x-report', require('./routes/getXReportInfoRoute'));
+app.use('/api/get-z-report', require('./routes/getZReportInfoRoute'));
+app.use('/api/store', require('./routes/getStoreData'));
+app.use('/auth', require('./routes/authRoute'));
+app.use('/api/inventory', require('./routes/managerInventoryRoutes'));
+app.use('/api/employees', require('./routes/managerEmployeeRoutes'));
+
+//manager update
+app.use('/api/update-menu-item', require('./routes/updateMenuItem'));
+
 
 //shutdown hook
 process.on('SIGINT', () => {

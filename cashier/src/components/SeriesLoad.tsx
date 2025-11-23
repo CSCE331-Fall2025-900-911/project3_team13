@@ -1,4 +1,3 @@
-import {dummySeries} from '../data/dummySeries';
 import { useState, useEffect } from "react";
 import Dialogue from '@mui/material/Dialog';
 import IconButton from '@mui/material/IconButton';
@@ -73,7 +72,7 @@ export function SeriesLoad({ seriesName }: { seriesName: string }) {
         setSeriesData(res.data.drinks.map((drink: MenuItemResponse) => ({
             itemId: drink.id,
             name: drink.name,
-            iconUrl: '../assets/react.svg'
+            iconUrl: '../assets/drink.svg'
         })));
     }
     
