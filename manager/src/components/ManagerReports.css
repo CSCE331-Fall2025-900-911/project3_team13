@@ -1,0 +1,14 @@
+.reports-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.trends {
+    display: flex;
+    flex-direction: row;
+}
+
+.transactions {
+    display: flex;
+    flex-direction: row;
+}
