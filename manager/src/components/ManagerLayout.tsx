@@ -1,10 +1,21 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Tabs, Tab } from "@mui/material";
-
-import "./ManagerLayout.css";
-
-import { ManagerOverview } from "./ManagerOverview";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {
+  Tabs,
+  Tab,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  Paper,
+  Button,
+  Typography,
+} from '@mui/material';
+import { EditorPopup } from './EditorPopup'; // import the separate popup
+import './ManagerLayout.css';
+import { ManagerOverview } from "./ManagerOverview"
+import { ManagerReports} from "./ManagerReports"
 import { ManagerStore } from "./ManagerStore";
 
 export function ManagerLayout() {
@@ -38,11 +49,7 @@ export function ManagerLayout() {
                 </Tabs>
 
                 {tabValue === "overview" && <ManagerOverview />}
-                {tabValue === "reports" && (
-                    <div className="tab-content">
-                        <h1>Reports Page</h1>
-                    </div>
-                )}
+                {tabValue === "reports" && <ManagerReports />}
                 {tabValue === "store" && (
                     <ManagerStore
                         inventory={inventory}

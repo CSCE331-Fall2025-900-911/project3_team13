@@ -1,4 +1,3 @@
-import {dummySeries} from '../data/dummySeries';
 import { useState, useEffect } from "react";
 import Dialogue from '@mui/material/Dialog';
 import IconButton from '@mui/material/IconButton';
@@ -50,7 +49,6 @@ export function SeriesLoad({ seriesName }: { seriesName: string }) {
     }
 
     const fetchItemData = async () => {
-        console.log(seriesName);
         const res = await axios.get(encodeURI(`http://localhost:3000/api/get-menu-items?category=${seriesName}`));
         setOrderItemData(
             Object.fromEntries(

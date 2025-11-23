@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useEffect } from 'react';
 import {
     Paper, Table, TableHead, TableBody, TableRow, TableCell,
     Button, Typography
@@ -28,6 +29,17 @@ export function ManagerStore({
 }: ManagerStoreProps) {
 
     const [popup, setPopup] = useState<null | 'inventory' | 'menu' | 'employees'>(null);
+
+    useEffect(() => {
+        fetch("http://localhost:3000/api/store")
+            .then(res => res.json())
+            .then(data => {
+                setInventory(data.inventory);
+                setMenu(data.menu);
+                setEmployees(data.employees);
+            })
+            .catch(err => console.error("Failed to load store data:", err));
+    }, []);
 
     return (
         <div className="tab-content">
@@ -77,7 +89,7 @@ export function ManagerStore({
                                 <TableCell>{item.id}</TableCell>
                                 <TableCell>{item.name}</TableCell>
                                 <TableCell>{item.category}</TableCell>
-                                <TableCell>${item.price.toFixed(2)}</TableCell>
+                                <TableCell>${Number(item.price).toFixed(2)}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
