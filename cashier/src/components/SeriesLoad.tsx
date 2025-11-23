@@ -71,7 +71,7 @@ export function SeriesLoad({ seriesName }: { seriesName: string }) {
         setSeriesData(res.data.drinks.map((drink: MenuItemResponse) => ({
             itemId: drink.id,
             name: drink.name,
-            iconUrl: '../assets/react.svg'
+            iconUrl: '../assets/drink.svg'
         })));
     }
     

@@ -68,20 +68,29 @@ export function MainMenu({ orderId }: { orderId: number }) {
 
 
             {openValue === 'series-f' && <div>
-                Fruit Series
-                <Button onClick={() => setOpenValue('menu')}>Return</Button>
+                <div className='series-head'>
+                    Fruit Series
+                    <Button onClick={() => setOpenValue('menu')}>Return</Button>
+                </div>
+                <SeriesLoad seriesName={seriesName} />
             </div>}
 
 
             {openValue === 'series-sp' && <div>
-                Special Series
-                <Button onClick={() => setOpenValue('menu')}>Return</Button>
+                <div className='series-head'>
+                    Special Series
+                    <Button onClick={() => setOpenValue('menu')}>Return</Button>
+                </div>
+                <SeriesLoad seriesName={seriesName} />
             </div>}
 
 
             {openValue === 'series-se' && <div>
-                Seasonal Series
-                <Button onClick={() => setOpenValue('menu')}>Return</Button>
+                <div className='series-head'>
+                    Seasonal Series
+                    <Button onClick={() => setOpenValue('menu')}>Return</Button>
+                </div>
+                <SeriesLoad seriesName={seriesName} />
               </div>}
         </div>
     );

@@ -47,8 +47,8 @@ export function Orders() {
         })));
     }
 
-    const orderToSummary = async() => {
-        await axios.post(encodeURI(`http://localhost:3000/api/?`))
+    async function orderToSummary() {
+        await axios.post(encodeURI(`http://localhost:3000/api/load-order?id={orderId}`))
     }
     
     useEffect(() => {
