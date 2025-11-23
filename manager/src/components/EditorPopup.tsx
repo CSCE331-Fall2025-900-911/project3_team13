@@ -7,11 +7,20 @@ interface EditorPopupProps<T> {
   data: T[];
   setData: React.Dispatch<React.SetStateAction<T[]>>;
   title: string;
+  tableType: "menu" | "inventory" | "employees";
 }
 
+const editableFields: Record<string, string[]> = {
+  menu: ["name", "category", "price"],
+  inventory: ["name", "quantity"],
+  employees: ["name", "username", "permissions"]
+};
+
+
 export function EditorPopup<T extends { id: number; name: string }>(
-  { open, onClose, data, setData, title }: EditorPopupProps<T>
-) {
+  { open, onClose, data, setData, title, tableType }: EditorPopupProps<T>
+)
+{
   const [searchTerm, setSearchTerm] = useState('');
   const selected = data.find(
     (item) => item.name.toLowerCase() === searchTerm.toLowerCase()
@@ -26,18 +35,34 @@ export function EditorPopup<T extends { id: number; name: string }>(
     setValue('');
   }, [searchTerm]);
 
-  const handleSave = () => {
-    if (!selected || !field) return;
+  const handleSave = async () => {
+  if (!selected || !field) return;
 
-    setData((prev) =>
-      prev.map((item) =>
-        item.id === selected.id
-          ? { ...item, [field]: isNaN(Number(value)) ? value : Number(value) }
-          : item
-      )
+  const updatedValue = isNaN(Number(value)) ? value : Number(value);
+  const updated = { ...selected, [field]: updatedValue };
+
+  try {
+    // Only menu for now TODO OTHER STUFF
+    if (tableType === "menu") {
+      await fetch(`http://localhost:3000/api/update-menu-item/${selected.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updated)
+      });
+    }
+
+    // Update local UI immediately
+    setData(prev =>
+      prev.map(item => item.id === selected.id ? updated : item)
     );
-    setValue('');
-  };
+
+  } catch (error) {
+    console.error("Update failed:", error);
+  }
+
+  setValue("");
+};
+
 
   const handleAdd = () => {
     const nextId =
@@ -102,9 +127,10 @@ export function EditorPopup<T extends { id: number; name: string }>(
           <select value={field} onChange={(e) => setField(e.target.value)}>
             <option value="">Select field</option>
             {selected &&
-              Object.keys(selected)
-                .filter((k) => k !== 'id')
-                .map((k) => <option value={k} key={k}>{k}</option>)}
+              editableFields[tableType].map(k => (
+              <option key={k} value={k}>{k}</option>
+            ))
+            }
           </select>
           <input
             placeholder="New value"
