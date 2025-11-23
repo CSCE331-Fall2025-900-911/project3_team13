@@ -50,6 +50,10 @@ app.use('/api/store', require('./routes/getStoreData'));
 app.use('/auth', require('./routes/authRoute'));
 app.use('/api/inventory', require('./routes/managerInventoryRoutes'));
 
+//manager update
+app.use('/api/update-menu-item', require('./routes/updateMenuItem'));
+
+
 //shutdown hook
 process.on('SIGINT', () => {
   pool.end();
