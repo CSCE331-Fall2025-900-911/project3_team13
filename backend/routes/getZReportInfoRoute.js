@@ -3,6 +3,7 @@ const router = express.Router();
 const { requireRole } = require('../middleware/auth');
 const pool = require('../db/pool');
 //will add requireRole('manager') later
+// need to add function that blocks ordering/z-report generation if a z-report has already been generated
 router.get('/', async (req, res) => {
     try {
         const client = await pool.connect();
