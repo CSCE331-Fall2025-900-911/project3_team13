@@ -132,6 +132,7 @@ export function ManagerStore({
                 <EditorPopup
                     open
                     title="Edit Inventory"
+                    tableType="inventory"
                     data={inventory}
                     setData={setInventory}
                     onClose={() => setPopup(null)}
@@ -141,15 +142,18 @@ export function ManagerStore({
                 <EditorPopup
                     open
                     title="Edit Menu Items"
+                    tableType="menu"
                     data={menu}
                     setData={setMenu}
                     onClose={() => setPopup(null)}
-                />
+                    />
+
             )}
             {popup === 'employees' && (
                 <EditorPopup
                     open
                     title="Edit Employees"
+                    tableType="employees"
                     data={employees}
                     setData={setEmployees}
                     onClose={() => setPopup(null)}

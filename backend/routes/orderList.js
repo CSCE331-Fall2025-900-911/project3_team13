@@ -5,7 +5,7 @@ const pool = require("../db/pool");
 // GET /api/order-list?status=completed
 router.get("/", async (req, res) => {
     const { status } = req.query;
-
+    console.log("Loaded: orderList route");
     const allowed = [
         "pending", 
         "completed", 
