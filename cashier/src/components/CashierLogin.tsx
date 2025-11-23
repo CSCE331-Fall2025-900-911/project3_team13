@@ -18,7 +18,7 @@ export default function CashierLogin() {
 
   //Google OAuth login
   const handleGoogleLogin = () => {
-    window.location.href = 'http://localhost:3000/auth/google';
+    window.location.href = 'http://project3-team13-backend.onrender.com/auth/google';
   };
 
   return (
