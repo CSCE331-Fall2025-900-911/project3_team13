@@ -29,6 +29,7 @@ export default function ManagerLogin() {
         />
         <TextField
           label="Enter password"
+          type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           variant="outlined"
