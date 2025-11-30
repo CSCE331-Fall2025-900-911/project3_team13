@@ -1,6 +1,20 @@
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, LineChart, Line } from 'recharts';
 
+// highly doubt we need both, but I'm going off what we did in cashier/SeriesLoad.tsx
+interface LowStockItem {
+    item: string;
+    stock: number;
+}
+
+interface LowStockItemResponse {
+    name: string;
+    quantity: number;
+}
+
 export function ManagerOverview() {
+    const [lowStockItems, setLowStockItems] = useState<LowStockItem[]>([]);
 
     const tempBarData = [
         { name: "Item A", value: 30 },
@@ -14,11 +28,25 @@ export function ManagerOverview() {
         { name: "12 PM", value: 18 },
     ];
 
-    const lowStockDummy = [
-        { item: "Milk Tea", stock: 4 },
-        { item: "Brown Sugar", stock: 2 },
-        { item: "Tapioca Pearls", stock: 6 },
-    ];
+    const getLowQuantity = async () => {
+        try {
+            const lowStockRes = await axios.get<{lowQuantityItems: LowStockItemResponse[]}>(
+            "http://localhost:3000/api/inventory/get-low-quantity"
+            );
+            const items: LowStockItem[] = lowStockRes.data.lowQuantityItems.map(
+                (item: LowStockItemResponse) => ({
+                    item: item.name,
+                    stock: item.quantity
+                })
+            );
+            setLowStockItems(items);
+        } catch(err) {
+            console.error(err);
+        }
+    }
+    useEffect(() => {
+        getLowQuantity();
+    }, [])
 
     return (
         <div className="overview-container w-full p-6 flex gap-10" style={{ color: 'black' }}>
@@ -64,7 +92,7 @@ export function ManagerOverview() {
                         </tr>
                     </thead>
                     <tbody>
-                        {lowStockDummy.map((row, index) => (
+                        {lowStockItems.map((row, index) => (
                             <tr key={index} className="odd:bg-white even:bg-gray-50">
                                 <td className="border px-4 py-2">{row.item}</td>
                                 <td className="border px-4 py-2">{row.stock}</td>
