@@ -30,13 +30,13 @@ export function Orders() {
     const [isLoading, setIsLoading] = useState(true);
 
     const fetchItemData = async () => {
-        const res = await axios.get(encodeURI(`http://localhost:3000/api/order-list?status=pending`));
+        const res = await axios.get(encodeURI(`http://localhost:3000/api/order-list?`));
         console.log(res.data);
         setOrderData(res.data.orders.map((customerOrder: Order) => ({
-            orderId: customerOrder.id,
+            id: customerOrder.id,
             status: customerOrder.status,
             timestamp: dayjs(customerOrder.timestamp).format("MMM D, YYYY h:mm A"),
-            customerName: customerOrder.customer_name
+            customer_name: customerOrder.customer_name
             // items: customerOrder.items
         })));
     }

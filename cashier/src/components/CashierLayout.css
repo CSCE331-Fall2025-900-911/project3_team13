@@ -69,10 +69,16 @@
 
 .tab-content {
   display: flex;
+  justify-content: center;
   flex: 1 1 auto;
   padding: 20px;
   background-color: #ffffff;
   height: 100%;
+}
+
+.library-container {
+  display: flex;
+  flex-direction: column;
 }
 
 .side-panel {
