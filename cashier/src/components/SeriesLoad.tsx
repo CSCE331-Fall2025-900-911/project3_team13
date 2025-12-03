@@ -3,6 +3,8 @@ import Dialogue from '@mui/material/Dialog';
 import IconButton from '@mui/material/IconButton';
 import { ModifyItem }  from './ModifyItem';
 import type { OrderItem } from '../OrderContext';
+import drink from '../assets/drink.svg';
+import './SeriesLoad.css';
 import axios from 'axios';
 
 interface MenuItem {
@@ -103,7 +105,7 @@ export function SeriesLoad({ seriesName }: { seriesName: string }) {
             {SeriesData.map((item) => (
                 <IconButton key={item.itemId} onClick={() => OpenModifications({ itemId: item.itemId })}>
                     <div className='series-item-card'>
-                        <img src={item.iconUrl} alt={item.name} />
+                        <img src={drink} alt={item.name} />
                         <h4>{item.name}</h4>
                     </div>
                 </IconButton>
