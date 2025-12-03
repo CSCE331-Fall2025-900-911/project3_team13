@@ -112,8 +112,10 @@ router.get('/transactions', async (req, res) => {
         const query = `
             SELECT 
                 TO_CHAR(o.timestamp::date, 'YYYY-MM-DD') AS name,
-                COUNT(*) AS value
+                SUM(mi.price) AS value
             FROM orders o
+            JOIN menu_item_order moi ON o.id = moi.orderid
+            JOIN menu_items mi ON moi.menuitemid = mi.id
             WHERE o.timestamp::date BETWEEN $1 AND $2
             GROUP BY o.timestamp::date
             ORDER BY o.timestamp::date;
