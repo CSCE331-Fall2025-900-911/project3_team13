@@ -100,7 +100,10 @@ export function CashierLayout() {
               variant="contained" 
               className='success-button' 
               size="large" 
-              onClick={() => alert("Checkout to be implemented later.")}
+              onClick={async () => {
+                await completeOrder();
+                await createOrder();
+              }}
             >
               Checkout
             </Button>

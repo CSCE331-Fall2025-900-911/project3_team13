@@ -4,7 +4,7 @@ const pool = require('../db/pool');
 
 // add customer to order
 router.post('/', async (req, res) => {
-    // requests to this route should contain order ID, customer name, employee ID, and customer phone number.
+    // requests to this route should contain customer name and phone number
     const { customerName, customerPhone } = req.body;
     
     try {
