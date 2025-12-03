@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -7,6 +7,7 @@ import {
   useNavigate,
 } from "react-router-dom";
 import { Box, IconButton, Slide } from "@mui/material";
+import axios from 'axios';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import CustomerLogin from "./components/CustomerLogin";
@@ -28,9 +29,33 @@ function AppContent() {
   const [modifyItem, setModifyItem] = useState<FoodItem | null>(null);
 
   // Add item to cart
-  const addToCart = (item: FoodItem) => {
-    setCartItems((prev) => [...prev, item]);
-    setCartOpen(true);
+  const addToCart = async (item: FoodItem) => {
+    try {
+      const orderIdStr = localStorage.getItem('orderId');
+      if(orderIdStr === null) {
+        console.error("No valid order");
+        return;
+      }
+      
+      console.log(item.id);
+      // the ternary is so that the localStorage reference is actually accepted
+      // localStorage.getItem() returns an object of type string | null, not just string
+      await axios.post("http://localhost:3000/api/add-modified-menu-item", {
+        orderId: orderIdStr ? parseInt(orderIdStr) : -1,
+        menuItemId: item.id,
+        sugar: item.customizations ? item.customizations.sugar : '100%',
+        ice: item.customizations ? item.customizations.ice : '100%',
+        size: item.customizations ? item.customizations.size : 'Medium',
+        shots: item.customizations ? item.customizations.shots : '0',
+        notes: item.customizations ? item.customizations.notes : ''
+      });
+      setCartItems((prev) => [...prev, item]);
+      setCartOpen(true);
+    } catch(error) {
+      console.error(error);
+      alert("Failed to add item to cart.");
+    }
+    
   };
 
   // Clear cart

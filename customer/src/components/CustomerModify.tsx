@@ -38,7 +38,7 @@ export default function CustomerModify({ open, item, onClose, onAddToCart }: Pro
 
   const handleAdd = () => {
     const modifiedItem: FoodItem = {
-      id: Date.now(),
+      id: item.id,
       name: item.name,
       description: item.description,
       price: item.price,

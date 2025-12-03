@@ -27,6 +27,7 @@ export default function CustomerCheckout({ cartItems, clearCart }: CheckoutProps
     setLoading(true);
 
     try {
+      /*
       // Prepare payload for backend
       const payload = {
         items: items.map((item) => ({
@@ -39,7 +40,18 @@ export default function CustomerCheckout({ cartItems, clearCart }: CheckoutProps
       };
 
       // Send POST request to create new order
-      const res = await axios.post("http://localhost:3000/api/new-order", payload);
+      //const res = await axios.post("http://localhost:3000/api/new-order", payload); */
+      const orderIdStr = localStorage.getItem('orderId');
+      if(orderIdStr === null) {
+        console.error("No valid order");
+        return;
+      }
+
+      const res = await axios.patch("http://localhost:3000/api/checkout", {
+        orderId: orderIdStr ? parseInt(orderIdStr) : -1,
+        total: total,
+        status: 'ready to pay'
+      });
       console.log("Order created:", res.data);
 
       // Clear cart and show success dialog
