@@ -20,11 +20,13 @@ export interface OrderItem {
     notes: string;
 }
 
+type OrderStatus = 'pending' | 'completed' | 'canceled' | 'in progress' | 'ready to pay';
+
 // Our context primarily consists of the order, its items, its status, 
 // and any methods that can act on it.
 export const OrderContext = createContext<{
     orderId: number;
-    orderStatus: 'pending' | 'completed' | 'cancelled';
+    orderStatus: OrderStatus;
     orderItems: OrderItem[];
     createOrder: () => Promise<number | null>;
     completeOrder: () => Promise<void>;
@@ -43,7 +45,7 @@ export function useOrder() {
 export default function OrderProvider({ children }: { children: React.ReactNode }) {
     const [orderId, setOrderId] = useState<number>(0);
     const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
-    const [orderStatus, setOrderStatus] = useState<'pending' | 'completed' | 'cancelled'>('pending');
+    const [orderStatus, setOrderStatus] = useState<OrderStatus>('pending');
 
     // Creates a new order. Intended to happen on first render, when an order is cancelled, or when a  order is completed.
     // Known issue: Refreshing causes this to be called
@@ -98,8 +100,20 @@ export default function OrderProvider({ children }: { children: React.ReactNode 
     // To be implemented in the future; checkout process
     const completeOrder = async () => {
         // update transactions table
-        console.log("API call to update transactions table");
-        setOrderStatus('completed');
+        const total = orderItems.reduce((sum: number, item: OrderItem) => sum + item.price, 0);
+        try {
+            await axios.patch("http://localhost:3000/api/checkout", {
+                orderId: orderId,
+                total: total,
+                status: 'in progress'
+            });
+            setOrderStatus('in progress');
+            alert("Checkout successful!");
+        } catch(error) {
+            console.error(error);
+            alert("Checkout failed.");
+        }
+        
     }
 
     // Cancels the current order and starts over
@@ -108,7 +122,7 @@ export default function OrderProvider({ children }: { children: React.ReactNode 
             for(const item of orderItems) {
                 await deleteItemFromOrder(item.comboId);
             }
-            setOrderStatus('cancelled');
+            setOrderStatus('canceled');
             setOrderItems([]);
             alert("Order cancelled!");
         } catch (error) {
