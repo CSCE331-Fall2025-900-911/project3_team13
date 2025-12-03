@@ -17,7 +17,6 @@ export function AddCustomer({ orderID}: {orderID: number}) {
     async function SaveCustomer() {
         try {
             const res = await axios.post('http://localhost:3000/api/add-customer', {
-                orderId: orderID,
                 customerName: customerName,
                 customerPhone: customerPhone
             });
