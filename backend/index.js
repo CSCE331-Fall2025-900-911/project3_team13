@@ -9,8 +9,8 @@ const port = 3000;
 
 // change origin link to deployment link when deploying
 const corsConfig = {
-  origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  origin: 'http://localhost:5173',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization']
 };
@@ -50,6 +50,7 @@ app.use('/api/store', require('./routes/getStoreData'));
 app.use('/auth', require('./routes/authRoute'));
 app.use('/api/inventory', require('./routes/managerInventoryRoutes'));
 app.use('/api/employees', require('./routes/managerEmployeeRoutes'));
+app.use('/api/manager-analytics', require('./routes/managerAnalyticsRoutes'));
 
 //manager update
 app.use('/api/update-menu-item', require('./routes/updateMenuItem'));

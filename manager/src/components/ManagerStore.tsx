@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
     Paper, Table, TableHead, TableBody, TableRow, TableCell,
     Button, Typography
@@ -39,7 +38,7 @@ export function ManagerStore({
                 setEmployees(data.employees);
             })
             .catch(err => console.error("Failed to load store data:", err));
-    }, []);
+    }, [setInventory, setMenu, setEmployees]);
 
     return (
         <div className="tab-content">
@@ -146,8 +145,7 @@ export function ManagerStore({
                     data={menu}
                     setData={setMenu}
                     onClose={() => setPopup(null)}
-                    />
-
+                />
             )}
             {popup === 'employees' && (
                 <EditorPopup
