@@ -3,6 +3,7 @@ import { Button, TextField } from '@mui/material';
 import axios from "axios";
 import { useOrder } from "../OrderContext";
 import type { OrderItem } from "../OrderContext";
+import './ModifyItem.css';
 
 export function ModifyItem({modifyID, item}: {modifyID: number, item: OrderItem | null}) {
     const { addItemToOrder } = useOrder();
@@ -34,7 +35,7 @@ export function ModifyItem({modifyID, item}: {modifyID: number, item: OrderItem 
     }
 
     return (
-        <div>
+        <div className='modify-page'>
             <h2>Modify Item</h2>
             <label htmlFor="ice-select">Select Ice Level:</label>
             <select
@@ -85,9 +86,8 @@ export function ModifyItem({modifyID, item}: {modifyID: number, item: OrderItem 
             <option value={4}>4</option>
             <option value={5}>5</option>
             </select>
-            <TextField label="Extra Notes" multiline rows={4} value={notes} onChange={writeNotes} variant="outlined" fullWidth />
-            <p>Notes written: {notes}</p>
-            <Button onClick={() => SaveItem()}>Save Item</Button>
+            <div className='notes'><TextField label="Extra Notes" multiline rows={4} value={notes} onChange={writeNotes} variant="outlined" fullWidth /></div>
+            <Button variant='contained' onClick={() => SaveItem()}>Save Item</Button>
         </div>
         
     );

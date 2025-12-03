@@ -90,6 +90,21 @@
   background-color: #2c2c2c;
   color: white;
   padding-top: 16px;
+  gap: 16px;
+}
+
+.order-summary {
+  height: 50vh;
+}
+
+.save-cancel-button-container {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
+
+.save-cancel-button-container .white-button {
+  width: 140px;
 }
 
 .white-button {
@@ -102,6 +117,7 @@
   background-color: #4798F5 !important;
   color: white !important;
   margin: 8px 0;
+  width: 200px;
 }
 
 .side-panel .save-cancel-button-container .white-button {

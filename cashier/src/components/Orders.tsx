@@ -30,7 +30,7 @@ export function Orders() {
     const [isLoading, setIsLoading] = useState(true);
 
     const fetchItemData = async () => {
-        const res = await axios.get(encodeURI(`http://localhost:3000/api/order-list?`));
+        const res = await axios.get(encodeURI(`http://localhost:3000/api/order-list`));
         console.log(res.data);
         setOrderData(res.data.orders.map((customerOrder: Order) => ({
             id: customerOrder.id,
@@ -72,7 +72,7 @@ export function Orders() {
         <div className='orders-container'>
             {orderData.map((item) => (
                 <div className='order-item-card' key={item.id}>
-                    <h2>{item.customer_name}</h2>
+                    <h3>{item.customer_name}</h3>
                     <p>{item.status}</p>
                     <p>{item.timestamp}</p>
                     <Button variant='contained' onClick={() => orderToSummary(item.id)}>Add to Order</Button>
