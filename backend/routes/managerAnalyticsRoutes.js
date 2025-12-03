@@ -22,13 +22,11 @@ router.get('/orders-per-item-today', async (req, res) => {
             message: "Today's order counts returned",
             ordersPerItem: result.rows
         });
-
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: "Internal Server Error" });
     }
 });
-
 
 // GET /hourly-sales-today
 router.get('/hourly-sales-today', async (req, res) => {
@@ -59,9 +57,72 @@ router.get('/hourly-sales-today', async (req, res) => {
         }));
 
         res.status(200).json({ hourlySales: formatted });
-
     } catch (error) {
         console.error(error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+});
+
+// GET /manager-analytics/trends?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD&itemName=optional
+router.get('/trends', async (req, res) => {
+    try {
+        const { startDate, endDate, itemName } = req.query;
+
+        if (!startDate || !endDate) {
+            return res.status(400).json({ message: "startDate and endDate are required" });
+        }
+
+        const params = [startDate, endDate];
+        let itemFilter = '';
+        if (itemName) {
+            params.push(itemName);
+            itemFilter = `AND mi.name = $3`;
+        }
+
+        const query = `
+            SELECT 
+                TO_CHAR(o.timestamp::date, 'YYYY-MM-DD') AS name,
+                COUNT(*) AS value
+            FROM orders o
+            JOIN menu_item_order moi ON o.id = moi.orderid
+            JOIN menu_items mi ON moi.menuitemid = mi.id
+            WHERE o.timestamp::date BETWEEN $1 AND $2
+            ${itemFilter}
+            GROUP BY o.timestamp::date
+            ORDER BY o.timestamp::date;
+        `;
+
+        const result = await pool.query(query, params);
+        res.status(200).json(result.rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+});
+
+// GET /manager-analytics/transactions?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD
+router.get('/transactions', async (req, res) => {
+    try {
+        const { startDate, endDate } = req.query;
+
+        if (!startDate || !endDate) {
+            return res.status(400).json({ message: "startDate and endDate are required" });
+        }
+
+        const query = `
+            SELECT 
+                TO_CHAR(o.timestamp::date, 'YYYY-MM-DD') AS name,
+                COUNT(*) AS value
+            FROM orders o
+            WHERE o.timestamp::date BETWEEN $1 AND $2
+            GROUP BY o.timestamp::date
+            ORDER BY o.timestamp::date;
+        `;
+
+        const result = await pool.query(query, [startDate, endDate]);
+        res.status(200).json(result.rows);
+    } catch (err) {
+        console.error(err);
         res.status(500).json({ message: "Internal Server Error" });
     }
 });

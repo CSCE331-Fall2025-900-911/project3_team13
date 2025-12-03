@@ -77,6 +77,14 @@ export function ManagerOverview() {
         getLowQuantity();
         getOrdersPerItem();
         getHourlySales();
+
+        // live update every 10 seconds
+        const interval = setInterval(() => {
+            getOrdersPerItem();
+            getHourlySales();
+        }, 10000);
+
+        return () => clearInterval(interval);
     }, []);
 
     return (
