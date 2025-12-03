@@ -167,11 +167,13 @@ export function ManagerReports() {
                             tick={{ fill: 'black' }} 
                             axisLine={{ stroke: 'black' }}
                             tickLine={{ stroke: 'black' }}
+                            label={{ value: "Date", position: "insideBottom", offset: -5, fill: "black" }}
                         />
                         <YAxis 
                             tick={{ fill: 'black' }}
                             axisLine={{ stroke: 'black' }}
                             tickLine={{ stroke: 'black' }}
+                            label={{ value: "Items Sold", angle: -90, position: "insideLeft", fill: "black" }}
                         />
                         <Tooltip 
                             contentStyle={{ color: 'black', backgroundColor: 'white' }}
@@ -196,11 +198,13 @@ export function ManagerReports() {
                             tick={{ fill: 'black' }} 
                             axisLine={{ stroke: 'black' }}
                             tickLine={{ stroke: 'black' }}
+                            label={{ value: "Date", position: "insideBottom", offset: -5, fill: "black" }}
                         />
                         <YAxis 
                             tick={{ fill: 'black' }} 
                             axisLine={{ stroke: 'black' }}
                             tickLine={{ stroke: 'black' }}
+                            label={{ value: "Revenue ($)", angle: -90, position: "insideLeft", fill: "black" }}
                         />
                         <Tooltip 
                             contentStyle={{ color: 'black', backgroundColor: 'white' }}
