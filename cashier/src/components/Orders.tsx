@@ -5,11 +5,11 @@ import dayjs from "dayjs";
 import axios from 'axios';
 
 interface Order {
-    orderId: number;
-    customerName: string;
+    id: number;
     status: string;
     timestamp: string;
-    items: [
+    customer_name: string;
+    items?: [
         {
             comboId: number,
             menuItemId: number,
@@ -30,13 +30,14 @@ export function Orders() {
     const [isLoading, setIsLoading] = useState(true);
 
     const fetchItemData = async () => {
-        const res = await axios.get(encodeURI(`http://localhost:3000/api/order-list?`));
-        setOrderData(res.data.drinks.map((customerOrder: Order) => ({
-            orderId: customerOrder.orderId,
+        const res = await axios.get(encodeURI(`http://localhost:3000/api/order-list?status=pending`));
+        console.log(res.data);
+        setOrderData(res.data.orders.map((customerOrder: Order) => ({
+            orderId: customerOrder.id,
             status: customerOrder.status,
             timestamp: dayjs(customerOrder.timestamp).format("MMM D, YYYY h:mm A"),
-            customerName: customerOrder.customerName,
-            items: customerOrder.items
+            customerName: customerOrder.customer_name
+            // items: customerOrder.items
         })));
     }
 
@@ -70,11 +71,11 @@ export function Orders() {
     return (
         <div className='orders-container'>
             {orderData.map((item) => (
-                <div className='order-item-card'>
-                    <h2>{item.customerName}</h2>
+                <div className='order-item-card' key={item.id}>
+                    <h2>{item.customer_name}</h2>
                     <p>{item.status}</p>
                     <p>{item.timestamp}</p>
-                    <Button variant='contained' onClick={() => orderToSummary(item.orderId)}>Add to Order</Button>
+                    <Button variant='contained' onClick={() => orderToSummary(item.id)}>Add to Order</Button>
                 </div>
             ))}
         </div>
