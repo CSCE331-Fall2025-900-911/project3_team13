@@ -98,8 +98,15 @@ export function ManagerOverview() {
                     <h2 className="text-xl font-semibold mb-2">Orders Per Item (Today)</h2>
 
                     <BarChart width={450} height={300} data={ordersPerItem}>
-                        <XAxis dataKey="name" stroke="#000" />
-                        <YAxis stroke="#000" />
+                        <XAxis 
+                            dataKey="name" 
+                            stroke="#000" 
+                            label={{ value: "Menu Item", position: 'insideBottom', offset: -5 }}
+                        />
+                        <YAxis 
+                            stroke="#000" 
+                            label={{ value: "Orders", angle: -90, position: 'insideLeft', offset: 10 }}
+                        />
                         <Tooltip />
                         <Bar dataKey="value" fill="#4798F5" />
                     </BarChart>
@@ -110,8 +117,15 @@ export function ManagerOverview() {
                     <h2 className="text-xl font-semibold mb-2">Hourly Sales (Today)</h2>
 
                     <LineChart width={450} height={300} data={hourlySales}>
-                        <XAxis dataKey="name" stroke="#000" />
-                        <YAxis stroke="#000" />
+                        <XAxis 
+                            dataKey="name" 
+                            stroke="#000" 
+                            label={{ value: "Hour", position: 'insideBottom', offset: -5 }}
+                        />
+                        <YAxis 
+                            stroke="#000" 
+                            label={{ value: "Revenue ($)", angle: -90, position: 'insideLeft', offset: 10 }}
+                        />
                         <Tooltip />
                         <Line dataKey="value" stroke="#4798F5" strokeWidth={3} />
                     </LineChart>

@@ -11,7 +11,7 @@ interface EditorPopupProps<T> {
 }
 
 const editableFields: Record<string, string[]> = {
-  menu: ["name", "category", "price"],
+  menu: ["name", "category", "price", "image"],
   inventory: ["name", "quantity"],
   employees: ["name", "username", "permissions"]
 };
@@ -32,7 +32,9 @@ export function EditorPopup<T extends { id: number; name: string }>(
     setValue('');
   }, [searchTerm]);
 
-  // Save / Update
+  // ---------------------
+  // SAVE / UPDATE LOGIC
+  // ---------------------
   const handleSave = async () => {
     if (!selected || !field) return;
 
@@ -46,26 +48,30 @@ export function EditorPopup<T extends { id: number; name: string }>(
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id: selected.id, quantity: updatedValue })
         });
-        const dataRes = await res.json();
-        if (!res.ok) throw new Error(dataRes.message || "Update failed");
+        if (!res.ok) throw new Error("Update failed");
       } else if (tableType === "employees") {
         if (field === "permissions") {
-          const res = await fetch(`http://localhost:3000/api/employees/promote-employee?id=${selected.id}`, {
-            method: "PATCH"
-          });
-          const dataRes = await res.json();
-          if (!res.ok) throw new Error(dataRes.message || "Promotion failed");
+          const res = await fetch(
+            `http://localhost:3000/api/employees/promote-employee?id=${selected.id}`,
+            { method: "PATCH" }
+          );
+          if (!res.ok) throw new Error("Promotion failed");
         } else {
-          console.log("Only permissions update supported on backend for now");
+          console.log("Only permissions are supported for employees.");
         }
-      } else {
-        // Placeholder: menu updates can be implemented later
-        console.log("Menu update placeholder", updated);
+      } else if (tableType === "menu") {
+        const res = await await fetch(`http://localhost:3000/api/update-menu-item/${selected.id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updated)
+          }
+        );
+
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.message || "Menu update failed");
       }
 
-      setData(prev =>
-        prev.map(item => item.id === selected.id ? updated : item)
-      );
+      setData(prev => prev.map(item => (item.id === selected.id ? updated : item)));
     } catch (error) {
       console.error("Update failed:", error);
     }
@@ -75,64 +81,63 @@ export function EditorPopup<T extends { id: number; name: string }>(
 
   // Add new item
   const handleAdd = async () => {
-    if (tableType === "inventory") {
-      const name = "New Item";
-      const quantity = 1;
-
-      try {
+    try {
+      if (tableType === "inventory") {
         const res = await fetch("http://localhost:3000/api/inventory/add-item", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, quantity })
+          body: JSON.stringify({ name: "New Item", quantity: 1 })
         });
-        const dataRes = await res.json();
-        if (!res.ok) throw new Error(dataRes.message || "Add failed");
-
-        const newItem = { id: dataRes.id, name, quantity } as unknown as T;
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.message);
+        const newItem = {
+          id: json.id,
+          name: "New Item",
+          quantity: 1
+        } as unknown as T;
         setData(prev => [...prev, newItem]);
-      } catch (err) {
-        console.error("Add inventory failed:", err);
-      }
-    } else if (tableType === "employees") {
-      const name = "New Employee";
-      const permissions = 0;
-
-      try {
+      } else if (tableType === "employees") {
         const res = await fetch("http://localhost:3000/api/employees/add-employee", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, permissions })
+          body: JSON.stringify({ name: "New Employee", permissions: 0 })
         });
-        const dataRes = await res.json();
-        if (!res.ok) throw new Error(dataRes.error || "Add failed");
-
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.error);
         const newEmployee = {
-          id: dataRes.employee.id,
-          name,
-          username: dataRes.employee.username,
-          permissions
+          id: json.employee.id,
+          name: "New Employee",
+          username: json.employee.username,
+          permissions: 0
         } as unknown as T;
         setData(prev => [...prev, newEmployee]);
-        console.log("Generated password:", dataRes.password);
-      } catch (err) {
-        console.error("Add employee failed:", err);
-      }
-    } else {
-      // Placeholder: menu
-      const nextId = data.length > 0 ? Math.max(...data.map(d => d.id)) + 1 : 1;
-      const template = data[0];
-      const newItem = {} as T;
+      } else if (tableType === "menu") {
+        const res = await fetch("http://localhost:3000/api/menu/add-item", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: "New Menu Item",
+            category: "Uncategorized",
+            price: 0,
+            image: ""
+          })
+        });
 
-      (Object.keys(template) as (keyof T)[]).forEach(key => {
-        if (key === "id") {
-          newItem[key] = nextId as unknown as T[keyof T];
-        } else {
-          const oldValue = template[key];
-          const defaultValue = typeof oldValue === "number" ? 0 : "";
-          newItem[key] = defaultValue as unknown as T[keyof T];
-        }
-      });
-      setData(prev => [...prev, newItem]);
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.message);
+
+        const newItem = {
+          id: json.id,
+          name: "New Menu Item",
+          category: "Uncategorized",
+          price: 0,
+          image: ""
+        } as unknown as T;
+
+        setData(prev => [...prev, newItem]);
+      }
+    } catch (err) {
+      console.error("Add failed:", err);
     }
 
     setSearchTerm('');
@@ -144,13 +149,17 @@ export function EditorPopup<T extends { id: number; name: string }>(
 
     try {
       if (tableType === "inventory") {
-        const res = await fetch(`http://localhost:3000/api/inventory/delete-item?id=${selected.id}`, { method: "DELETE" });
-        if (!res.ok) throw new Error("Delete failed");
+        await fetch(`http://localhost:3000/api/inventory/delete-item?id=${selected.id}`, {
+          method: "DELETE"
+        });
       } else if (tableType === "employees") {
-        const res = await fetch(`http://localhost:3000/api/employees/delete-employee?id=${selected.id}`, { method: "DELETE" });
-        if (!res.ok) throw new Error("Delete failed");
-      } else {
-        // Placeholder: menu
+        await fetch(`http://localhost:3000/api/employees/delete-employee?id=${selected.id}`, {
+          method: "DELETE"
+        });
+      } else if (tableType === "menu") {
+        await fetch(`http://localhost:3000/api/menu/delete-item/${selected.id}`, {
+          method: "DELETE"
+        });
       }
       setData(prev => prev.filter(item => item.id !== selected.id));
     } catch (err) {
@@ -160,6 +169,7 @@ export function EditorPopup<T extends { id: number; name: string }>(
     setSearchTerm('');
   };
 
+  // UI RENDER
   if (!open) return null;
 
   return (
@@ -181,10 +191,18 @@ export function EditorPopup<T extends { id: number; name: string }>(
         {selected && (
           <table className="popup-table">
             <thead>
-              <tr>{Object.keys(selected).map(key => <th key={key}>{key}</th>)}</tr>
+              <tr>
+                {Object.keys(selected).map(key => (
+                  <th key={key}>{key}</th>
+                ))}
+              </tr>
             </thead>
             <tbody>
-              <tr>{Object.values(selected).map((val, i) => <td key={`${selected.id}-${i}`}>{val as string | number}</td>)}</tr>
+              <tr>
+                {Object.values(selected).map((val, i) => (
+                  <td key={`${selected.id}-${i}`}>{val as string | number}</td>
+                ))}
+              </tr>
             </tbody>
           </table>
         )}
