@@ -1,0 +1,13 @@
+.store-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: auto;
+    padding: 1%;
+}
+
+/* alter table */
+.store-container .MuiTable-root {
+    min-width: 800px;
+    margin-bottom: 20px;
+}

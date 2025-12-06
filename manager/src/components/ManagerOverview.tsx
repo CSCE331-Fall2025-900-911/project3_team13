@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, LineChart, Line } from 'recharts';
+import './ManagerOverview.css';
 
 interface LowStockItem {
     item: string;
@@ -97,7 +98,7 @@ export function ManagerOverview() {
                 <div className="flex flex-col items-center">
                     <h2 className="text-xl font-semibold mb-2">Orders Per Item (Today)</h2>
 
-                    <BarChart width={450} height={300} data={ordersPerItem}>
+                    <BarChart width={400} height={200} data={ordersPerItem}>
                         <XAxis 
                             dataKey="name" 
                             stroke="#000" 
@@ -116,7 +117,7 @@ export function ManagerOverview() {
                 <div className="flex flex-col items-center">
                     <h2 className="text-xl font-semibold mb-2">Hourly Sales (Today)</h2>
 
-                    <LineChart width={450} height={300} data={hourlySales}>
+                    <LineChart width={400} height={200} data={hourlySales}>
                         <XAxis 
                             dataKey="name" 
                             stroke="#000" 

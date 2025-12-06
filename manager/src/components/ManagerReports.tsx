@@ -161,7 +161,7 @@ export function ManagerReports() {
                     <h2 style={{ color: 'black', textAlign: 'center', marginBottom: '10px' }}>
                         Order Trends
                     </h2>
-                    <LineChart width={600} height={300} data={trendData}>
+                    <LineChart width={400} height={200} data={trendData}>
                         <XAxis 
                             dataKey="name" 
                             tick={{ fill: 'black' }} 
@@ -192,7 +192,7 @@ export function ManagerReports() {
                         Sales History
                     </h2>
 
-                    <LineChart width={600} height={300} data={transactionData}>
+                    <LineChart width={400} height={200} data={transactionData}>
                         <XAxis 
                             dataKey="name" 
                             tick={{ fill: 'black' }} 
@@ -232,16 +232,20 @@ export function ManagerReports() {
                 </div>
             </div>
             <Dialog open={xOpen} onClose={() => setXOpen(false)}>
-                <h1>X Report</h1>
-                <h3>Total Sales: {xReportData?.totalSales}</h3>
-                <h3>Cancellations: {xReportData?.cancellations}</h3>
-                <h3>Award Points Used: {xReportData?.usedPoints}</h3>
+                <div className='report-dialog'>
+                    <h1>X Report</h1>
+                    <h3>Total Sales: {xReportData?.totalSales}</h3>
+                    <h3>Cancellations: {xReportData?.cancellations}</h3>
+                    <h3>Award Points Used: {xReportData?.usedPoints}</h3>
+                </div>
             </Dialog>
             <Dialog open={zOpen} onClose={() => setZOpen(false)}>
-                <h1>Z Report</h1>
-                <h3>Total Sales: {zReportData?.totalSales}</h3>
-                <h3>Customers: {zReportData?.numCustomers}</h3>
-                <h3>Transactions: {zReportData?.numTransactions}</h3>
+                <div className='report-dialog'>
+                    <h1>Z Report</h1>
+                    <h3>Total Sales: {zReportData?.totalSales}</h3>
+                    <h3>Customers: {zReportData?.numCustomers}</h3>
+                    <h3>Transactions: {zReportData?.numTransactions}</h3>
+                </div>
             </Dialog>
         </div>
     )

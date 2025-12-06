@@ -1,9 +1,13 @@
 hr {
     border-color: #2c2c2c;
     border-width: 2px;
-    margin: 20px 0;
+    margin: 10px 0;
     width: 90%;
     display: flex;
+}
+
+h2 {
+    margin: 0 0 10px 0;
 }
 
 .reports-container {
@@ -29,12 +33,12 @@ hr {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 2%;
+    padding: 1%;
 }
 
 .report-buttons .button {
-    width: 200px;
-    height: 80px;
+    width: 160px;
+    height: 60px;
     margin: 0 200px;
     font-size: large;
 }
@@ -47,6 +51,11 @@ hr {
     align-items: center;
 }
 
+.trends-input .MuiTextField-root, .trends-input .MuiPickersTextField-root {
+    width: 300px;
+    margin-bottom: 10px;
+}
+
 .transactions-input {
     width: 50%;
     padding: 5% 10%;
@@ -56,6 +65,16 @@ hr {
     align-items: center;
 }
 
+.transactions-input .MuiTextField-root, .transactions-input .MuiPickersTextField-root {
+    width: 300px;
+    margin-bottom: 10px;
+}
+
 .text-box {
     width: 300px;
+}
+
+.report-dialog {
+    padding: 20px;
+    text-align: center;
 }
