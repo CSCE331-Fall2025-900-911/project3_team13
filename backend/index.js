@@ -57,6 +57,7 @@ app.use('/api/customers', require('./routes/getCustomerPoints'));
 app.use('/api/customers', require('./routes/redeemCustomerPoints'));
 
 app.use('/api/weather', require('./routes/getWeatherData'));
+app.use('/api/assistance', require('./routes/assistanceRoute'));
 
 //manager update
 app.use('/api/update-menu-item', require('./routes/updateMenuItem'));

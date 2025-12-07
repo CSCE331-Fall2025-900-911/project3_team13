@@ -38,6 +38,27 @@ function AppContent() {
   const [cartItems, setCartItems] = useState<FoodItem[]>([]);
   const [modifyOpen, setModifyOpen] = useState(false);
   const [modifyItem, setModifyItem] = useState<FoodItem | null>(null);
+  const [assistanceSent, setAssistanceSent] = useState(false);
+
+  // Request assistance
+  const requestHelp = async () => {
+    try {
+      const res = await fetch("http://localhost:3000/api/assistance/request", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ kiosk: "Kiosk 1" }),
+      });
+
+      const data = await res.json();
+      console.log("Assistance sent:", data);
+
+      setAssistanceSent(true);
+    } catch (err) {
+      console.error("Failed to send assistance request", err);
+    }
+  };
 
   const { speak, enabled, toggle } = useTTS();
 
@@ -163,6 +184,28 @@ function AppContent() {
           <ShoppingCartIcon />
         </IconButton>
       )}
+
+      {location.pathname !== "/" && location.pathname !== "/checkout" && (
+      <button
+        onClick={requestHelp}
+        style={{
+          position: "fixed",
+          bottom: 16,
+          right: 16,
+          zIndex: 2000,
+          padding: "12px 20px",
+          backgroundColor: "#ff4081",
+          color: "white",
+          border: "none",
+          borderRadius: "50px",
+          boxShadow: "0 2px 6px rgba(0,0,0,0.25)",
+          cursor: "pointer",
+          fontWeight: "bold"
+        }}
+      >
+        Request Assistance
+      </button>
+    )}
 
       <Routes>
         <Route
