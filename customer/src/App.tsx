@@ -138,14 +138,6 @@ function AppContent() {
   const showCartButton = location.pathname !== "/";
 
   return (
-    <Box
-      sx={{
-        width: "100vw",
-        height: "100vh",
-        position: "relative",
-        overflow: "hidden",
-      }}
-    >
     <Box sx={{ width: "100vw", height: "100vh", position: "relative", overflow: "hidden" }}>
       {/* Translation Header */}
       <TranslationHeader />
