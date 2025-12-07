@@ -16,6 +16,14 @@ router.post('/', async (req, res) => {
             0.00,
             orderTimestampRes.rows[0].timestamp
         ]);
+        // update customer points
+        await client.query(
+            `UPDATE customers
+             SET points = points + FLOOR($1)
+             WHERE id = $2`,
+            [1.00, customerId] //TODO replace 1.00 with actual amount when available 
+        );
+
         client.release();
         res.status(201).json({ message: "Customer successfully linked to order" });
     } catch(error) {

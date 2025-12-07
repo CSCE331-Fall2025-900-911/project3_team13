@@ -175,7 +175,8 @@ def gen_customers(n=2500):
             "ID": i,
             "Name": fake.name(),
             "Phone": fake.phone_number(),
-            "Payment": random.choice(payment_methods)
+            "Payment": random.choice(payment_methods),
+            "Points": int(0)
         })
 
 # -----------------------------------------------
@@ -186,7 +187,7 @@ def gen_inventory():
         inventory.append({
             "ID": i,
             "Name": item,
-            "Quantity": random.randint(50, 500)
+            "Quantity": random.randint(5, 50)
         })
 
 # -----------------------------------------------
@@ -224,14 +225,15 @@ def gen_orders_transactions():
     order_id = 1
 
     # ENUM statuses
-    all_statuses = ["pending", "completed", "canceled", "in progress", "ready to pay"]
+    all_statuses = ["pending", "completed", "canceled", "in progress", "ready to pay","new"]
 
     # Preassign exactly 2 of each *non-completed* status
     special_statuses = {
         "pending": 2,
         "canceled": 2,
         "in progress": 2,
-        "ready to pay": 2
+        "ready to pay": 2,
+        "new": 2
     }
 
     # Convert to a list such as:
@@ -306,7 +308,9 @@ def gen_orders_transactions():
         }
 
         orders.append(order)
-        transactions.append(transaction)
+        if status not in ["pending", "ready to pay", "new", "canceled"]:
+            transactions.append(transaction)
+
         total_sales += total
         order_id += 1
 
@@ -321,7 +325,7 @@ def write_csv(filename, fieldnames, data):
             writer.writerow(row)
 
 def export_all():
-    write_csv("customers.csv", ["ID", "Name", "Phone", "Payment"], customers)
+    write_csv("customers.csv", ["ID", "Name", "Phone", "Payment", "Points"], customers)
     
     write_csv("employees.csv", ["ID", "Name", "Username", "Password", "Permissions"], employees)
     write_csv("inventory.csv", ["ID", "Name", "Quantity"], inventory)
