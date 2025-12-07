@@ -43,11 +43,11 @@ export function ManagerReports() {
 
     const OpenXReport = async () => {
         try {
-            const res = await axios.get("http://localhost:3000/api/get-x-report", { timeout: 1000 });
+            const res = await axios.get<XReport>("http://localhost:3000/api/get-x-report", { timeout: 1000 });
             setXReportData({
-                totalSales: 0,
-                cancellations: 0,
-                usedPoints: 0
+                totalSales: res.data.totalSales,
+                cancellations: res.data.cancellations,
+                usedPoints: res.data.usedPoints
             });
             setXOpen(true)
         } catch (err) {
@@ -63,11 +63,11 @@ export function ManagerReports() {
 
     const OpenZReport = async () => {
         try {
-            const res = await axios.get("http://localhost:3000/api/get-z-report", { timeout: 1000 });
+            const res = await axios.get<ZReport>("http://localhost:3000/api/get-z-report", { timeout: 1000 });
             setZReportData({
-                totalSales: 0,
-                numCustomers: 0,
-                numTransactions: 0
+                totalSales: res.data.totalSales,
+                numCustomers: res.data.numCustomers,
+                numTransactions: res.data.numTransactions
             });
             setZOpen(true)
         } catch (err) {

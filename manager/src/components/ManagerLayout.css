@@ -5,6 +5,11 @@ html, body {
     padding: 0;
 }
 
+h4 {
+  display: flex;
+  margin-left: auto;
+}
+
 .manager-layout {
   display: flex;
   flex-direction: column;
