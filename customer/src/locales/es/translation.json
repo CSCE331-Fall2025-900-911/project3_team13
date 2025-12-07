@@ -1,0 +1,59 @@
+{
+  "header": {
+    "selectLanguage": "Haga clic para seleccionar el idioma:",
+    "english": "English",
+    "spanish": "Español",
+    "french": "Français",
+    "german": "Deutsch",
+    "italian": "Italiano"
+  },
+
+  "login": {
+    "welcome": "¡Bienvenido!",
+    "enterName": "Ingrese su nombre",
+    "go": "Ir",
+    "createError": "No se pudo crear el cliente/pedido"
+  },
+
+  "menu": {
+    "searchPlaceholder": "Buscar artículos...",
+    "noItemsFound": "No se encontraron artículos",
+    "viewModify": "Ver / Modificar",
+    "itemNotFound": "Artículo no encontrado",
+    "goBack": "Volver",
+    "defaultDescription": "¡Una bebida deliciosa de nuestro menú!",
+    "series": {
+      "MilkTea": "Té con leche",
+      "FruitTea": "Té de frutas",
+      "SpecialtyDrink": "Bebida especial",
+      "SeasonalItem": "Artículo de temporada"
+    }
+  },
+
+  "modify": {
+    "title": "Personalizar artículo",
+    "ice": "Hielo",
+    "sugar": "Azúcar",
+    "size": "Tamaño",
+    "shots": "Shots adicionales",
+    "notes": "Notas especiales",
+    "addToOrder": "Agregar al pedido",
+    "small": "Pequeño",
+    "medium": "Mediano",
+    "large": "Grande",
+    "none": "Ninguno"
+  },
+
+  "cart": {
+    "yourOrder": "Su pedido",
+    "noItems": "No se han agregado artículos.",
+    "total": "Total:",
+    "checkout": "Pagar",
+    "clearCart": "Vaciar carrito",
+    "sendToCashier": "Enviar al cajero",
+    "sending": "Enviando...",
+    "orderSent": "¡Pedido enviado con éxito!",
+    "ok": "Aceptar",
+    "sendError": "Error al enviar el pedido. Inténtalo de nuevo."
+  }
+}

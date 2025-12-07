@@ -5,6 +5,7 @@ import PhotoIcon from '@mui/icons-material/Photo';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import './Customer.css';
+import { useTranslation } from "react-i18next";
 
 interface CustomerSeriesProps {
   onCartOpen: () => void;
@@ -27,6 +28,7 @@ interface MenuResponse {
 export default function CustomerSeries({ onCartOpen }: CustomerSeriesProps) {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [items, setItems] = useState<MenuItem[]>([]);
 
   useEffect(() => {
@@ -60,7 +62,7 @@ export default function CustomerSeries({ onCartOpen }: CustomerSeriesProps) {
         <IconButton onClick={() => navigate('/menu')}>
           <ArrowBackIcon />
         </IconButton>
-        <h1>{id?.replace(/-/g, ' ')}</h1>
+        <h1>{t(`menu.series.${id?.replace(/\s+/g, '')}`)}</h1>
       </Box>
 
       {/* Items */}
@@ -78,12 +80,12 @@ export default function CustomerSeries({ onCartOpen }: CustomerSeriesProps) {
                   navigate(`/series/${encodeURIComponent(id!)}/item/${encodeURIComponent(item.name)}`)
                 }
               >
-                View / Modify
+                {t('menu.viewModify')}
               </Button>
             </Box>
           ))
         ) : (
-          <p>No items found for this category.</p>
+          <p>{t('menu.noItemsFound')}</p>
         )}
       </Box>
     </Box>

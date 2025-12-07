@@ -10,6 +10,7 @@ import { Box, IconButton, Slide } from "@mui/material";
 import axios from 'axios';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import TranslationHeader from "./components/TranslationHeader";
 import CustomerLogin from "./components/CustomerLogin";
 import CustomerMenu from "./components/CustomerMenu";
 import CustomerSeries from "./components/CustomerSeries";
@@ -83,6 +84,9 @@ function AppContent() {
 
   return (
     <Box sx={{ width: "100vw", height: "100vh", position: "relative", overflow: "hidden" }}>
+      {/* Translation Header */}
+      <TranslationHeader />
+      
       {/* Cart button */}
       {showCartButton && location.pathname !== "/checkout" && (
         <IconButton
