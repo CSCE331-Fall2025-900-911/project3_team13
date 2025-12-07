@@ -4,8 +4,9 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import PhotoIcon from '@mui/icons-material/Photo';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-import './Customer.css';
 import { useTranslation } from "react-i18next";
+import { translateText } from '../services/translationService';
+import './Customer.css';
 
 interface CustomerSeriesProps {
   onCartOpen: () => void;
@@ -15,6 +16,7 @@ interface CustomerSeriesProps {
 interface MenuItem {
   id: number;
   name: string;
+  translatedName?: string;
   category: string;
   price: string | number; // PostgreSQL may return numeric as string
 }
@@ -28,7 +30,7 @@ interface MenuResponse {
 export default function CustomerSeries({ onCartOpen }: CustomerSeriesProps) {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [items, setItems] = useState<MenuItem[]>([]);
 
   useEffect(() => {
@@ -40,7 +42,16 @@ export default function CustomerSeries({ onCartOpen }: CustomerSeriesProps) {
         );
 
         // Ensure TypeScript knows what type we're getting
-        const drinks = res.data.drinks || [];
+        let drinks = res.data.drinks || [];
+        
+        // Translate item names if not English
+        if (i18n.language !== 'en') {
+          drinks = await Promise.all(drinks.map(async (item) => ({
+            ...item,
+            translatedName: await translateText(item.name, i18n.language)
+          })));
+        }
+        
         setItems(drinks);
 
         // Debugging: check what price looks like
@@ -53,7 +64,7 @@ export default function CustomerSeries({ onCartOpen }: CustomerSeriesProps) {
     if (id) {
       fetchItems();
     }
-  }, [id]);
+  }, [id, i18n.language]);
 
   return (
     <Box className="series-page">
@@ -71,7 +82,7 @@ export default function CustomerSeries({ onCartOpen }: CustomerSeriesProps) {
           items.map((item) => (
             <Box key={item.id} className="series-item-card">
               <PhotoIcon sx={{ fontSize: 60, color: '#aaa' }} />
-              <h2>{item.name}</h2>
+              <h2>{item.translatedName || item.name}</h2>
               {/* Convert price to number safely */}
               <p>${item.price != null ? Number(item.price).toFixed(2) : 'N/A'}</p>
               <Button

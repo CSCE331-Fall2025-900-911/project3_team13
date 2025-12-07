@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react';
 import { Box, Button, TextField, Paper, List, ListItem, ListItemText, CircularProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import './Customer.css';
 import { useTranslation } from "react-i18next";
+import { translateText } from '../services/translationService';
+import './Customer.css';
 
 interface MenuItem {
   id: number;
   name: string;
+  translatedName?: string;
   category: string;
   price?: number;
 }
@@ -30,7 +32,7 @@ export default function CustomerMenu({ onCartOpen }: Props) {
   const [items, setItems] = useState<MenuItem[]>([]);
   const [filteredItems, setFilteredItems] = useState<MenuItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const seriesList = [
     { id: 'Milk Tea', name: 'Milk Tea' },
@@ -56,6 +58,13 @@ export default function CustomerMenu({ onCartOpen }: Props) {
           price: item.price
         }));
 
+        // Translate item names if not English
+        if (i18n.language !== 'en') {
+          for (let item of allItems) {
+            item.translatedName = await translateText(item.name, i18n.language);
+          }
+        }
+
         setItems(allItems);
         setFilteredItems(allItems);
       } catch (err) {
@@ -66,7 +75,7 @@ export default function CustomerMenu({ onCartOpen }: Props) {
     };
 
     fetchAllItems();
-  }, []);
+  }, [i18n.language]);
 
   // Filter items based on search
   useEffect(() => {
@@ -117,8 +126,8 @@ export default function CustomerMenu({ onCartOpen }: Props) {
                     }
                   >
                     <ListItemText
-                      primary={`${item.name} - $${item.price ? Number(item.price).toFixed(2) : 'N/A'}`}
-                      secondary={t(`cart.menu.{item.category}`)}
+                      primary={`${item.translatedName || item.name} - $${item.price ? Number(item.price).toFixed(2) : 'N/A'}`}
+                      secondary={item.category}
                     />
                   </ListItem>
                 ))}
