@@ -36,7 +36,12 @@
 
 .series-head {
     text-align: center;
+    align-items: center;
     margin-bottom: 20px;
     display: flex;
-    border: solid 1px #000000;
+}
+
+.series-head .MuiButton-root {
+    margin-left: auto;
+    height: 40px;
 }

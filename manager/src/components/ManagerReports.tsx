@@ -43,11 +43,11 @@ export function ManagerReports() {
 
     const OpenXReport = async () => {
         try {
-            const res = await axios.get("http://localhost:3000/api/get-x-report", { timeout: 1000 });
+            const res = await axios.get<XReport>("http://localhost:3000/api/get-x-report", { timeout: 1000 });
             setXReportData({
-                totalSales: 0,
-                cancellations: 0,
-                usedPoints: 0
+                totalSales: res.data.totalSales,
+                cancellations: res.data.cancellations,
+                usedPoints: res.data.usedPoints
             });
             setXOpen(true)
         } catch (err) {
@@ -63,11 +63,11 @@ export function ManagerReports() {
 
     const OpenZReport = async () => {
         try {
-            const res = await axios.get("http://localhost:3000/api/get-z-report", { timeout: 1000 });
+            const res = await axios.get<ZReport>("http://localhost:3000/api/get-z-report", { timeout: 1000 });
             setZReportData({
-                totalSales: 0,
-                numCustomers: 0,
-                numTransactions: 0
+                totalSales: res.data.totalSales,
+                numCustomers: res.data.numCustomers,
+                numTransactions: res.data.numTransactions
             });
             setZOpen(true)
         } catch (err) {
@@ -161,17 +161,19 @@ export function ManagerReports() {
                     <h2 style={{ color: 'black', textAlign: 'center', marginBottom: '10px' }}>
                         Order Trends
                     </h2>
-                    <LineChart width={600} height={300} data={trendData}>
+                    <LineChart width={400} height={200} data={trendData}>
                         <XAxis 
                             dataKey="name" 
                             tick={{ fill: 'black' }} 
                             axisLine={{ stroke: 'black' }}
                             tickLine={{ stroke: 'black' }}
+                            label={{ value: "Date", position: "insideBottom", offset: -5, fill: "black" }}
                         />
                         <YAxis 
                             tick={{ fill: 'black' }}
                             axisLine={{ stroke: 'black' }}
                             tickLine={{ stroke: 'black' }}
+                            label={{ value: "Items Sold", angle: -90, position: "insideLeft", fill: "black" }}
                         />
                         <Tooltip 
                             contentStyle={{ color: 'black', backgroundColor: 'white' }}
@@ -190,17 +192,19 @@ export function ManagerReports() {
                         Sales History
                     </h2>
 
-                    <LineChart width={600} height={300} data={transactionData}>
+                    <LineChart width={400} height={200} data={transactionData}>
                         <XAxis 
                             dataKey="name" 
                             tick={{ fill: 'black' }} 
                             axisLine={{ stroke: 'black' }}
                             tickLine={{ stroke: 'black' }}
+                            label={{ value: "Date", position: "insideBottom", offset: -5, fill: "black" }}
                         />
                         <YAxis 
                             tick={{ fill: 'black' }} 
                             axisLine={{ stroke: 'black' }}
                             tickLine={{ stroke: 'black' }}
+                            label={{ value: "Revenue ($)", angle: -90, position: "insideLeft", fill: "black" }}
                         />
                         <Tooltip 
                             contentStyle={{ color: 'black', backgroundColor: 'white' }}
@@ -228,16 +232,20 @@ export function ManagerReports() {
                 </div>
             </div>
             <Dialog open={xOpen} onClose={() => setXOpen(false)}>
-                <h1>X Report</h1>
-                <h3>Total Sales: {xReportData?.totalSales}</h3>
-                <h3>Cancellations: {xReportData?.cancellations}</h3>
-                <h3>Award Points Used: {xReportData?.usedPoints}</h3>
+                <div className='report-dialog'>
+                    <h1>X Report</h1>
+                    <h3>Total Sales: {xReportData?.totalSales}</h3>
+                    <h3>Cancellations: {xReportData?.cancellations}</h3>
+                    <h3>Award Points Used: {xReportData?.usedPoints}</h3>
+                </div>
             </Dialog>
             <Dialog open={zOpen} onClose={() => setZOpen(false)}>
-                <h1>Z Report</h1>
-                <h3>Total Sales: {zReportData?.totalSales}</h3>
-                <h3>Customers: {zReportData?.numCustomers}</h3>
-                <h3>Transactions: {zReportData?.numTransactions}</h3>
+                <div className='report-dialog'>
+                    <h1>Z Report</h1>
+                    <h3>Total Sales: {zReportData?.totalSales}</h3>
+                    <h3>Customers: {zReportData?.numCustomers}</h3>
+                    <h3>Transactions: {zReportData?.numTransactions}</h3>
+                </div>
             </Dialog>
         </div>
     )

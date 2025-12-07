@@ -2,12 +2,23 @@
     display: flex;
     flex-direction: row;
     flex: auto;
+    width: 65vw;
+    flex-wrap: wrap;
+    overflow-y: scroll;
 }
 
 .order-item-card {
     background-color: #d9d9d9;
     margin: 10px;
-    height: 200px;
-    width: 200px;
+    height: 180px;
+    width: 180px;
     padding: 5px;
+}
+
+.order-item-card h2, .order-item-card p {
+    text-overflow: ellipsis;
+}
+
+.order-item-card h2, .order-item-card p {
+    margin: 0;
 }

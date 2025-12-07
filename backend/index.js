@@ -9,7 +9,7 @@ const port = 3000;
 
 // change origin link to deployment link when deploying
 const corsConfig = {
-  origin: 'http://localhost:5173',
+  origins: ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization']
@@ -52,9 +52,13 @@ app.use('/auth', require('./routes/authRoute'));
 app.use('/api/inventory', require('./routes/managerInventoryRoutes'));
 app.use('/api/employees', require('./routes/managerEmployeeRoutes'));
 app.use('/api/manager-analytics', require('./routes/managerAnalyticsRoutes'));
+<<<<<<< HEAD
 app.use('/api/customers', require('./routes/getCustomerPoints'));
 app.use('/api/customers', require('./routes/redeemCustomerPoints'));
 
+=======
+app.use('/api/weather', require('./routes/getWeatherData'));
+>>>>>>> 558914b01cf5e6101ef5e2f1b5d46213285e4c30
 
 //manager update
 app.use('/api/update-menu-item', require('./routes/updateMenuItem'));
