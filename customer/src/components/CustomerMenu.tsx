@@ -118,7 +118,7 @@ export default function CustomerMenu({ onCartOpen }: Props) {
                   >
                     <ListItemText
                       primary={`${item.name} - $${item.price ? Number(item.price).toFixed(2) : 'N/A'}`}
-                      secondary={item.category}
+                      secondary={t(`cart.menu.{item.category}`)}
                     />
                   </ListItem>
                 ))}
@@ -137,7 +137,7 @@ export default function CustomerMenu({ onCartOpen }: Props) {
             className="menu-series-button"
             onClick={() => navigate(`/series/${encodeURIComponent(series.id)}`)}
           >
-            {series.name}
+            {t(`menu.series.${series.id.replace(/\s+/g, '')}`)}
           </Button>
         ))}
       </Box>

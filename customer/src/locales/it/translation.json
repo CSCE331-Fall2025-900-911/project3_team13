@@ -18,12 +18,30 @@
   "menu": {
     "searchPlaceholder": "Cerca articoli...",
     "noItemsFound": "Nessun articolo trovato",
+    "viewModify": "Visualizza / Modifica",
+    "itemNotFound": "Articolo non trovato",
+    "goBack": "Indietro",
+    "defaultDescription": "Una bevanda deliziosa dal nostro menu!",
     "series": {
-      "milkTea": "Tè al latte",
-      "fruitTea": "Tè alla frutta",
-      "specialtyDrink": "Bevanda speciale",
-      "seasonalItem": "Articolo stagionale"
+      "MilkTea": "Tè al latte",
+      "FruitTea": "Tè alla frutta",
+      "SpecialtyDrink": "Bevanda speciale",
+      "SeasonalItem": "Articolo stagionale"
     }
+  },
+
+  "modify": {
+    "title": "Personalizza articolo",
+    "ice": "Ghiaccio",
+    "sugar": "Zucchero",
+    "size": "Dimensione",
+    "shots": "Shot extra",
+    "notes": "Note speciali",
+    "addToOrder": "Aggiungi all'ordine",
+    "small": "Piccolo",
+    "medium": "Medio",
+    "large": "Grande",
+    "none": "Nessuno"
   },
 
   "cart": {

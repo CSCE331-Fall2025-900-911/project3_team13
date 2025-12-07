@@ -19,10 +19,10 @@
     "searchPlaceholder": "Search items...",
     "noItemsFound": "No items found",
     "series": {
-      "milkTea": "Milk Tea",
-      "fruitTea": "Fruit Tea",
-      "specialtyDrink": "Specialty Drink",
-      "seasonalItem": "Seasonal Item"
+      "Milk Tea": "Milk Tea",
+      "Fruit Tea": "Fruit Tea",
+      "Specialty Drink": "Specialty Drink",
+      "Seasonal Item": "Seasonal Item"
     }
   },
 

@@ -29,20 +29,6 @@ export default function CustomerCheckout({ cartItems, clearCart }: CheckoutProps
     setLoading(true);
 
     try {
-      /*
-      // Prepare payload for backend
-      const payload = {
-        items: items.map((item) => ({
-          id: item.id,
-          name: item.name,
-          price: item.price,
-          customizations: item.customizations || {},
-        })),
-        total,
-      };
-
-      // Send POST request to create new order
-      //const res = await axios.post("http://localhost:3000/api/new-order", payload); */
       const orderIdStr = localStorage.getItem('orderId');
       if(orderIdStr === null) {
         console.error("No valid order");
@@ -76,7 +62,7 @@ export default function CustomerCheckout({ cartItems, clearCart }: CheckoutProps
   return (
     <Box sx={{ p: 4, color: "#000", width: "100%" }}>
       <Typography variant="h4" sx={{ mb: 3, fontWeight: "bold", textAlign: "center" }}>
-        Total: ${total.toFixed(2)}
+        {t('cart.total')} ${total.toFixed(2)}
       </Typography>
       <Divider sx={{ mb: 2 }} />
 
@@ -124,16 +110,16 @@ export default function CustomerCheckout({ cartItems, clearCart }: CheckoutProps
           onClick={handleSend}
           disabled={items.length === 0 || loading}
         >
-          {loading ? "Sending..." : "Send to Cashier"}
+          {loading ? t('cart.sending') : t('cart.sendToCashier')}
         </Button>
       </Box>
 
       {/* Confirmation Dialog */}
       <Dialog open={doneOpen} onClose={handleClose}>
         <Box sx={{ p: 3, textAlign: "center" }}>
-          <Typography variant="h6">Order sent successfully!</Typography>
+          <Typography variant="h6">{t('cart.orderSent')}</Typography>
           <Button sx={{ mt: 2 }} onClick={handleClose}>
-            OK
+            {t('cart.ok')}
           </Button>
         </Box>
       </Dialog>

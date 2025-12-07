@@ -18,12 +18,30 @@
   "menu": {
     "searchPlaceholder": "Buscar artículos...",
     "noItemsFound": "No se encontraron artículos",
+    "viewModify": "Ver / Modificar",
+    "itemNotFound": "Artículo no encontrado",
+    "goBack": "Volver",
+    "defaultDescription": "¡Una bebida deliciosa de nuestro menú!",
     "series": {
-      "milkTea": "Té con leche",
-      "fruitTea": "Té de frutas",
-      "specialtyDrink": "Bebida especial",
-      "seasonalItem": "Artículo de temporada"
+      "MilkTea": "Té con leche",
+      "FruitTea": "Té de frutas",
+      "SpecialtyDrink": "Bebida especial",
+      "SeasonalItem": "Artículo de temporada"
     }
+  },
+
+  "modify": {
+    "title": "Personalizar artículo",
+    "ice": "Hielo",
+    "sugar": "Azúcar",
+    "size": "Tamaño",
+    "shots": "Shots adicionales",
+    "notes": "Notas especiales",
+    "addToOrder": "Agregar al pedido",
+    "small": "Pequeño",
+    "medium": "Mediano",
+    "large": "Grande",
+    "none": "Ninguno"
   },
 
   "cart": {

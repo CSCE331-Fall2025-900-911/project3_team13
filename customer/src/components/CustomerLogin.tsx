@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, TextField } from '@mui/material';
 import axios from 'axios';
-import TranslationHeader from './TranslationHeader';
 import './Customer.css';
 import { useTranslation } from "react-i18next";
 
@@ -54,29 +53,26 @@ export default function CustomerLogin() {
   };
 
   return (
-    <>
-      <TranslationHeader />
-      <div className="login-container">
-        <div className="login-box">
-          <h1 className="login-title">{t('login.welcome')}</h1>
-          <TextField
-            label={t('login.enterName')}
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            variant="outlined"
-            fullWidth
-          />
-          <Button
-            variant="contained"
-            onClick={handleGo}
-            fullWidth
-            size="large"
-            sx={{ mt: 2 }}
-          >
-            {t('login.go')}
-          </Button>
-        </div>
+    <div className="login-container">
+      <div className="login-box">
+        <h1 className="login-title">{t('login.welcome')}</h1>
+        <TextField
+          label={t('login.enterName')}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          variant="outlined"
+          fullWidth
+        />
+        <Button
+          variant="contained"
+          onClick={handleGo}
+          fullWidth
+          size="large"
+          sx={{ mt: 2 }}
+        >
+          {t('login.go')}
+        </Button>
       </div>
-    </>
+    </div>
   );
 }

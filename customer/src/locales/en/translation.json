@@ -18,12 +18,30 @@
   "menu": {
     "searchPlaceholder": "Search items...",
     "noItemsFound": "No items found",
+    "viewModify": "View / Modify",
+    "itemNotFound": "Item not found",
+    "goBack": "Go Back",
+    "defaultDescription": "Delicious drink from our menu!",
     "series": {
-      "milkTea": "Milk Tea",
-      "fruitTea": "Fruit Tea",
-      "specialtyDrink": "Specialty Drink",
-      "seasonalItem": "Seasonal Item"
+      "MilkTea": "Milk Tea",
+      "FruitTea": "Fruit Tea",
+      "SpecialtyDrink": "Specialty Drink",
+      "SeasonalItem": "Seasonal Item"
     }
+  },
+
+  "modify": {
+    "title": "Customize Item",
+    "ice": "Ice",
+    "sugar": "Sugar",
+    "size": "Size",
+    "shots": "Extra Shots",
+    "notes": "Special Notes",
+    "addToOrder": "Add to Order",
+    "small": "Small",
+    "medium": "Medium",
+    "large": "Large",
+    "none": "None"
   },
 
   "cart": {

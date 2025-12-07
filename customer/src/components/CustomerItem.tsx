@@ -26,6 +26,7 @@ export default function CustomerItem({ onBack, onAddToCart, onModify }: Customer
   const { categoryName, itemName } = useParams<{ categoryName: string; itemName: string }>();
   const [item, setItem] = useState<FoodItem | null>(null);
   const [modifyOpen, setModifyOpen] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchItem = async () => {
@@ -44,7 +45,7 @@ export default function CustomerItem({ onBack, onAddToCart, onModify }: Customer
             id: found.id,
             name: found.name,
             price: Number(found.price),
-            description: found.description || 'Delicious drink from our menu!',
+            description: found.description || t('menu.defaultDescription'),
           });
         }
       } catch (err) {
@@ -63,8 +64,8 @@ export default function CustomerItem({ onBack, onAddToCart, onModify }: Customer
   if (!item) {
     return (
       <Box textAlign="center" mt={4}>
-        <Typography variant="h6">Item not found</Typography>
-        <Button onClick={onBack}>Go Back</Button>
+        <Typography variant="h6">{t('menu.itemNotFound')}</Typography>
+        <Button onClick={onBack}>{t('menu.goBack')}</Button>
       </Box>
     );
   }
@@ -84,10 +85,10 @@ export default function CustomerItem({ onBack, onAddToCart, onModify }: Customer
         </Box>
 
         <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" width="40%" textAlign="center">
-          <Button variant="contained" color="primary" sx={{ mb: 1 }} onClick={() => onAddToCart(item)}>Add to Order</Button>
+          <Button variant="contained" color="primary" sx={{ mb: 1 }} onClick={() => onAddToCart(item)}>{t('modify.addToOrder')}</Button>
           <Typography variant="body2" sx={{ mb: 1, color: '#000' }}>{item.description}</Typography>
           <Button variant="outlined" color="secondary" onClick={() => { if (onModify) onModify(item); else setModifyOpen(true); }}>
-            Modify
+            {t('menu.viewModify')}
           </Button>
         </Box>
 

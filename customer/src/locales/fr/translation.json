@@ -18,12 +18,30 @@
   "menu": {
     "searchPlaceholder": "Rechercher des articles...",
     "noItemsFound": "Aucun article trouvé",
+    "viewModify": "Afficher / Modifier",
+    "itemNotFound": "Article non trouvé",
+    "goBack": "Retour",
+    "defaultDescription": "Une boisson délicieuse de notre menu!",
     "series": {
-      "milkTea": "Thé au lait",
-      "fruitTea": "Thé aux fruits",
-      "specialtyDrink": "Boisson spéciale",
-      "seasonalItem": "Article saisonnier"
+      "MilkTea": "Thé au lait",
+      "FruitTea": "Thé aux fruits",
+      "SpecialtyDrink": "Boisson spéciale",
+      "SeasonalItem": "Article saisonnier"
     }
+  },
+
+  "modify": {
+    "title": "Personnaliser l'article",
+    "ice": "Glaçons",
+    "sugar": "Sucre",
+    "size": "Taille",
+    "shots": "Shots supplémentaires",
+    "notes": "Notes spéciales",
+    "addToOrder": "Ajouter à la commande",
+    "small": "Petit",
+    "medium": "Moyen",
+    "large": "Grand",
+    "none": "Aucun"
   },
 
   "cart": {
