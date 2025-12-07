@@ -9,6 +9,7 @@ import {
   Box,
 } from "@mui/material";
 import { FoodItem } from "../types";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   open: boolean;

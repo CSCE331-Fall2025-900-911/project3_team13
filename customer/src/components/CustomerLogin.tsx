@@ -4,10 +4,12 @@ import { Button, TextField } from '@mui/material';
 import axios from 'axios';
 import TranslationHeader from './TranslationHeader';
 import './Customer.css';
+import { useTranslation } from "react-i18next";
 
 export default function CustomerLogin() {
   const [name, setName] = useState('');
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleGo = async () => {
     if (name.trim() !== '') {
@@ -46,7 +48,7 @@ export default function CustomerLogin() {
         navigate('/menu');
       } catch(error) {
         console.error(error);
-        alert("Could not establish customer/order");
+        alert(t('login.createError'));
       }
     }
   };
@@ -56,9 +58,9 @@ export default function CustomerLogin() {
       <TranslationHeader />
       <div className="login-container">
         <div className="login-box">
-          <h1 className="login-title">Welcome!</h1>
+          <h1 className="login-title">{t('login.welcome')}</h1>
           <TextField
-            label="Enter your name"
+            label={t('login.enterName')}
             value={name}
             onChange={(e) => setName(e.target.value)}
             variant="outlined"
@@ -71,7 +73,7 @@ export default function CustomerLogin() {
             size="large"
             sx={{ mt: 2 }}
           >
-            Go
+            {t('login.go')}
           </Button>
         </div>
       </div>

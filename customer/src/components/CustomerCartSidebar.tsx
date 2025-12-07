@@ -2,7 +2,7 @@ import { Box, Typography, Button, Divider, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { FoodItem } from "../types";
-
+import { useTranslation } from "react-i18next";
 interface Props {
   open: boolean;
   onClose: () => void;
@@ -19,6 +19,7 @@ export default function CustomerCartSidebar({
   setCartItems,
   onCheckout,
 }: Props) {
+  const { t } = useTranslation();
   const removeItem = (index: number) => {
     setCartItems((prev) => prev.filter((_, i) => i !== index));
   };
@@ -30,7 +31,7 @@ export default function CustomerCartSidebar({
       {/* Header */}
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
         <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-          Your Order
+          {t('cart.yourOrder')}
         </Typography>
         <IconButton onClick={onClose}>
           <CloseIcon />
@@ -41,7 +42,7 @@ export default function CustomerCartSidebar({
       {/* Cart items */}
       <Box flexGrow={1} overflow="auto">
         {cartItems.length === 0 ? (
-          <Typography color="text.secondary">No items added yet.</Typography>
+          <Typography color="text.secondary">{t('cart.noItems')}</Typography>
         ) : (
           cartItems.map((item, index) => (
             <Box
@@ -79,7 +80,7 @@ export default function CustomerCartSidebar({
 
       {/* Footer */}
       <Typography variant="h6" textAlign="center" mb={1}>
-        Total: ${total.toFixed(2)}
+        {t('cart.total')} ${total.toFixed(2)}
       </Typography>
       <Button
         variant="contained"
@@ -89,7 +90,7 @@ export default function CustomerCartSidebar({
         onClick={onCheckout}
         disabled={cartItems.length === 0}
       >
-        Checkout
+        {t('cart.checkout')}
       </Button>
       <Button
         variant="outlined"
@@ -98,7 +99,7 @@ export default function CustomerCartSidebar({
         onClick={clearCart}
         disabled={cartItems.length === 0}
       >
-        Clear Cart
+        {t('cart.clearCart')}
       </Button>
     </Box>
   );

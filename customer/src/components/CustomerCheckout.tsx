@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FoodItem } from "../types";
+import { useTranslation } from "react-i18next";
 
 interface CheckoutProps {
   cartItems: FoodItem[];
@@ -12,6 +13,7 @@ interface CheckoutProps {
 
 export default function CustomerCheckout({ cartItems, clearCart }: CheckoutProps) {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [items, setItems] = useState(cartItems);
   const [doneOpen, setDoneOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -60,7 +62,7 @@ export default function CustomerCheckout({ cartItems, clearCart }: CheckoutProps
       setDoneOpen(true);
     } catch (err) {
       console.error("Failed to create order:", err);
-      alert("Failed to send order. Please try again.");
+      alert(t('cart.sendError'));
     } finally {
       setLoading(false);
     }

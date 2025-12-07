@@ -1,0 +1,41 @@
+{
+  "header": {
+    "selectLanguage": "Clicca per selezionare la lingua:",
+    "english": "English",
+    "spanish": "Español",
+    "french": "Français",
+    "german": "Deutsch",
+    "italian": "Italiano"
+  },
+
+  "login": {
+    "welcome": "Benvenuto!",
+    "enterName": "Inserisci il tuo nome",
+    "go": "Vai",
+    "createError": "Impossibile creare cliente/ordine"
+  },
+
+  "menu": {
+    "searchPlaceholder": "Cerca articoli...",
+    "noItemsFound": "Nessun articolo trovato",
+    "series": {
+      "milkTea": "Tè al latte",
+      "fruitTea": "Tè alla frutta",
+      "specialtyDrink": "Bevanda speciale",
+      "seasonalItem": "Articolo stagionale"
+    }
+  },
+
+  "cart": {
+    "yourOrder": "Il tuo ordine",
+    "noItems": "Nessun articolo aggiunto.",
+    "total": "Totale:",
+    "checkout": "Pagamento",
+    "clearCart": "Svuota carrello",
+    "sendToCashier": "Invia alla cassa",
+    "sending": "Invio...",
+    "orderSent": "Ordine inviato con successo!",
+    "ok": "OK",
+    "sendError": "Errore nell'invio dell'ordine. Per favore riprova."
+  }
+}

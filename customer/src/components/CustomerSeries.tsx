@@ -5,6 +5,7 @@ import PhotoIcon from '@mui/icons-material/Photo';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import './Customer.css';
+import { useTranslation } from "react-i18next";
 
 interface CustomerSeriesProps {
   onCartOpen: () => void;

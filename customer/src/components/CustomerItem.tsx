@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import CustomerModify from './CustomerModify';
 import { FoodItem } from '../types';
+import { useTranslation } from "react-i18next";
 
 interface CustomerItemProps {
   onBack: () => void;
