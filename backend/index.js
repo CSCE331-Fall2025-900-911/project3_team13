@@ -53,6 +53,7 @@ app.use('/api/inventory', require('./routes/managerInventoryRoutes'));
 app.use('/api/employees', require('./routes/managerEmployeeRoutes'));
 app.use('/api/manager-analytics', require('./routes/managerAnalyticsRoutes'));
 app.use('/api/weather', require('./routes/getWeatherData'));
+app.use('/api/assistance', require('./routes/assistanceRoute'));
 
 //manager update
 app.use('/api/update-menu-item', require('./routes/updateMenuItem'));
