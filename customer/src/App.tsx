@@ -19,6 +19,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 
+import TranslationHeader from "./components/TranslationHeader";
 import CustomerLogin from "./components/CustomerLogin";
 import CustomerMenu from "./components/CustomerMenu";
 import CustomerSeries from "./components/CustomerSeries";
@@ -145,6 +146,10 @@ function AppContent() {
         overflow: "hidden",
       }}
     >
+    <Box sx={{ width: "100vw", height: "100vh", position: "relative", overflow: "hidden" }}>
+      {/* Translation Header */}
+      <TranslationHeader />
+      
       {/* Cart button */}
       {showCartButton && location.pathname !== "/checkout" && (
         <IconButton

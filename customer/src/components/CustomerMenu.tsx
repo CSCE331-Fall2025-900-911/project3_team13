@@ -3,6 +3,7 @@ import { Box, Button, TextField, Paper, List, ListItem, ListItemText, CircularPr
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Customer.css';
+import { useTranslation } from "react-i18next";
 
 interface MenuItem {
   id: number;
@@ -29,6 +30,7 @@ export default function CustomerMenu({ onCartOpen }: Props) {
   const [items, setItems] = useState<MenuItem[]>([]);
   const [filteredItems, setFilteredItems] = useState<MenuItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
 
   const seriesList = [
     { id: 'Milk Tea', name: 'Milk Tea' },
@@ -76,7 +78,7 @@ export default function CustomerMenu({ onCartOpen }: Props) {
     <Box className="menu-page" position="relative">
       <Box className="menu-top-bar">
         <TextField
-          placeholder="Search items..."
+          placeholder={t('menu.searchPlaceholder')}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           size="small"
@@ -102,7 +104,7 @@ export default function CustomerMenu({ onCartOpen }: Props) {
               </Box>
             ) : filteredItems.length === 0 ? (
               <ListItem>
-                <ListItemText primary="No items found" />
+                <ListItemText primary={t('menu.noItemsFound')} />
               </ListItem>
             ) : (
               <List>
@@ -116,7 +118,7 @@ export default function CustomerMenu({ onCartOpen }: Props) {
                   >
                     <ListItemText
                       primary={`${item.name} - $${item.price ? Number(item.price).toFixed(2) : 'N/A'}`}
-                      secondary={item.category}
+                      secondary={t(`cart.menu.{item.category}`)}
                     />
                   </ListItem>
                 ))}
@@ -135,7 +137,7 @@ export default function CustomerMenu({ onCartOpen }: Props) {
             className="menu-series-button"
             onClick={() => navigate(`/series/${encodeURIComponent(series.id)}`)}
           >
-            {series.name}
+            {t(`menu.series.${series.id.replace(/\s+/g, '')}`)}
           </Button>
         ))}
       </Box>
