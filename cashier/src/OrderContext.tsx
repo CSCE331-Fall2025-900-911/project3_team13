@@ -30,6 +30,7 @@ export const OrderContext = createContext<{
     orderItems: OrderItem[];
     createOrder: () => Promise<number | null>;
     completeOrder: () => Promise<void>;
+    loadOrder: (orderId: number) => Promise<void>;
     cancelOrder: () => Promise<void>;
     addItemToOrder: (item: OrderItem) => void;
     deleteItemFromOrder: (itemId: number) => void;
@@ -97,7 +98,7 @@ export default function OrderProvider({ children }: { children: React.ReactNode 
         
     }
 
-    // To be implemented in the future; checkout process
+    // Checkout process
     const completeOrder = async () => {
         // update transactions table
         const total = orderItems.reduce((sum: number, item: OrderItem) => sum + item.price, 0);
@@ -114,6 +115,20 @@ export default function OrderProvider({ children }: { children: React.ReactNode 
             alert("Checkout failed.");
         }
         
+    }
+
+    // Loads order by ID
+    const loadOrder = async (orderId: number) => {
+        try {
+            const res = await axios.get(encodeURI(`http://localhost:3000/api/load-order?id=${orderId}`));
+            setOrderId(orderId);
+            setOrderStatus(res.data.status);
+            setOrderItems(res.data.items);
+            console.log("Order loaded:", res.data);
+        } catch(error) {
+            console.error("Error loading order:", error);
+            alert("Could not load order.");
+        }
     }
 
     // Cancels the current order and starts over
@@ -138,6 +153,7 @@ export default function OrderProvider({ children }: { children: React.ReactNode 
         orderItems,
         createOrder,
         completeOrder,
+        loadOrder,
         cancelOrder,
         addItemToOrder,
         deleteItemFromOrder
