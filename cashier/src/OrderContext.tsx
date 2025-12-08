@@ -102,7 +102,7 @@ export default function OrderProvider({ children }: { children: React.ReactNode 
         // update transactions table
         const total = orderItems.reduce((sum: number, item: OrderItem) => sum + item.price, 0);
         try {
-            await axios.patch("http://localhost:3000/api/checkout", {
+            await axios.patch("https://project3-team13-backend.onrender.com/api/checkout", {
                 orderId: orderId,
                 total: total,
                 status: 'in progress'

@@ -32,7 +32,7 @@ export function ManagerOverview() {
     const getLowQuantity = async () => {
         try {
             const lowStockRes = await axios.get<{ lowQuantityItems: LowStockItemResponse[] }>(
-                "http://localhost:3000/api/inventory/get-low-quantity"
+                "https://project3-team13-backend.onrender.com/api/inventory/get-low-quantity"
             );
 
             const items = lowStockRes.data.lowQuantityItems.map(item => ({
@@ -49,7 +49,7 @@ export function ManagerOverview() {
     const getOrdersPerItem = async () => {
         try {
             const res = await axios.get<{ ordersPerItem: { item_name: string; count: number }[] }>(
-                "http://localhost:3000/api/manager-analytics/orders-per-item-today"
+                "https://project3-team13-backend.onrender.com/api/manager-analytics/orders-per-item-today"
             );
 
             const mapped: OrdersPerItemResponse[] = res.data.ordersPerItem.map(item => ({
@@ -66,7 +66,7 @@ export function ManagerOverview() {
     const getHourlySales = async () => {
         try {
             const res = await axios.get<{ hourlySales: HourlySalesResponse[] }>(
-                "http://localhost:3000/api/manager-analytics/hourly-sales-today"
+                "https://project3-team13-backend.onrender.com/api/manager-analytics/hourly-sales-today"
             );
             setHourlySales(res.data.hourlySales);
         } catch (err) {

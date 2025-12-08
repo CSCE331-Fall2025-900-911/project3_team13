@@ -18,7 +18,7 @@ export default function CustomerLogin() {
 
         // part 1: create new order
         const newOrder = await axios.post<{ orderId: number }>(
-          "http://localhost:3000/api/new-order"
+          "https://project3-team13-backend.onrender.com/api/new-order"
         );
 
         const orderId = newOrder.data.orderId;
@@ -26,7 +26,7 @@ export default function CustomerLogin() {
 
         // part 2: add customer
         const addCustomerRes = await axios.post<{ message: string, customerId: number }>(
-          "http://localhost:3000/api/add-customer",
+          "https://project3-team13-backend.onrender.com/api/add-customer",
           {
             customerName: name,
             customerPhone: ''
@@ -35,7 +35,7 @@ export default function CustomerLogin() {
         const customerId = addCustomerRes.data.customerId;
 
         // part 3: link them to order
-        await axios.post("http://localhost:3000/api/link-customer-to-order", {
+        await axios.post("https://project3-team13-backend.onrender.com/api/link-customer-to-order", {
           orderId: orderId,
           customerId: customerId,
           employeeId: 1 // currently set to the first employee, we can find a workaround for this

@@ -12,7 +12,6 @@ i18n
         load: 'languageOnly',
         fallbackLng: 'en',
         debug: true,
-        // Load all languages from public folder on demand
         backend: {
             loadPath: '/locales/{{lng}}/translation.json',
         },

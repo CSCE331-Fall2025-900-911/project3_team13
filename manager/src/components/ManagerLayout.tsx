@@ -39,7 +39,7 @@ export function ManagerLayout() {
 
     const GetWeather = async () => {
         try {
-            const response = await axios.get<WeatherData>('http://localhost:3000/api/weather');
+            const response = await axios.get<WeatherData>('https://project3-team13-backend.onrender.com/api/weather');
             const data = response.data;
             setWeatherData(data);
             

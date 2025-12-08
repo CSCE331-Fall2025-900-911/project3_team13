@@ -9,7 +9,7 @@ interface TranslationCache {
 const translationCache: { [language: string]: TranslationCache } = {};
 
 // Backend translation endpoint
-const BACKEND_API = 'http://localhost:3000/api/translate';
+const BACKEND_API = 'https://project3-team13-backend.onrender.com/api/translate';
 
 // rate limiting parameters
 const RATE_LIMIT_DELAY = 200;

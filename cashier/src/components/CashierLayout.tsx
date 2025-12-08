@@ -27,7 +27,7 @@ export function CashierLayout() {
   useEffect(() => {
     const interval = setInterval(async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/assistance/active");
+        const res = await fetch("https://project3-team13-backend.onrender.com/api/assistance/active");
         const data = await res.json();
 
         if (!Array.isArray(data)) {
@@ -67,7 +67,7 @@ export function CashierLayout() {
                 className="blink-alert"
                 style={{ cursor: "pointer" }}
                 onClick={async () => {
-                  await fetch("http://localhost:3000/api/assistance/clear", { method: "DELETE" });
+                  await fetch("https://project3-team13-backend.onrender.com/api/assistance/clear", { method: "DELETE" });
                   setAssistance([]);
                 }}
               ></div>
