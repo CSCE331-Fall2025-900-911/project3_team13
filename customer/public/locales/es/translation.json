@@ -11,7 +11,9 @@
   "login": {
     "welcome": "¡Bienvenido!",
     "enterName": "Ingrese su nombre",
+    "enterPhone": "Ingrese su número de teléfono",
     "go": "Ir",
+    "continueAsGuest": "Continuar como invitado",
     "createError": "No se pudo crear el cliente/pedido"
   },
 
@@ -19,10 +21,10 @@
     "searchPlaceholder": "Buscar artículos...",
     "noItemsFound": "No se encontraron artículos",
     "series": {
-      "milkTea": "Té con leche",
-      "fruitTea": "Té de frutas",
-      "specialtyDrink": "Bebida especial",
-      "seasonalItem": "Artículo de temporada"
+      "MilkTea": "Té con leche",
+      "FruitTea": "Té de frutas",
+      "SpecialtyDrink": "Bebida especial",
+      "SeasonalDrink": "Bebida de temporada"
     }
   },
 

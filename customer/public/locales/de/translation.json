@@ -11,7 +11,9 @@
   "login": {
     "welcome": "Willkommen!",
     "enterName": "Geben Sie Ihren Namen ein",
+    "enterPhone": "Geben Sie Ihre Telefonnummer ein",
     "go": "Los",
+    "continueAsGuest": "Als Gast fortfahren",
     "createError": "Konnte Kunde/Bestellung nicht erstellen"
   },
 
@@ -19,10 +21,10 @@
     "searchPlaceholder": "Artikel suchen...",
     "noItemsFound": "Keine Artikel gefunden",
     "series": {
-      "milkTea": "Milchtee",
-      "fruitTea": "Früchtetee",
-      "specialtyDrink": "Spezialgetränk",
-      "seasonalItem": "Saisonartikel"
+      "MilkTea": "Milchtee",
+      "FruitTea": "Früchtetee",
+      "SpecialtyDrink": "Spezialgetränk",
+      "SeasonalDrink": "Saisonales Getränk"
     }
   },
 

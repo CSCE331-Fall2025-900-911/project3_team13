@@ -37,7 +37,7 @@ export function Orders() {
             id: customerOrder.id,
             status: customerOrder.status,
             timestamp: dayjs(customerOrder.timestamp).format("MMM D, YYYY h:mm A"),
-            customer_name: customerOrder.customer_name
+            customer_name: customerOrder.customer_name ? customerOrder.customer_name : "Guest",
             // items: customerOrder.items
         })));
     }
