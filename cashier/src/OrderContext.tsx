@@ -30,6 +30,7 @@ export const OrderContext = createContext<{
     orderItems: OrderItem[];
     createOrder: () => Promise<number | null>;
     completeOrder: () => Promise<void>;
+    loadOrder: (orderId: number) => Promise<void>;
     cancelOrder: () => Promise<void>;
     addItemToOrder: (item: OrderItem) => void;
     deleteItemFromOrder: (itemId: number) => void;
@@ -57,6 +58,7 @@ export default function OrderProvider({ children }: { children: React.ReactNode 
             setOrderItems([]);
             return res.data;
         } catch(err) {
+            alert("There was an issue starting the order.");
             console.error("Error creating order:", err);
             return null;
         }
@@ -74,12 +76,16 @@ export default function OrderProvider({ children }: { children: React.ReactNode 
                 shots: item.extraShots,
                 notes: item.notes
             });
-            item.comboId = res.data.comboId;
-            console.log(item.comboId);
-            setOrderItems((prevItems) => [...prevItems, item]);
+            
+            const newItem: OrderItem = {
+                ...item,
+                comboId: res.data.comboId
+            };
+            console.log(newItem.comboId);
+            setOrderItems((prevItems) => [...prevItems, newItem]);
         } catch(err) {
+            alert("Could not add item to order.");
             console.error("Error adding item to order:", err);
-            alert("Failed to add item to order.");
         }
     }
 
@@ -89,15 +95,14 @@ export default function OrderProvider({ children }: { children: React.ReactNode 
         try {
             const res = await axios.delete(`http://localhost:3000/api/delete-menu-item/item/${comboId}`);
             setOrderItems((prevItems) => prevItems.filter(item => item.comboId !== comboId));
-            alert("Item deleted successfully!");
         } catch(error) {
+            alert("Could not delete item from order.");
             console.error("Error deleting item:", error);
-            alert("Failed to delete item.");
         }
         
     }
 
-    // To be implemented in the future; checkout process
+    // Checkout process
     const completeOrder = async () => {
         // update transactions table
         const total = orderItems.reduce((sum: number, item: OrderItem) => sum + item.price, 0);
@@ -110,10 +115,35 @@ export default function OrderProvider({ children }: { children: React.ReactNode 
             setOrderStatus('in progress');
             alert("Checkout successful!");
         } catch(error) {
-            console.error(error);
             alert("Checkout failed.");
+            console.error(error);
         }
         
+    }
+
+    // Loads order by ID
+    const loadOrder = async (orderId: number) => {
+        try {
+            const res = await axios.get(encodeURI(`http://localhost:3000/api/load-order?id=${orderId}`));
+            setOrderId(orderId);
+            setOrderStatus(res.data.status);
+            const mappedItems = res.data.items.map((item: any) => ({
+                comboId: item.comboid,
+                itemId: item.menuitemid,
+                name: item.name,
+                price: item.price,
+                ice: item.ice,
+                sugar: item.sugar,
+                size: item.size,
+                extraShots: item.shots,
+                notes: item.notes
+            }));
+            setOrderItems(mappedItems);
+            console.log("Order loaded:", res.data);
+        } catch(error) {
+            alert("Could not load order.");
+            console.error("Error loading order:", error);
+        }
     }
 
     // Cancels the current order and starts over
@@ -124,10 +154,9 @@ export default function OrderProvider({ children }: { children: React.ReactNode 
             }
             setOrderStatus('canceled');
             setOrderItems([]);
-            alert("Order cancelled!");
         } catch (error) {
-            console.error("Error trying to cancel order:", error);
             alert("Could not cancel order.");
+            console.error("Error trying to cancel order:", error);
         }
     }
 
@@ -138,6 +167,7 @@ export default function OrderProvider({ children }: { children: React.ReactNode 
         orderItems,
         createOrder,
         completeOrder,
+        loadOrder,
         cancelOrder,
         addItemToOrder,
         deleteItemFromOrder

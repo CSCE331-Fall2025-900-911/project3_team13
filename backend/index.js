@@ -44,6 +44,7 @@ app.use('/api/cart', require('./routes/cartRoute'));
 app.use('/api/get-menu-items', require('./routes/getMenuItemsRoute'));
 app.use('/api/get-all-items', require('./routes/getAllItemsRoute'));
 app.use('/api/checkout', require('./routes/checkoutRoute'));
+app.use('/api/load-order', require('./routes/loadOrderRoute'));
 app.use('/api/order-list', require('./routes/orderList'));
 app.use('/api/get-x-report', require('./routes/getXReportInfoRoute'));
 app.use('/api/get-z-report', require('./routes/getZReportInfoRoute'));

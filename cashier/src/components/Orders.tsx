@@ -3,7 +3,7 @@ import Button from '@mui/material/Button'
 import './Orders.css'
 import dayjs from "dayjs";
 import axios from 'axios';
-
+import { useOrder } from '../OrderContext';
 interface Order {
     id: number;
     status: string;
@@ -28,6 +28,7 @@ interface Order {
 export function Orders() {
     const [orderData, setOrderData] = useState<Order[] | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const { loadOrder } = useOrder();
 
     const fetchItemData = async () => {
         const res = await axios.get(encodeURI(`http://localhost:3000/api/order-list`));
@@ -39,10 +40,6 @@ export function Orders() {
             customer_name: customerOrder.customer_name
             // items: customerOrder.items
         })));
-    }
-
-    async function orderToSummary(orderId: number) {
-        await axios.post(encodeURI(`http://localhost:3000/api/load-order?id=${orderId}`))
     }
     
     useEffect(() => {
@@ -75,7 +72,7 @@ export function Orders() {
                     <h3>{item.customer_name}</h3>
                     <p>{item.status}</p>
                     <p>{item.timestamp}</p>
-                    <Button variant='contained' onClick={() => orderToSummary(item.id)}>Add to Order</Button>
+                    <Button variant='contained' onClick={() => loadOrder(item.id)}>Add to Order</Button>
                 </div>
             ))}
         </div>

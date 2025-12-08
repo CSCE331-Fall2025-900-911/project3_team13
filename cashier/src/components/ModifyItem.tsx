@@ -26,11 +26,10 @@ export function ModifyItem({modifyID, item}: {modifyID: number, item: OrderItem 
                 item.size = size;
                 item.notes = notes;
                 await addItemToOrder(item);
-                alert("Item saved successfully!");
             }
         } catch (error) {
+            alert("Could not save item.");
             console.error("Error saving modified item:", error);
-            alert("Failed to save item.");
         }
     }
 
