@@ -55,5 +55,11 @@
     "orderSent": "Ordine inviato con successo!",
     "ok": "OK",
     "sendError": "Errore nell'invio dell'ordine. Per favore riprova."
+  },
+
+  "app": {
+    "requestAssistance": "Richiedi assistenza",
+    "disableVoiceAssistance": "Disabilita assistenza vocale",
+    "enableVoiceAssistance": "Abilita assistenza vocale"
   }
 }

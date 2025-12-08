@@ -29,11 +29,13 @@ import CustomerModify from "./components/CustomerModify";
 import CustomerCheckout from "./components/CustomerCheckout";
 import { FoodItem } from "./types";
 import { TTSProvider, useTTS } from "./useTTS";
+import { useTranslation } from "react-i18next";
 
 function AppContent() {
   const location = useLocation();
   const navigate = useNavigate();
-
+  const { t } = useTranslation();
+  
   const [cartOpen, setCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState<FoodItem[]>([]);
   const [modifyOpen, setModifyOpen] = useState(false);
@@ -48,7 +50,7 @@ function AppContent() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ kiosk: "Customer" }),
+        body: JSON.stringify({ kiosk: "Kiosk 1" }),
       });
 
       const data = await res.json();
@@ -203,7 +205,7 @@ function AppContent() {
           fontWeight: "bold"
         }}
       >
-        Request Assistance
+        {t('app.requestAssistance')}
       </button>
     )}
 
@@ -302,7 +304,7 @@ function AppContent() {
 
       {/* TTS Toggle Button */}
       <Tooltip
-        title={enabled ? "Disable voice assistance" : "Enable voice assistance"}
+        title={enabled ? t('app.disableVoiceAssistance') : t('app.enableVoiceAssistance')}
         placement="left"
       >
         <Fab
