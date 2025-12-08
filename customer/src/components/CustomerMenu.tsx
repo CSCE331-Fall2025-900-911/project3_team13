@@ -1,14 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Box, Button, TextField, Paper, List, ListItem, ListItemText, CircularProgress, Stack } from '@mui/material';
+import { Box, Button, TextField, Paper, List, ListItem, ListItemText, CircularProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useTranslation } from "react-i18next";
 import { translateText } from '../services/translationService';
 import './Customer.css';
-import milk from '../assets/milk.svg'
-import fruit from '../assets/fruit.svg'
-import special from '../assets/special.svg'
-import seasonal from '../assets/calendar.svg'
 
 interface MenuItem {
   id: number;
@@ -39,10 +35,10 @@ export default function CustomerMenu({ onCartOpen }: Props) {
   const { t, i18n } = useTranslation();
 
   const seriesList = [
-    { id: 'Milk Tea', name: 'Milk Tea', icon: milk },
-    { id: 'Fruit Tea', name: 'Fruit Tea', icon: fruit },
-    { id: 'Specialty Drink', name: 'Specialty Drink', icon: special },
-    { id: 'Seasonal Item', name: 'Seasonal Item', icon: seasonal }
+    { id: 'Milk Tea', name: 'Milk Tea' },
+    { id: 'Fruit Tea', name: 'Fruit Tea' },
+    { id: 'Specialty Drink', name: 'Specialty Drink' },
+    { id: 'Seasonal Item', name: 'Seasonal Item' }
   ];
 
   const categories = seriesList.map(s => s.name);
@@ -150,11 +146,7 @@ export default function CustomerMenu({ onCartOpen }: Props) {
             className="menu-series-button"
             onClick={() => navigate(`/series/${encodeURIComponent(series.id)}`)}
           >
-            <Stack direction="column" alignItems="center" spacing={3}>
-                <img src={series.icon} alt={series.name} style={{ width: '120px', height: '120px' }} />
-                <h2>{t(`menu.series.${series.id.replace(/\s+/g, '')}`)}</h2>
-            </Stack>
-            
+            {t(`menu.series.${series.id.replace(/\s+/g, '')}`)}
           </Button>
         ))}
       </Box>
