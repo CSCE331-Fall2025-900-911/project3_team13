@@ -24,6 +24,20 @@ export function CashierLayout() {
   
   const [assistance, setAssistance] = useState<any[]>([]);
 
+  const [currentTime, setCurrentTime] = useState(() => {
+    const now = new Date();
+    return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = new Date();
+      setCurrentTime(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   useEffect(() => {
     const interval = setInterval(async () => {
       try {
@@ -57,7 +71,7 @@ export function CashierLayout() {
     
     <div className="layout-content">
       <header className="top-bar" role="banner" aria-label="Top navigation">
-        <h1 style={{ margin: 0, fontSize: '1.25rem' }}>12:00</h1>
+        <h1 style={{ margin: 0, fontSize: '1.25rem' }}>{currentTime}</h1>
 
           <div style={{ marginLeft: 'auto', marginRight: '48px', display: 'flex', gap: '12px', alignItems: 'center' }}>
           {/* Assistance Alert */}
