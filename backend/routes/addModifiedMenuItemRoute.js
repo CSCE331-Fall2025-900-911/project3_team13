@@ -24,7 +24,7 @@ router.post('/', async (req, res) => {
             ice,
             size,
             shots,
-            notes
+            notes.trim()
         ]);
         
         client.release();

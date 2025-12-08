@@ -262,7 +262,8 @@ def gen_orders_transactions():
                 "Sugar": random.choice(["0%", "25%", "50%", "100%", "150%", "200%"]),
                 "Ice": random.choice(["0%", "25%", "50%", "100%", "150%", "200%"]),
                 "Size": random.choice(["Small", "Medium", "Large"]),
-                "Shots": random.choice(["0", "1", "2", "3", "4", "5"])
+                "Shots": random.choice(["0", "1", "2", "3", "4", "5"]),
+                "Toppings": random.choices(DEFAULT_MODIFICATIONS["Toppings"], k=random.randint(1,2))
             }
 
             item_editing_table.append({
@@ -271,7 +272,7 @@ def gen_orders_transactions():
                 "Ice": modifications["Ice"],
                 "Size": modifications["Size"],
                 "Shots": modifications["Shots"],
-                "Notes": "test"
+                "Notes": f"Temp: Iced; Toppings: {', '.join(modifications['Toppings'])}; test"
             })
 
             combo_counter += 1
