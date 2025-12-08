@@ -98,6 +98,7 @@ function AppContent() {
             "&:hover": { backgroundColor: "#f0f0f0" },
           }}
         >
+          <span className="cart-text">Cart</span>
           <ShoppingCartIcon />
         </IconButton>
       )}
