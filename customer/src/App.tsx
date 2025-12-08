@@ -30,7 +30,8 @@ import CustomerCheckout from "./components/CustomerCheckout";
 import { FoodItem } from "./types";
 import { TTSProvider, useTTS } from "./useTTS";
 import { useTranslation } from "react-i18next";
-
+import CustomerName from "./components/CustomerName";
+import GuestName from "./components/GuestName";
 function AppContent() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -253,7 +254,8 @@ function AppContent() {
             </Box>
           }
         />
-
+    <Route path="/enter-name" element={<CustomerName />} />
+          <Route path="/guest-name" element={<GuestName />} />
         <Route
           path="/checkout"
           element={

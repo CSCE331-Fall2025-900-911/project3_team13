@@ -1,6 +1,15 @@
-import { Box, Typography, Button, IconButton, Divider, Dialog } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Button,
+  IconButton,
+  Divider,
+  Dialog,
+  Checkbox,
+  FormControlLabel
+} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FoodItem } from "../types";
@@ -14,41 +23,127 @@ interface CheckoutProps {
 export default function CustomerCheckout({ cartItems, clearCart }: CheckoutProps) {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const [items, setItems] = useState(cartItems);
+
+  const customerId = Number(localStorage.getItem("customerId"));
+  const isGuest = customerId === 1;
+  console.log("🔵 localStorage.customerId =", localStorage.getItem("customerId"));
+
+  const [items, setItems] = useState(
+    cartItems.map((item, index) => ({
+      ...item,
+      comboId: item.comboId
+
+    }))
+  );
+
+  const [freeDrinks, setFreeDrinks] = useState(0);
+  const [selectedRedemptions, setSelectedRedemptions] = useState<number[]>([]);
   const [doneOpen, setDoneOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  // ============================================================
+  // Fetch loyalty info (skip guest)
+  // ============================================================
+  useEffect(() => {
+    const fetchLoyalty = async () => {
+      if (isGuest) {
+        setFreeDrinks(0);
+        return;
+      }
+
+      try {
+        const res = await axios.get("http://localhost:3000/api/customer-loyalty", {
+          params: { customerId }
+        });
+        console.log("📥 Loyalty response:", res.data);
+console.log("🟢 Setting freeDrinks =", res.data.free_drinks);
+        setFreeDrinks(res.data.free_drinks || 0);
+      } catch (err) {
+        console.error("Failed to fetch loyalty info:", err);
+      }
+    };
+
+    fetchLoyalty();
+  }, [customerId, isGuest]);
+
+  // ============================================================
+  // Remove item from cart
+  // ============================================================
   const removeItem = (index: number) => {
-    setItems((prev) => prev.filter((_, i) => i !== index));
+    setItems(prev => prev.filter((_, i) => i !== index));
+    setSelectedRedemptions(prev => prev.filter(i => i !== index));
   };
 
-  const total = items.reduce((sum, item) => sum + item.price, 0);
+  // ============================================================
+  // Totals
+  // ============================================================
+  const subtotal = items.reduce((sum, item) => sum + item.price, 0);
 
+  const discount = selectedRedemptions.reduce(
+    (sum, index) => sum + (items[index]?.price ?? 0),
+    0
+  );
+
+  const total = Math.max(subtotal - discount, 0);
+
+  // ============================================================
+  // Toggle free drink selection
+  // ============================================================
+  const toggleRedeem = (index: number) => {
+    if (isGuest) return; // safeguard
+
+    setSelectedRedemptions(prev => {
+      if (prev.includes(index)) {
+        return prev.filter(i => i !== index);
+      }
+      if (prev.length >= freeDrinks) {
+        return prev; // cannot exceed freeDrink count
+      }
+      return [...prev, index];
+    });
+  };
+
+  // ============================================================
+  // Submit order to backend
+  // ============================================================
   const handleSend = async () => {
     if (items.length === 0) return;
     setLoading(true);
 
     try {
-      const orderIdStr = localStorage.getItem('orderId');
-      if(orderIdStr === null) {
-        console.error("No valid order");
+      const orderIdStr = localStorage.getItem("orderId");
+      if (!orderIdStr) {
+        console.error("No valid order ID");
         return;
       }
 
-      const res = await axios.patch("http://localhost:3000/api/checkout", {
-        orderId: orderIdStr ? parseInt(orderIdStr) : -1,
-        total: total,
-        status: 'ready to pay'
-      });
-      console.log("Order created:", res.data);
+      const orderId = Number(orderIdStr);
 
-      // Clear cart and show success dialog
+      // Guest sends no free redemption
+      const freeComboIds = isGuest
+        ? []
+        : selectedRedemptions
+            .map(i => items[i].comboId)
+            .filter((id): id is number => typeof id === "number");
+
+      const res = await axios.patch("http://localhost:3000/api/checkout", {
+        orderId,
+        total,
+        status: "ready to pay",
+        freeComboIds
+      });
+
+      console.log("Order submitted:", res.data);
+
       clearCart();
       setItems([]);
+      setSelectedRedemptions([]);
+      setFreeDrinks(0);
+
       setDoneOpen(true);
     } catch (err) {
-      console.error("Failed to create order:", err);
-      alert(t('cart.sendError'));
+      console.error("Checkout failed:", err);
+      alert(t("cart.sendError"));
     } finally {
       setLoading(false);
     }
@@ -59,17 +154,74 @@ export default function CustomerCheckout({ cartItems, clearCart }: CheckoutProps
     navigate("/");
   };
 
+  // ============================================================
+  // Render UI
+  // ============================================================
   return (
     <Box sx={{ p: 4, color: "#000", width: "100%" }}>
+      {/* TITLE */}
       <Typography variant="h4" sx={{ mb: 3, fontWeight: "bold", textAlign: "center" }}>
-        {t('cart.total')} ${total.toFixed(2)}
+        Total: ${total.toFixed(2)}
       </Typography>
+
       <Divider sx={{ mb: 2 }} />
 
+      {/* ============================================================
+          FREE DRINK UI (hidden for guest)
+         ============================================================ */}
+      {!isGuest && freeDrinks > 0 && (
+        <Box
+          sx={{
+            p: 2,
+            mb: 3,
+            borderRadius: 2,
+            backgroundColor: "#fff8e1",
+            border: "1px solid #f0c14b",
+            width: "60%",
+            mx: "auto"
+          }}
+        >
+          <Typography variant="h6" sx={{ fontWeight: "bold", mb: 1 }}>
+            🎉 You have {freeDrinks} free drink{freeDrinks > 1 ? "s" : ""}!
+          </Typography>
+
+          <Typography variant="body1" sx={{ mb: 2 }}>
+            Select drinks to redeem:
+          </Typography>
+
+          {items.map((item, index) => (
+            <FormControlLabel
+              key={index}
+              sx={{ display: "block" }}
+              control={
+                <Checkbox
+                  checked={selectedRedemptions.includes(index)}
+                  onChange={() => toggleRedeem(index)}
+                  disabled={
+                    !selectedRedemptions.includes(index) &&
+                    selectedRedemptions.length >= freeDrinks
+                  }
+                />
+              }
+              label={`${item.name} — $${item.price.toFixed(2)}`}
+            />
+          ))}
+
+          {selectedRedemptions.length > 0 && (
+            <Typography sx={{ mt: 2, fontWeight: "bold" }}>
+              Discount: -${discount.toFixed(2)}
+            </Typography>
+          )}
+        </Box>
+      )}
+
+      {/* ============================================================
+          CART ITEMS
+         ============================================================ */}
       <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
         {items.map((item, index) => (
           <Box
-            key={index}
+            key={item.comboId ?? index}
             display="flex"
             justifyContent="space-between"
             alignItems="center"
@@ -78,19 +230,13 @@ export default function CustomerCheckout({ cartItems, clearCart }: CheckoutProps
               p: 1,
               border: "1px solid #ccc",
               borderRadius: 1,
-              backgroundColor: "#fafafa",
+              backgroundColor: "#fafafa"
             }}
           >
-            <Box textAlign="left" sx={{ flex: 1 }}>
+            <Box sx={{ flex: 1 }}>
               <Typography variant="h6">{item.name}</Typography>
-              {item.customizations && (
-                <Typography variant="body2" color="text.secondary">
-                  {Object.entries(item.customizations)
-                    .map(([key, val]) => `${key}: ${val}`)
-                    .join(", ")}
-                </Typography>
-              )}
             </Box>
+
             <Box display="flex" alignItems="center" gap={1}>
               <Typography>${item.price.toFixed(2)}</Typography>
               <IconButton color="error" onClick={() => removeItem(index)}>
@@ -103,6 +249,7 @@ export default function CustomerCheckout({ cartItems, clearCart }: CheckoutProps
 
       <Divider sx={{ my: 3 }} />
 
+      {/* SEND ORDER BUTTON */}
       <Box display="flex" justifyContent="center" gap={2}>
         <Button
           variant="contained"
@@ -110,16 +257,16 @@ export default function CustomerCheckout({ cartItems, clearCart }: CheckoutProps
           onClick={handleSend}
           disabled={items.length === 0 || loading}
         >
-          {loading ? t('cart.sending') : t('cart.sendToCashier')}
+          {loading ? "Processing..." : "Send to Cashier"}
         </Button>
       </Box>
 
-      {/* Confirmation Dialog */}
-      <Dialog open={doneOpen} onClose={handleClose}>
+      {/* CONFIRMATION DIALOG */}
+      <Dialog open={doneOpen}>
         <Box sx={{ p: 3, textAlign: "center" }}>
-          <Typography variant="h6">{t('cart.orderSent')}</Typography>
+          <Typography variant="h6">Order sent!</Typography>
           <Button sx={{ mt: 2 }} onClick={handleClose}>
-            {t('cart.ok')}
+            OK
           </Button>
         </Box>
       </Dialog>
