@@ -45,7 +45,7 @@ function AppContent() {
   // Request assistance
   const requestHelp = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/assistance/request", {
+      const res = await fetch("https://project3-team13-backend.onrender.com/api/assistance/request", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -114,7 +114,7 @@ function AppContent() {
         return;
       }
 
-      await axios.post("http://localhost:3000/api/add-modified-menu-item", {
+      await axios.post("https://project3-team13-backend.onrender.com/api/add-modified-menu-item", {
         orderId: orderIdStr ? parseInt(orderIdStr) : -1,
         menuItemId: item.id,
         sugar: item.customizations ? item.customizations.sugar : "100%",
