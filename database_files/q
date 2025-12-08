@@ -1,0 +1,16 @@
+               List of relations
+ Schema |        Name         | Type  |  Owner  
+--------+---------------------+-------+---------
+ public | customers           | table | gang_13
+ public | employees           | table | gang_13
+ public | inventory           | table | gang_13
+ public | item_editing_table  | table | gang_13
+ public | menu_item_inventory | table | gang_13
+ public | menu_item_order     | table | gang_13
+ public | menu_items          | table | gang_13
+ public | orders              | table | gang_13
+ public | transactions        | table | gang_13
+ public | users               | table | gang_13
+ public | z_reports           | table | gang_13
+(11 rows)
+
