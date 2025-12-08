@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import CustomerModify from './CustomerModify';
 import { FoodItem } from '../types';
+import './Customer.css';
 import { useTranslation } from "react-i18next";
 import { translateText } from '../services/translationService';
 
@@ -85,29 +86,29 @@ export default function CustomerItem({ onBack, onAddToCart, onModify }: Customer
   }
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="center" sx={{ mt: 2 }}>
+    <Box className='item-container' display="flex" flexDirection="column" alignItems="center" sx={{ mt: 2 }}>
       <IconButton color="primary" onClick={onBack} sx={{ alignSelf: 'flex-start', ml: 4, mb: 1 }}>
         <ArrowBackIcon />
       </IconButton>
 
-      <Card sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 2, m: 2, width: '80%', maxWidth: 800 }}>
+      <Card className='item-card' sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 2, m: 2, width: '80%', maxWidth: 800 }}>
         <Box display="flex" flexDirection="column" alignItems="center" width="30%">
-          <Typography variant="h6" sx={{ color: '#000' }}>{item.name}</Typography>
-          <Box sx={{ width: 150, height: 150, bgcolor: '#f0f0f0', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 2 }}>
+          <Typography variant="h4" sx={{ color: '#000' }}>{item.name}</Typography>
+          <Box sx={{ width: 200, height: 200, bgcolor: '#f0f0f0', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 2 }}>
             <PhotoIcon sx={{ fontSize: 60, color: '#aaa' }} />
           </Box>
         </Box>
 
-        <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" width="40%" textAlign="center">
-          <Button variant="contained" color="primary" sx={{ mb: 1 }} onClick={() => onAddToCart(item)}>{t('modify.addToOrder')}</Button>
-          <Typography variant="body2" sx={{ mb: 1, color: '#000' }}>{item.description}</Typography>
+        <Box className='item-text' display="flex" flexDirection="column" alignItems="center" justifyContent="center" width="40%" textAlign="center">
+          <Button variant="contained" color="primary" sx={{ mb: 1 }} onClick={() => onAddToCart(item)}>Add to Order</Button>
+          <Typography variant="h6" sx={{ mb: 1, color: '#000' }}>{item.description}</Typography>
           <Button variant="outlined" color="secondary" onClick={() => { if (onModify) onModify(item); else setModifyOpen(true); }}>
             {t('menu.viewModify')}
           </Button>
         </Box>
 
         <Box width="20%" textAlign="center">
-          <Typography variant="h6" sx={{ color: '#000' }}>${item.price != null ? Number(item.price).toFixed(2) : 'N/A'}</Typography>
+          <Typography variant="h3" sx={{ color: '#000' }}>${item.price != null ? Number(item.price).toFixed(2) : 'N/A'}</Typography>
         </Box>
       </Card>
 

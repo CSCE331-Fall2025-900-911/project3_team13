@@ -6,7 +6,7 @@ const axios = require('axios');
 router.get('/', async (req, res) => {
     try {
         const city = "College Station"; // Default city
-        const units = 'metric'; // Use 'imperial' for Fahrenheit
+        const units = 'imperial'; // Use 'imperial' for Fahrenheit
         const apiKey = process.env.OPEN_WEATHER_API_KEY;
         const url = `https://api.openweathermap.org/data/2.5/weather`;
         

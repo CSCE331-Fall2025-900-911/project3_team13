@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useTranslation } from "react-i18next";
 import { translateText } from '../services/translationService';
 import './Customer.css';
+import drink from '../assets/drink.svg'
 
 interface CustomerSeriesProps {
   onCartOpen: () => void;
@@ -81,7 +82,7 @@ export default function CustomerSeries({ onCartOpen }: CustomerSeriesProps) {
         {items.length > 0 ? (
           items.map((item) => (
             <Box key={item.id} className="series-item-card">
-              <PhotoIcon sx={{ fontSize: 60, color: '#aaa' }} />
+              <img src={drink} className='series-item-image'/>
               <h2>{item.translatedName || item.name}</h2>
               {/* Convert price to number safely */}
               <p>${item.price != null ? Number(item.price).toFixed(2) : 'N/A'}</p>
