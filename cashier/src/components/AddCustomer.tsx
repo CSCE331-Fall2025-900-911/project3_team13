@@ -21,10 +21,8 @@ export function AddCustomer({ orderID}: {orderID: number}) {
                 customerPhone: customerPhone
             });
             setCustomerId(res.data.customerId);
-            alert("Customer added successfully!");
         } catch (error) {
             console.error("Error adding customer:", error);
-            alert("Failed to add customer.");
         }
     }
 
@@ -35,10 +33,8 @@ export function AddCustomer({ orderID}: {orderID: number}) {
                 customerId: customerId,
                 employeeId: 2
             });
-            alert("Customer linked to order successfully!");
         } catch (error) {
             console.error("Error linking customer to order:", error);
-            alert("Failed to link customer to order.");
         }
     }
 
