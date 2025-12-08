@@ -18,6 +18,7 @@ export interface OrderItem {
     size: 'Small' | 'Medium' | 'Large';
     extraShots: string;
     notes: string;
+    toppings?: string;
 }
 
 type OrderStatus = 'pending' | 'completed' | 'canceled' | 'in progress' | 'ready to pay';
@@ -74,7 +75,8 @@ export default function OrderProvider({ children }: { children: React.ReactNode 
                 ice: item.ice,
                 size: item.size,
                 shots: item.extraShots,
-                notes: item.notes
+                notes: item.notes,
+                toppings: item.toppings
             });
             
             const newItem: OrderItem = {
