@@ -11,7 +11,9 @@
   "login": {
     "welcome": "Benvenuto!",
     "enterName": "Inserisci il tuo nome",
+    "enterPhone": "Inserisci il tuo numero di telefono",
     "go": "Vai",
+    "continueAsGuest": "Continua come ospite",
     "createError": "Impossibile creare cliente/ordine"
   },
 
@@ -26,7 +28,7 @@
       "MilkTea": "Tè al latte",
       "FruitTea": "Tè alla frutta",
       "SpecialtyDrink": "Bevanda speciale",
-      "SeasonalItem": "Articolo stagionale"
+      "SeasonalDrink": "Bevanda stagionale"
     }
   },
 

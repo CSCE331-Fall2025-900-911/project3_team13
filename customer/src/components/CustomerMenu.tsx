@@ -44,7 +44,7 @@ export default function CustomerMenu({ onCartOpen }: Props) {
     { id: 'Milk Tea', name: 'Milk Tea', icon: milk },
     { id: 'Fruit Tea', name: 'Fruit Tea', icon: fruit },
     { id: 'Specialty Drink', name: 'Specialty Drink', icon: special },
-    { id: 'Seasonal Item', name: 'Seasonal Item', icon: seasonal }
+    { id: 'Seasonal Drink', name: 'Seasonal Drink', icon: seasonal }
   ];
 
   const categories = seriesList.map(s => s.name);

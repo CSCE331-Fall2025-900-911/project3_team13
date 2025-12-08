@@ -11,7 +11,9 @@
   "login": {
     "welcome": "Welcome!",
     "enterName": "Enter your name",
+    "enterPhone": "Enter your phone number",
     "go": "Go",
+    "continueAsGuest": "Continue as Guest",
     "createError": "Could not establish customer/order"
   },
 
@@ -26,7 +28,7 @@
       "MilkTea": "Milk Tea",
       "FruitTea": "Fruit Tea",
       "SpecialtyDrink": "Specialty Drink",
-      "SeasonalItem": "Seasonal Item"
+      "SeasonalDrink": "Seasonal Drink"
     }
   },
 

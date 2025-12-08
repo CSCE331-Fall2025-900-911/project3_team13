@@ -22,11 +22,20 @@ export default function CustomerLogin() {
 
   navigate("/guest-name");
 };
+
+interface LookupRes {
+  found: boolean;
+  customer?: {
+    id: number;
+    name: string;
+  };
+};
+
 const handleGo = async () => {
   if (phoneNumber.trim() !== '') {
     try {
       // STEP 1: Lookup by phone
-      const lookupRes = await axios.get("http://localhost:3000/api/customer-by-phone", {
+      const lookupRes = await axios.get<LookupRes>("http://localhost:3000/api/customer-by-phone", {
         params: { phone: phoneNumber }
       });
 
@@ -36,18 +45,18 @@ const handleGo = async () => {
       if (lookupRes.data.found) {
         // Existing customer → skip name step
         const existing = lookupRes.data.customer;
-        localStorage.setItem('customerName', existing.name);
-        localStorage.setItem('customerId', existing.id);
+        localStorage.setItem('customerName', (existing ? existing.name : ""));
+        localStorage.setItem('customerId', (existing ? existing.id.toString() : ""));
 
         // Create new order
-        const newOrder = await axios.post("http://localhost:3000/api/new-order");
+        const newOrder = await axios.post<{ orderId: number }>("http://localhost:3000/api/new-order");
         const orderId = newOrder.data.orderId;
         localStorage.setItem('orderId', orderId.toString());
 
         // Link
         await axios.post("http://localhost:3000/api/link-customer-to-order", {
           orderId,
-          customerId: existing.id,
+          customerId: existing ? existing.id : -1,
           employeeId: 1
         });
 
@@ -80,7 +89,7 @@ onClick={handleGuest}
   size="large"
   sx={{ mt: 2 }}
 >
-  Continue as Guest
+  {t('login.continueAsGuest')}
 </Button>
 
         <TextField
