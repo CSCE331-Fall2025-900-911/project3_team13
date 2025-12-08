@@ -1,0 +1,40 @@
+{
+  "header": {
+    "selectLanguage": "Click to Select Language:",
+    "english": "English",
+    "spanish": "Español",
+    "french": "Français",
+    "german": "Deutsch",
+    "italian": "Italiano"
+  },
+
+  "login": {
+    "welcome": "Welcome!",
+    "enterName": "Enter your name",
+    "go": "Go",
+    "createError": "Could not establish customer/order"
+  },
+
+  "menu": {
+    "searchPlaceholder": "Search items...",
+    "noItemsFound": "No items found",
+    "series": {
+      "Milk Tea": "Milk Tea",
+      "Fruit Tea": "Fruit Tea",
+      "Specialty Drink": "Specialty Drink",
+      "Seasonal Item": "Seasonal Item"
+    }
+  },
+
+  "cart": {
+    "yourOrder": "Your Order",
+    "noItems": "No items added yet.",
+    "total": "Total:",
+    "checkout": "Checkout",
+    "clearCart": "Clear Cart",
+    "sendToCashier": "Send to Cashier",
+    "sending": "Sending...",
+    "orderSent": "Order sent successfully!",
+    "ok": "OK"
+  }
+}

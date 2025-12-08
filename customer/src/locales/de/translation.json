@@ -1,0 +1,59 @@
+{
+  "header": {
+    "selectLanguage": "Klicken Sie, um die Sprache auszuwählen:",
+    "english": "English",
+    "spanish": "Español",
+    "french": "Français",
+    "german": "Deutsch",
+    "italian": "Italiano"
+  },
+
+  "login": {
+    "welcome": "Willkommen!",
+    "enterName": "Geben Sie Ihren Namen ein",
+    "go": "Los",
+    "createError": "Konnte Kunde/Bestellung nicht erstellen"
+  },
+
+  "menu": {
+    "searchPlaceholder": "Artikel suchen...",
+    "noItemsFound": "Keine Artikel gefunden",
+    "viewModify": "Anzeigen / Ändern",
+    "itemNotFound": "Artikel nicht gefunden",
+    "goBack": "Zurück",
+    "defaultDescription": "Ein köstliches Getränk aus unserem Menü!",
+    "series": {
+      "MilkTea": "Milchtee",
+      "FruitTea": "Früchtetee",
+      "SpecialtyDrink": "Spezialgetränk",
+      "SeasonalItem": "Saisonartikel"
+    }
+  },
+
+  "modify": {
+    "title": "Artikel anpassen",
+    "ice": "Eis",
+    "sugar": "Zucker",
+    "size": "Größe",
+    "shots": "Zusätzliche Shots",
+    "notes": "Spezielle Notizen",
+    "addToOrder": "Zur Bestellung hinzufügen",
+    "small": "Klein",
+    "medium": "Mittel",
+    "large": "Groß",
+    "none": "Keine"
+  },
+
+  "cart": {
+    "yourOrder": "Ihre Bestellung",
+    "noItems": "Noch keine Artikel hinzugefügt.",
+    "total": "Gesamt:",
+    "checkout": "Zur Kasse",
+    "clearCart": "Warenkorb leeren",
+    "sendToCashier": "An die Kasse senden",
+    "sending": "Senden...",
+    "orderSent": "Bestellung erfolgreich gesendet!",
+    "ok": "OK",
+    "sendError": "Fehler beim Senden der Bestellung. Bitte versuchen Sie es erneut."
+  }
+}

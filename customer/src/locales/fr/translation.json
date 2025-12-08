@@ -1,0 +1,59 @@
+{
+  "header": {
+    "selectLanguage": "Cliquez pour sélectionner la langue :",
+    "english": "English",
+    "spanish": "Español",
+    "french": "Français",
+    "german": "Deutsch",
+    "italian": "Italiano"
+  },
+
+  "login": {
+    "welcome": "Bienvenue !",
+    "enterName": "Entrez votre nom",
+    "go": "Aller",
+    "createError": "Impossible de créer le client/commande"
+  },
+
+  "menu": {
+    "searchPlaceholder": "Rechercher des articles...",
+    "noItemsFound": "Aucun article trouvé",
+    "viewModify": "Afficher / Modifier",
+    "itemNotFound": "Article non trouvé",
+    "goBack": "Retour",
+    "defaultDescription": "Une boisson délicieuse de notre menu!",
+    "series": {
+      "MilkTea": "Thé au lait",
+      "FruitTea": "Thé aux fruits",
+      "SpecialtyDrink": "Boisson spéciale",
+      "SeasonalItem": "Article saisonnier"
+    }
+  },
+
+  "modify": {
+    "title": "Personnaliser l'article",
+    "ice": "Glaçons",
+    "sugar": "Sucre",
+    "size": "Taille",
+    "shots": "Shots supplémentaires",
+    "notes": "Notes spéciales",
+    "addToOrder": "Ajouter à la commande",
+    "small": "Petit",
+    "medium": "Moyen",
+    "large": "Grand",
+    "none": "Aucun"
+  },
+
+  "cart": {
+    "yourOrder": "Votre commande",
+    "noItems": "Aucun article ajouté.",
+    "total": "Total :",
+    "checkout": "Paiement",
+    "clearCart": "Vider le panier",
+    "sendToCashier": "Envoyer au caissier",
+    "sending": "Envoi...",
+    "orderSent": "Commande envoyée avec succès !",
+    "ok": "OK",
+    "sendError": "Erreur lors de l'envoi de la commande. Veuillez réessayer."
+  }
+}

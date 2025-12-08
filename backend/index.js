@@ -48,11 +48,16 @@ app.use('/api/order-list', require('./routes/orderList'));
 app.use('/api/get-x-report', require('./routes/getXReportInfoRoute'));
 app.use('/api/get-z-report', require('./routes/getZReportInfoRoute'));
 app.use('/api/store', require('./routes/getStoreData'));
+app.use('/api/translate', require('./routes/translateRoute'));
 app.use('/auth', require('./routes/authRoute'));
 app.use('/api/inventory', require('./routes/managerInventoryRoutes'));
 app.use('/api/employees', require('./routes/managerEmployeeRoutes'));
 app.use('/api/manager-analytics', require('./routes/managerAnalyticsRoutes'));
+app.use('/api/customers', require('./routes/getCustomerPoints'));
+app.use('/api/customers', require('./routes/redeemCustomerPoints'));
+
 app.use('/api/weather', require('./routes/getWeatherData'));
+app.use('/api/assistance', require('./routes/assistanceRoute'));
 
 //manager update
 app.use('/api/update-menu-item', require('./routes/updateMenuItem'));

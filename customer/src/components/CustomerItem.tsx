@@ -7,6 +7,8 @@ import axios from 'axios';
 import CustomerModify from './CustomerModify';
 import { FoodItem } from '../types';
 import './Customer.css';
+import { useTranslation } from "react-i18next";
+import { translateText } from '../services/translationService';
 
 interface CustomerItemProps {
   onBack: () => void;
@@ -26,6 +28,7 @@ export default function CustomerItem({ onBack, onAddToCart, onModify }: Customer
   const { categoryName, itemName } = useParams<{ categoryName: string; itemName: string }>();
   const [item, setItem] = useState<FoodItem | null>(null);
   const [modifyOpen, setModifyOpen] = useState(false);
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const fetchItem = async () => {
@@ -40,11 +43,24 @@ export default function CustomerItem({ onBack, onAddToCart, onModify }: Customer
         const drinks = res.data.drinks || [];
         const found = drinks.find(d => d.name === decodeURIComponent(itemName));
         if (found) {
+          let translatedName = found.name;
+          let translatedDescription = found.description || t('menu.defaultDescription');
+
+          // Translate if not English
+          if (i18n.language !== 'en') {
+            translatedName = await translateText(found.name, i18n.language);
+            if (found.description) {
+              translatedDescription = await translateText(found.description, i18n.language);
+            } else {
+              translatedDescription = t('menu.defaultDescription');
+            }
+          }
+
           setItem({
             id: found.id,
-            name: found.name,
+            name: translatedName,
             price: Number(found.price),
-            description: found.description || 'Delicious drink from our menu!',
+            description: translatedDescription,
           });
         }
       } catch (err) {
@@ -53,7 +69,7 @@ export default function CustomerItem({ onBack, onAddToCart, onModify }: Customer
     };
 
     fetchItem();
-  }, [categoryName, itemName]);
+  }, [categoryName, itemName, i18n.language, t]);
 
   const handleAddModified = (modified: FoodItem) => {
     onAddToCart(modified);
@@ -63,8 +79,8 @@ export default function CustomerItem({ onBack, onAddToCart, onModify }: Customer
   if (!item) {
     return (
       <Box textAlign="center" mt={4}>
-        <Typography variant="h6">Item not found</Typography>
-        <Button onClick={onBack}>Go Back</Button>
+        <Typography variant="h6">{t('menu.itemNotFound')}</Typography>
+        <Button onClick={onBack}>{t('menu.goBack')}</Button>
       </Box>
     );
   }
@@ -87,7 +103,7 @@ export default function CustomerItem({ onBack, onAddToCart, onModify }: Customer
           <Button variant="contained" color="primary" sx={{ mb: 1 }} onClick={() => onAddToCart(item)}>Add to Order</Button>
           <Typography variant="h6" sx={{ mb: 1, color: '#000' }}>{item.description}</Typography>
           <Button variant="outlined" color="secondary" onClick={() => { if (onModify) onModify(item); else setModifyOpen(true); }}>
-            Modify
+            {t('menu.viewModify')}
           </Button>
         </Box>
 

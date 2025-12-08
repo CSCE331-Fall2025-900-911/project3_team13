@@ -141,3 +141,17 @@ html, body {
   color: white !important;
   margin: 8px 0;
 }
+
+.blink-alert {
+  width: 16px;
+  height: 16px;
+  background-color: red;
+  border-radius: 50%;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}

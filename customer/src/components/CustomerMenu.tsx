@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { Box, Button, TextField, Paper, List, ListItem, ListItemText, CircularProgress, Stack } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useTranslation } from "react-i18next";
+import { translateText } from '../services/translationService';
 import './Customer.css';
 import milk from '../assets/milk.svg'
 import fruit from '../assets/fruit.svg'
@@ -11,6 +13,7 @@ import seasonal from '../assets/calendar.svg'
 interface MenuItem {
   id: number;
   name: string;
+  translatedName?: string;
   category: string;
   price?: number;
 }
@@ -33,6 +36,7 @@ export default function CustomerMenu({ onCartOpen }: Props) {
   const [items, setItems] = useState<MenuItem[]>([]);
   const [filteredItems, setFilteredItems] = useState<MenuItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const { t, i18n } = useTranslation();
 
   const seriesList = [
     { id: 'Milk Tea', name: 'Milk Tea', icon: milk },
@@ -58,6 +62,13 @@ export default function CustomerMenu({ onCartOpen }: Props) {
           price: item.price
         }));
 
+        // Translate item names if not English
+        if (i18n.language !== 'en') {
+          for (let item of allItems) {
+            item.translatedName = await translateText(item.name, i18n.language);
+          }
+        }
+
         setItems(allItems);
         setFilteredItems(allItems);
       } catch (err) {
@@ -68,7 +79,7 @@ export default function CustomerMenu({ onCartOpen }: Props) {
     };
 
     fetchAllItems();
-  }, []);
+  }, [i18n.language]);
 
   // Filter items based on search
   useEffect(() => {
@@ -80,7 +91,7 @@ export default function CustomerMenu({ onCartOpen }: Props) {
     <Box className="menu-page" position="relative">
       <Box className="menu-top-bar">
         <TextField
-          placeholder="Search items..."
+          placeholder={t('menu.searchPlaceholder')}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           size="small"
@@ -106,7 +117,7 @@ export default function CustomerMenu({ onCartOpen }: Props) {
               </Box>
             ) : filteredItems.length === 0 ? (
               <ListItem>
-                <ListItemText primary="No items found" />
+                <ListItemText primary={t('menu.noItemsFound')} />
               </ListItem>
             ) : (
               <List>
@@ -119,7 +130,7 @@ export default function CustomerMenu({ onCartOpen }: Props) {
                     }
                   >
                     <ListItemText
-                      primary={`${item.name} - $${item.price ? Number(item.price).toFixed(2) : 'N/A'}`}
+                      primary={`${item.translatedName || item.name} - $${item.price ? Number(item.price).toFixed(2) : 'N/A'}`}
                       secondary={item.category}
                     />
                   </ListItem>
@@ -141,8 +152,9 @@ export default function CustomerMenu({ onCartOpen }: Props) {
           >
             <Stack direction="column" alignItems="center" spacing={3}>
                 <img src={series.icon} alt={series.name} style={{ width: '120px', height: '120px' }} />
-                <h2>{series.name}</h2>
+                <h2>{t(`menu.series.${series.id.replace(/\s+/g, '')}`)}</h2>
             </Stack>
+            
           </Button>
         ))}
       </Box>
