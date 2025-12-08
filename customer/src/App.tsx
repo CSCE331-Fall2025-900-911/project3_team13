@@ -48,7 +48,7 @@ function AppContent() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ kiosk: "Kiosk 1" }),
+        body: JSON.stringify({ kiosk: "Customer" }),
       });
 
       const data = await res.json();

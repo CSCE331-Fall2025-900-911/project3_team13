@@ -62,21 +62,20 @@ export function CashierLayout() {
           <div style={{ marginLeft: 'auto', marginRight: '48px', display: 'flex', gap: '12px', alignItems: 'center' }}>
           {/* Assistance Alert */}
           {assistance.length > 0 && (
-            <div
-              className="blink-alert"
-              title="Click to clear assistance requests"
-              style={{ cursor: "pointer" }}
-              onClick={async () => {
-                try {
-                  await fetch("http://localhost:3000/api/assistance/clear", {
-                    method: "DELETE"
-                  });
-                  setAssistance([]); // instantly clear UI
-                } catch (err) {
-                  console.error("Failed to clear assistance", err);
-                }
-              }}
-            ></div>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <div
+                className="blink-alert"
+                style={{ cursor: "pointer" }}
+                onClick={async () => {
+                  await fetch("http://localhost:3000/api/assistance/clear", { method: "DELETE" });
+                  setAssistance([]);
+                }}
+              ></div>
+
+              <span style={{ color: "red", fontWeight: "bold", fontSize: "0.9rem" }}>
+                {assistance[0].kiosk} needs assistance
+              </span>
+            </div>
           )}
           <LogoutButton />
         </div>
