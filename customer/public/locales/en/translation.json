@@ -1,0 +1,65 @@
+{
+  "header": {
+    "selectLanguage": "Click to Select Language:",
+    "english": "English",
+    "spanish": "Español",
+    "french": "Français",
+    "german": "Deutsch",
+    "italian": "Italiano"
+  },
+
+  "login": {
+    "welcome": "Welcome!",
+    "enterName": "Enter your name",
+    "go": "Go",
+    "createError": "Could not establish customer/order"
+  },
+
+  "menu": {
+    "searchPlaceholder": "Search items...",
+    "noItemsFound": "No items found",
+    "viewModify": "View / Modify",
+    "itemNotFound": "Item not found",
+    "goBack": "Go Back",
+    "defaultDescription": "Delicious drink from our menu!",
+    "series": {
+      "MilkTea": "Milk Tea",
+      "FruitTea": "Fruit Tea",
+      "SpecialtyDrink": "Specialty Drink",
+      "SeasonalItem": "Seasonal Item"
+    }
+  },
+
+  "modify": {
+    "title": "Customize Item",
+    "ice": "Ice",
+    "sugar": "Sugar",
+    "size": "Size",
+    "shots": "Extra Shots",
+    "notes": "Special Notes",
+    "addToOrder": "Add to Order",
+    "small": "Small",
+    "medium": "Medium",
+    "large": "Large",
+    "none": "None"
+  },
+
+  "cart": {
+    "yourOrder": "Your Order",
+    "noItems": "No items added yet.",
+    "total": "Total:",
+    "checkout": "Checkout",
+    "clearCart": "Clear Cart",
+    "sendToCashier": "Send to Cashier",
+    "sending": "Sending...",
+    "orderSent": "Order sent successfully!",
+    "ok": "OK",
+    "sendError": "Failed to send order. Please try again."
+  },
+
+  "app": {
+    "requestAssistance": "Request Assistance",
+    "disableVoiceAssistance": "Disable voice assistance",
+    "enableVoiceAssistance": "Enable voice assistance"
+  }
+}

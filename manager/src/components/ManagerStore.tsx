@@ -4,6 +4,7 @@ import {
     Button, Typography
 } from '@mui/material';
 import { EditorPopup } from './EditorPopup';
+import './ManagerStore.css';
 
 type InventoryItem = { id: number; name: string; quantity: number };
 type MenuItem = { id: number; name: string; category: string; price: number };
@@ -41,9 +42,7 @@ export function ManagerStore({
     }, [setInventory, setMenu, setEmployees]);
 
     return (
-        <div className="tab-content">
-            <h1>Manage Store Page</h1>
-
+        <div className="tab-content store-container">
             {/* INVENTORY */}
             <Typography variant="h5" sx={{ mt: 3, mb: 1 }}>Inventory / Stock</Typography>
             <Paper sx={{ overflow: 'hidden', mb: 2 }}>

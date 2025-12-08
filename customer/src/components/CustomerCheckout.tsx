@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FoodItem } from "../types";
+import { useTranslation } from "react-i18next";
 
 interface CheckoutProps {
   cartItems: FoodItem[];
@@ -12,6 +13,7 @@ interface CheckoutProps {
 
 export default function CustomerCheckout({ cartItems, clearCart }: CheckoutProps) {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [items, setItems] = useState(cartItems);
   const [doneOpen, setDoneOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -27,19 +29,17 @@ export default function CustomerCheckout({ cartItems, clearCart }: CheckoutProps
     setLoading(true);
 
     try {
-      // Prepare payload for backend
-      const payload = {
-        items: items.map((item) => ({
-          id: item.id,
-          name: item.name,
-          price: item.price,
-          customizations: item.customizations || {},
-        })),
-        total,
-      };
+      const orderIdStr = localStorage.getItem('orderId');
+      if(orderIdStr === null) {
+        console.error("No valid order");
+        return;
+      }
 
-      // Send POST request to create new order
-      const res = await axios.post("https://project3-team13-backend.onrender.com/api/new-order", payload);
+      const res = await axios.patch("https://project3-team13-backend.onrender.com/api/checkout", {
+        orderId: orderIdStr ? parseInt(orderIdStr) : -1,
+        total: total,
+        status: 'ready to pay'
+      });
       console.log("Order created:", res.data);
 
       // Clear cart and show success dialog
@@ -48,7 +48,7 @@ export default function CustomerCheckout({ cartItems, clearCart }: CheckoutProps
       setDoneOpen(true);
     } catch (err) {
       console.error("Failed to create order:", err);
-      alert("Failed to send order. Please try again.");
+      alert(t('cart.sendError'));
     } finally {
       setLoading(false);
     }
@@ -62,7 +62,7 @@ export default function CustomerCheckout({ cartItems, clearCart }: CheckoutProps
   return (
     <Box sx={{ p: 4, color: "#000", width: "100%" }}>
       <Typography variant="h4" sx={{ mb: 3, fontWeight: "bold", textAlign: "center" }}>
-        Total: ${total.toFixed(2)}
+        {t('cart.total')} ${total.toFixed(2)}
       </Typography>
       <Divider sx={{ mb: 2 }} />
 
@@ -110,16 +110,16 @@ export default function CustomerCheckout({ cartItems, clearCart }: CheckoutProps
           onClick={handleSend}
           disabled={items.length === 0 || loading}
         >
-          {loading ? "Sending..." : "Send to Cashier"}
+          {loading ? t('cart.sending') : t('cart.sendToCashier')}
         </Button>
       </Box>
 
       {/* Confirmation Dialog */}
       <Dialog open={doneOpen} onClose={handleClose}>
         <Box sx={{ p: 3, textAlign: "center" }}>
-          <Typography variant="h6">Order sent successfully!</Typography>
+          <Typography variant="h6">{t('cart.orderSent')}</Typography>
           <Button sx={{ mt: 2 }} onClick={handleClose}>
-            OK
+            {t('cart.ok')}
           </Button>
         </Box>
       </Dialog>

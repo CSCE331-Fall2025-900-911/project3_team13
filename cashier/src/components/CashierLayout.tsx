@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import './CashierLayout.css';
-import reactLogo from '../assets/react.svg';
 import customerIcon from '../assets/person.svg'
 import { AddCustomer } from './AddCustomer';
 import {
@@ -22,20 +21,62 @@ export function CashierLayout() {
   const [tabValue, setTabValue] = useState<'menu' | 'library' | 'orders'>('menu');
   const [open, setOpen] = useState(false);
   const { orderId, createOrder, cancelOrder, completeOrder } = useOrder();
+  
+  const [assistance, setAssistance] = useState<any[]>([]);
+
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      try {
+        const res = await fetch("http://localhost:3000/api/assistance/active");
+        const data = await res.json();
+
+        if (!Array.isArray(data)) {
+          console.warn("Unexpected assistance data:", data);
+          return;
+        }
+
+        setAssistance(data);
+        console.log("Cashier sees active requests:", data);
+        console.log("Assistance length:", data.length);
+        setAssistance(data);
+      } catch(err) {
+        console.error("Error fetching assistance:", err);
+      }
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     if(!orderId) {
       createOrder();
     }
   }, []);
-  
+
   return (
     
     <div className="layout-content">
       <header className="top-bar" role="banner" aria-label="Top navigation">
         <h1 style={{ margin: 0, fontSize: '1.25rem' }}>12:00</h1>
 
-        <div style={{ marginLeft: 'auto', marginRight: '48px', display: 'flex', gap: '12px' }}>
+          <div style={{ marginLeft: 'auto', marginRight: '48px', display: 'flex', gap: '12px', alignItems: 'center' }}>
+          {/* Assistance Alert */}
+          {assistance.length > 0 && (
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <div
+                className="blink-alert"
+                style={{ cursor: "pointer" }}
+                onClick={async () => {
+                  await fetch("http://localhost:3000/api/assistance/clear", { method: "DELETE" });
+                  setAssistance([]);
+                }}
+              ></div>
+
+              <span style={{ color: "red", fontWeight: "bold", fontSize: "0.9rem" }}>
+                {assistance[0].kiosk} needs assistance
+              </span>
+            </div>
+          )}
           <LogoutButton />
         </div>
       </header>
@@ -100,7 +141,10 @@ export function CashierLayout() {
               variant="contained" 
               className='success-button' 
               size="large" 
-              onClick={() => alert("Checkout to be implemented later.")}
+              onClick={async () => {
+                await completeOrder();
+                await createOrder();
+              }}
             >
               Checkout
             </Button>

@@ -15,6 +15,7 @@ import Dialogue from '@mui/material/Dialog';
 import axios from 'axios';
 import { ModifyItem } from './ModifyItem';
 import type { OrderItem } from '../OrderContext';
+import './CashierLayout.css';
 
 interface MenuItem {
   id: number;
@@ -104,6 +105,7 @@ export function Library() {
 
   return (
     <Box 
+    className="library-container"
       p={3}
       sx={{ 
         height: '100%', 

@@ -60,35 +60,35 @@ export function MainMenu({ orderId }: { orderId: number }) {
 
             {openValue === 'series-m' && <div className='series-page'>
                 <div className='series-head'>
-                    Milk Series
-                    <Button onClick={() => setOpenValue('menu')}>Return</Button>
+                    <h2>Milk Series</h2>
+                    <Button variant='contained' onClick={() => setOpenValue('menu')}>Return</Button>
                 </div>
                 <SeriesLoad seriesName={seriesName} />
             </div>}
 
 
-            {openValue === 'series-f' && <div>
+            {openValue === 'series-f' && <div className='series-page'>
                 <div className='series-head'>
-                    Fruit Series
-                    <Button onClick={() => setOpenValue('menu')}>Return</Button>
+                    <h2>Fruit Series</h2>
+                    <Button variant='contained' onClick={() => setOpenValue('menu')}>Return</Button>
                 </div>
                 <SeriesLoad seriesName={seriesName} />
             </div>}
 
 
-            {openValue === 'series-sp' && <div>
+            {openValue === 'series-sp' && <div className='series-page'>
                 <div className='series-head'>
-                    Special Series
-                    <Button onClick={() => setOpenValue('menu')}>Return</Button>
+                    <h2>Special Series</h2>
+                    <Button variant='contained' onClick={() => setOpenValue('menu')}>Return</Button>
                 </div>
                 <SeriesLoad seriesName={seriesName} />
             </div>}
 
 
-            {openValue === 'series-se' && <div>
+            {openValue === 'series-se' && <div className='series-page'>
                 <div className='series-head'>
-                    Seasonal Series
-                    <Button onClick={() => setOpenValue('menu')}>Return</Button>
+                    <h2>Seasonal Series</h2>
+                    <Button variant='contained' onClick={() => setOpenValue('menu')}>Return</Button>
                 </div>
                 <SeriesLoad seriesName={seriesName} />
               </div>}

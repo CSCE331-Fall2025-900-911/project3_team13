@@ -9,6 +9,7 @@ import {
   Box,
 } from "@mui/material";
 import { FoodItem } from "../types";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   open: boolean;
@@ -18,6 +19,7 @@ interface Props {
 }
 
 export default function CustomerModify({ open, item, onClose, onAddToCart }: Props) {
+  const { t } = useTranslation();
   // Default values
   const [ice, setIce] = useState("100%");
   const [sugar, setSugar] = useState("100%");
@@ -38,7 +40,7 @@ export default function CustomerModify({ open, item, onClose, onAddToCart }: Pro
 
   const handleAdd = () => {
     const modifiedItem: FoodItem = {
-      id: Date.now(),
+      id: item.id,
       name: item.name,
       description: item.description,
       price: item.price,
@@ -57,10 +59,10 @@ export default function CustomerModify({ open, item, onClose, onAddToCart }: Pro
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Customize Item</DialogTitle>
+      <DialogTitle>{t('modify.title')}</DialogTitle>
       <DialogContent>
         <Box display="flex" flexDirection="column" gap={2} sx={{ mt: 1 }}>
-          <TextField select label="Ice" value={ice} onChange={(e) => setIce(e.target.value)}>
+          <TextField select label={t('modify.ice')} value={ice} onChange={(e) => setIce(e.target.value)}>
             <MenuItem value="0%">0%</MenuItem>
             <MenuItem value="25%">25%</MenuItem>
             <MenuItem value="50%">50%</MenuItem>
@@ -69,7 +71,7 @@ export default function CustomerModify({ open, item, onClose, onAddToCart }: Pro
             <MenuItem value="200%">200%</MenuItem>
           </TextField>
 
-          <TextField select label="Sugar" value={sugar} onChange={(e) => setSugar(e.target.value)}>
+          <TextField select label={t('modify.sugar')} value={sugar} onChange={(e) => setSugar(e.target.value)}>
             <MenuItem value="0%">0%</MenuItem>
             <MenuItem value="25%">25%</MenuItem>
             <MenuItem value="50%">50%</MenuItem>
@@ -77,14 +79,14 @@ export default function CustomerModify({ open, item, onClose, onAddToCart }: Pro
             <MenuItem value="150%">150%</MenuItem>
           </TextField>
 
-          <TextField select label="Size" value={size} onChange={(e) => setSize(e.target.value)}>
-            <MenuItem value="Small">Small</MenuItem>
-            <MenuItem value="Medium">Medium</MenuItem>
-            <MenuItem value="Large">Large</MenuItem>
+          <TextField select label={t('modify.size')} value={size} onChange={(e) => setSize(e.target.value)}>
+            <MenuItem value="Small">{t('modify.small')}</MenuItem>
+            <MenuItem value="Medium">{t('modify.medium')}</MenuItem>
+            <MenuItem value="Large">{t('modify.large')}</MenuItem>
           </TextField>
 
-          <TextField select label="Extra Shots" value={shots} onChange={(e) => setShots(e.target.value)}>
-            <MenuItem value="0">None</MenuItem>
+          <TextField select label={t('modify.shots')} value={shots} onChange={(e) => setShots(e.target.value)}>
+            <MenuItem value="0">{t('modify.none')}</MenuItem>
             <MenuItem value="1">1</MenuItem>
             <MenuItem value="2">2</MenuItem>
             <MenuItem value="3">3</MenuItem>
@@ -93,7 +95,7 @@ export default function CustomerModify({ open, item, onClose, onAddToCart }: Pro
           </TextField>
 
           <TextField
-            label="Special Notes"
+            label={t('modify.notes')}
             multiline
             rows={2}
             value={notes}
@@ -101,7 +103,7 @@ export default function CustomerModify({ open, item, onClose, onAddToCart }: Pro
           />
 
           <Button variant="contained" color="primary" onClick={handleAdd}>
-            Add to Order
+            {t('modify.addToOrder')}
           </Button>
         </Box>
       </DialogContent>

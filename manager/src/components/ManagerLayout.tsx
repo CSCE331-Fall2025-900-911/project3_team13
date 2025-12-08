@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Tabs,
@@ -17,10 +17,19 @@ import './ManagerLayout.css';
 import { ManagerOverview } from "./ManagerOverview"
 import { ManagerReports} from "./ManagerReports"
 import { ManagerStore } from "./ManagerStore";
+import axios from 'axios';
+
+type WeatherData = {
+    temperature: number;
+    feels_like: number;
+    description: string;
+    icon: string;
+};
 
 export function ManagerLayout() {
     const navigate = useNavigate();
     const [tabValue, setTabValue] = useState<'overview' | 'reports' | 'store' | 'logout'>('overview');
+    const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
 
     const Logout = () => {
         localStorage.setItem('username', '');
@@ -28,6 +37,20 @@ export function ManagerLayout() {
         navigate('/');
     };
 
+    const GetWeather = async () => {
+        try {
+            const response = await axios.get<WeatherData>('http://localhost:3000/api/weather');
+            const data = response.data;
+            setWeatherData(data);
+            
+        } catch (error) {
+            console.error('Error fetching weather data:', error);
+        }
+    };
+
+    useEffect(() => {
+        GetWeather();
+    }, []);
     // TEMP empty arrays — replace later
     const [inventory, setInventory] = useState<any[]>([]);
     const [menu, setMenu] = useState<any[]>([]);
@@ -45,6 +68,9 @@ export function ManagerLayout() {
                     <Tab label="Overview" value="overview" />
                     <Tab label="Reports" value="reports" />
                     <Tab label="Manage Store" value="store" />
+                    {/* create section with weather info */}
+                    <h4>{weatherData?.temperature}℉ | {weatherData?.description} <img src={weatherData?.icon} alt="" /></h4>
+                    
                     <Tab className="logout-tab" label="Logout" onClick={Logout} />
                 </Tabs>
 

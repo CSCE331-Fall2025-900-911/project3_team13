@@ -10,7 +10,7 @@ const port = 3000;
 // change origin link to deployment link when deploying
 const corsConfig = {
   origin: ['https://cashier-project3-team13.vercel.app', 'https://customer-project3-team13.vercel.app', 'https://manager-project3-team13.vercel.app'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization']
 };
@@ -43,13 +43,21 @@ app.use('/api/delete-menu-item', require('./routes/deleteMenuItems'));
 app.use('/api/cart', require('./routes/cartRoute'));
 app.use('/api/get-menu-items', require('./routes/getMenuItemsRoute'));
 app.use('/api/get-all-items', require('./routes/getAllItemsRoute'));
+app.use('/api/checkout', require('./routes/checkoutRoute'));
 app.use('/api/order-list', require('./routes/orderList'));
 app.use('/api/get-x-report', require('./routes/getXReportInfoRoute'));
 app.use('/api/get-z-report', require('./routes/getZReportInfoRoute'));
 app.use('/api/store', require('./routes/getStoreData'));
+app.use('/api/translate', require('./routes/translateRoute'));
 app.use('/auth', require('./routes/authRoute'));
 app.use('/api/inventory', require('./routes/managerInventoryRoutes'));
 app.use('/api/employees', require('./routes/managerEmployeeRoutes'));
+app.use('/api/manager-analytics', require('./routes/managerAnalyticsRoutes'));
+app.use('/api/customers', require('./routes/getCustomerPoints'));
+app.use('/api/customers', require('./routes/redeemCustomerPoints'));
+
+app.use('/api/weather', require('./routes/getWeatherData'));
+app.use('/api/assistance', require('./routes/assistanceRoute'));
 
 //manager update
 app.use('/api/update-menu-item', require('./routes/updateMenuItem'));

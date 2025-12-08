@@ -1,0 +1,15 @@
+.series-item-card img {
+    width: 80px;
+    height: 80px;
+}
+
+.series-item-card {
+    width: 200px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10px;
+    background-color: #d9d9d9;
+    border-radius: 5%;
+}

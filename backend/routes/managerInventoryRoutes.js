@@ -73,4 +73,16 @@ router.patch('/update-quantity', async (req, res) => {
     }
 });
 
+// GET /get-low-quantity
+router.get('/get-low-quantity', async (req, res) => {
+    try {
+        const client = await pool.connect();
+        const lowQuantityRes = await client.query('SELECT name, quantity FROM inventory WHERE quantity < 10;');
+        res.status(200).json({ message: "Items obtained successfully", lowQuantityItems: lowQuantityRes.rows });
+    } catch(error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+})
+
 module.exports = router;
