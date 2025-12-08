@@ -11,7 +11,9 @@
   "login": {
     "welcome": "Bienvenue !",
     "enterName": "Entrez votre nom",
+    "enterPhone": "Entrez votre numéro de téléphone",
     "go": "Aller",
+    "continueAsGuest": "Continuer en tant qu'invité",
     "createError": "Impossible de créer le client/commande"
   },
 
@@ -19,10 +21,10 @@
     "searchPlaceholder": "Rechercher des articles...",
     "noItemsFound": "Aucun article trouvé",
     "series": {
-      "milkTea": "Thé au lait",
-      "fruitTea": "Thé aux fruits",
-      "specialtyDrink": "Boisson spéciale",
-      "seasonalItem": "Article saisonnier"
+      "MilkTea": "Thé au lait",
+      "FruitTea": "Thé aux fruits",
+      "SpecialtyDrink": "Boisson spéciale",
+      "SeasonalDrink": "Boisson saisonnière"
     }
   },
 

@@ -11,7 +11,9 @@
   "login": {
     "welcome": "Welcome!",
     "enterName": "Enter your name",
+    "enterPhone": "Enter your phone number",
     "go": "Go",
+    "continueAsGuest": "Continue as Guest",
     "createError": "Could not establish customer/order"
   },
 
@@ -19,10 +21,10 @@
     "searchPlaceholder": "Search items...",
     "noItemsFound": "No items found",
     "series": {
-      "Milk Tea": "Milk Tea",
-      "Fruit Tea": "Fruit Tea",
-      "Specialty Drink": "Specialty Drink",
-      "Seasonal Item": "Seasonal Item"
+      "MilkTea": "Milk Tea",
+      "FruitTea": "Fruit Tea",
+      "SpecialtyDrink": "Specialty Drink",
+      "SeasonalDrink": "Seasonal Drink"
     }
   },
 
