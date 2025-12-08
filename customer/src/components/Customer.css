@@ -52,16 +52,12 @@ html, body, #root {
   max-height: 100vh;
   overflow: hidden;
 
-  gap: 32px;               /* even spacing */
+  gap: 16px;               /* even spacing */
 }
-
-
-
 
 .login-title {
   font-size: 2rem;
   font-weight: 600;
-  margin-bottom: 1.5rem;
   text-align: center;
 }
 
@@ -492,4 +488,11 @@ button:hover {
 
 .go-button:active {
   background-color: #145ca1 !important;
+}
+
+.language-label {
+  position: absolute;
+  z-index: 1000;
+  font-weight: 600;
+  margin: 20px;
 }

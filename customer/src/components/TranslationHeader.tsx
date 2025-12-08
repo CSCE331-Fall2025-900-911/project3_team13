@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import i18n from '../i18n';
+import './Customer.css'
 
 export default function TranslationHeader() {
     const { t } = useTranslation();
@@ -12,7 +13,7 @@ export default function TranslationHeader() {
     }
     // More languages will be added.
     return (
-        <div>
+        <div className="language-label">
             <label htmlFor="languages">{t('header.selectLanguage')} </label>
             <select
                 name="languages"
