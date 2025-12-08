@@ -55,5 +55,11 @@
     "orderSent": "Bestellung erfolgreich gesendet!",
     "ok": "OK",
     "sendError": "Fehler beim Senden der Bestellung. Bitte versuchen Sie es erneut."
+  },
+
+  "app": {
+    "requestAssistance": "Hilfe anfordern",
+    "disableVoiceAssistance": "Sprachassistent deaktivieren",
+    "enableVoiceAssistance": "Sprachassistent aktivieren"
   }
 }
