@@ -43,13 +43,14 @@ export function EditorPopup<T extends { id: number; name: string }>(
 
     try {
       if (tableType === "inventory") {
-        const res = await fetch(`http://localhost:3000/api/inventory/update-quantity`, {
+        const res = await fetch(`http://localhost:3000/api/inventory/update-inventory`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ id: selected.id, quantity: updatedValue })
+          body: JSON.stringify({ id: selected.id, field: field, value: updatedValue })
         });
         if (!res.ok) throw new Error("Update failed");
       } else if (tableType === "employees") {
+        /*
         if (field === "permissions") {
           const res = await fetch(
             `http://localhost:3000/api/employees/promote-employee?id=${selected.id}`,
@@ -58,7 +59,13 @@ export function EditorPopup<T extends { id: number; name: string }>(
           if (!res.ok) throw new Error("Promotion failed");
         } else {
           console.log("Only permissions are supported for employees.");
-        }
+        } */
+        const res = await fetch(`http://localhost:3000/api/employees/update-employee`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: selected.id, field: field, value: updatedValue })
+        });
+        if (!res.ok) throw new Error("Update failed");
       } else if (tableType === "menu") {
         const res = await await fetch(`http://localhost:3000/api/update-menu-item/${selected.id}`, {
             method: "PUT",
