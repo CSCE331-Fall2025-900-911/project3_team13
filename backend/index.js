@@ -35,6 +35,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Routes
+app.use('/api/login', require('./routes/loginRoute'));
 app.use('/api/new-order', require('./routes/newOrderRoute'));
 app.use('/api/add-customer', require('./routes/addCustomerRoute'));
 app.use('/api/link-customer-to-order', require('./routes/linkCustomerToOrder'));
