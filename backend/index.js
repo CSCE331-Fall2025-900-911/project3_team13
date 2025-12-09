@@ -65,6 +65,7 @@ app.use('/api/customer-by-phone', require('./routes/getCustomerPhone'));
 app.use("/api/update-order-name", require("./routes/updateOrderName"));
 app.use('/api/customer-loyalty', require('./routes/getCustomerLoyalty'));
 
+app.use('/api/update-order-status', require('./routes/updateOrderStatus'));
 //manager update
 app.use('/api/update-menu-item', require('./routes/updateMenuItem'));
 

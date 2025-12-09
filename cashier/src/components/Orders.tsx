@@ -28,7 +28,7 @@ interface Order {
 export function Orders() {
     const [orderData, setOrderData] = useState<Order[] | null>(null);
     const [isLoading, setIsLoading] = useState(true);
-    const { loadOrder } = useOrder();
+    const { loadOrder, markAsCompleted } = useOrder();
 
     const fetchItemData = async () => {
         const res = await axios.get(encodeURI(`http://localhost:3000/api/order-list`));
@@ -72,7 +72,26 @@ export function Orders() {
                     <h3>{item.customer_name}</h3>
                     <p>{item.status}</p>
                     <p>{item.timestamp}</p>
-                    <Button variant='contained' onClick={() => loadOrder(item.id)}>Add to Order</Button>
+
+                    {/* Existing button */}
+                    <Button variant='contained' onClick={() => loadOrder(item.id)}>
+                    Add to Order
+                    </Button>
+
+                    {/* NEW conditional Completed button */}
+                    {item.status === "in progress" && (
+                    <Button
+                        variant="contained"
+                        color="success"
+                        
+                        onClick={async () => {
+                            await markAsCompleted(item.id);
+                            await fetchItemData();
+                        }}
+                    >
+                        Completed
+                    </Button>
+                    )}
                 </div>
             ))}
         </div>
