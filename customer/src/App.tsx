@@ -108,32 +108,35 @@ function AppContent() {
 
   // Add item to cart
   const addToCart = async (item: FoodItem) => {
-    try {
-      const orderIdStr = localStorage.getItem("orderId");
-      if (orderIdStr === null) {
-        console.error("No valid order");
-        return;
-      }
+  try {
+    const orderIdStr = localStorage.getItem("orderId");
+    if (!orderIdStr) return;
 
-      await axios.post("http://localhost:3000/api/add-modified-menu-item", {
-        orderId: orderIdStr ? parseInt(orderIdStr) : -1,
-        menuItemId: item.id,
-        sugar: item.customizations ? item.customizations.sugar : "100%",
-        ice: item.customizations ? item.customizations.ice : "100%",
-        size: item.customizations ? item.customizations.size : "Medium",
-        shots: item.customizations ? item.customizations.shots : "0",
-        notes: item.customizations ? item.customizations.notes : "",
-      });
+    const res = await axios.post("http://localhost:3000/api/add-modified-menu-item", {
+      orderId: parseInt(orderIdStr),
+      menuItemId: item.id,
+      sugar: item.customizations?.sugar ?? "100%",
+      ice: item.customizations?.ice ?? "100%",
+      size: item.customizations?.size ?? "Medium",
+      shots: item.customizations?.shots ?? "0",
+      notes: item.customizations?.notes ?? "",
+    });
 
-      setCartItems((prev) => [...prev, item]);
-      setCartOpen(true);
+    const comboId = res.data.comboId;  // ⭐ IMPORTANT
 
-      speak(`${item.name} added to cart.`);
-    } catch (error) {
-      console.error(error);
-      alert("Failed to add item to cart.");
-    }
-  };
+    setCartItems((prev) => [
+      ...prev,
+      { ...item, comboId }  // ⭐ Attach comboId
+    ]);
+
+    setCartOpen(true);
+    speak(`${item.name} added to cart.`);
+  } catch (error) {
+    console.error(error);
+    alert("Failed to add item to cart.");
+  }
+};
+
 
   // Clear cart
   const clearCart = () => {

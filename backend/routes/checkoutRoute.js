@@ -7,7 +7,7 @@ router.patch('/', async (req, res) => {
 
   // Always normalize
   const freeList = Array.isArray(freeComboIds) ? freeComboIds : [];
-
+  console.log(`Checkout request: orderId=${orderId}, total=${total}, status=${status}, freeComboIds=${freeList}`);
   let client;
   try {
     client = await pool.connect();
