@@ -59,8 +59,12 @@ const handleGo = async () => {
           customerId: existing ? existing.id : -1,
           employeeId: 1
         });
-
+        await axios.patch("http://localhost:3000/api/update-order-name", {
+        orderId,
+        name: localStorage.getItem("customerName") || ""
+      });
         navigate('/menu');
+        
       } 
       else {
         // New customer → go to name entry page

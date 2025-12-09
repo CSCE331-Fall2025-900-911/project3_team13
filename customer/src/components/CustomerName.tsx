@@ -35,7 +35,12 @@ export default function CustomerName() {
         customerId,
         employeeId: 1
       });
+      await axios.patch("http://localhost:3000/api/update-order-name", {
+        orderId,
+        name
+      });
 
+      
       navigate("/menu");
 
     } catch (err) {
