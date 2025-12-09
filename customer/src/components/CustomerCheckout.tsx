@@ -20,6 +20,11 @@ interface CheckoutProps {
   clearCart: () => void;
 }
 
+interface LoyaltyResp {
+  free_drinks: number;
+  points: number;
+}
+
 export default function CustomerCheckout({ cartItems, clearCart }: CheckoutProps) {
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -53,7 +58,7 @@ export default function CustomerCheckout({ cartItems, clearCart }: CheckoutProps
       }
 
       try {
-        const res = await axios.get("http://localhost:3000/api/customer-loyalty", {
+        const res = await axios.get<LoyaltyResp>("http://localhost:3000/api/customer-loyalty", {
           params: { customerId }
         });
         console.log("📥 Loyalty response:", res.data);

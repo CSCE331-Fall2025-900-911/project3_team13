@@ -32,6 +32,12 @@ import { TTSProvider, useTTS } from "./useTTS";
 import { useTranslation } from "react-i18next";
 import CustomerName from "./components/CustomerName";
 import GuestName from "./components/GuestName";
+
+interface AddModifiedItemResp {
+  message: string;
+  comboId: number;
+}
+
 function AppContent() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -112,7 +118,7 @@ function AppContent() {
     const orderIdStr = localStorage.getItem("orderId");
     if (!orderIdStr) return;
 
-    const res = await axios.post("http://localhost:3000/api/add-modified-menu-item", {
+    const res = await axios.post<AddModifiedItemResp>("http://localhost:3000/api/add-modified-menu-item", {
       orderId: parseInt(orderIdStr),
       menuItemId: item.id,
       sugar: item.customizations?.sugar ?? "100%",
