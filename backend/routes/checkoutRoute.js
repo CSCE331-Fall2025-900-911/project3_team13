@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const pool = require('../db/pool');
+const { hasZReportBeenGeneratedToday } = require('../utils/zReportHelper');
 
 router.patch('/', async (req, res) => {
   const { orderId, total, status, freeComboIds } = req.body;
@@ -10,6 +11,14 @@ router.patch('/', async (req, res) => {
 
   let client;
   try {
+    // Check if Z-report has already been generated today
+    const zReportExists = await hasZReportBeenGeneratedToday();
+    if (zReportExists) {
+      return res.status(409).json({ 
+        error: 'Z-report has already been generated for today. No further transactions are allowed.' 
+      });
+    }
+
     client = await pool.connect();
 
     // --------------------------------------------------
