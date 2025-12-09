@@ -40,6 +40,7 @@ export default function CustomerCheckout({ cartItems, clearCart }: CheckoutProps
   const [selectedRedemptions, setSelectedRedemptions] = useState<number[]>([]);
   const [doneOpen, setDoneOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [points, setPoints] = useState(0);
 
   // ============================================================
   // Fetch loyalty info (skip guest)
@@ -57,7 +58,9 @@ export default function CustomerCheckout({ cartItems, clearCart }: CheckoutProps
         });
         console.log("📥 Loyalty response:", res.data);
 console.log("🟢 Setting freeDrinks =", res.data.free_drinks);
+console.log("🟢 Setting points =", res.data.points);
         setFreeDrinks(res.data.free_drinks || 0);
+        setPoints(res.data.points || 0);
       } catch (err) {
         console.error("Failed to fetch loyalty info:", err);
       }
@@ -165,6 +168,24 @@ console.log("🟢 Setting freeDrinks =", res.data.free_drinks);
       </Typography>
 
       <Divider sx={{ mb: 2 }} />
+      {!isGuest && (
+  <Box
+    sx={{
+      p: 2,
+      mb: 3,
+      borderRadius: 2,
+      backgroundColor: "#e3f2fd",
+      border: "1px solid #64b5f6",
+      width: "60%",
+      mx: "auto",
+      textAlign: "center"
+    }}
+  >
+    <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+      ⭐ You have {points}/10 reward point{points !== 1 ? "s" : ""}.
+    </Typography>
+  </Box>
+)}
 
       {/* ============================================================
           FREE DRINK UI (hidden for guest)
