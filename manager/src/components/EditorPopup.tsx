@@ -21,7 +21,7 @@ export function EditorPopup<T extends { id: number; name: string }>(
 ) {
   const [searchTerm, setSearchTerm] = useState('');
   const selected = data.find(
-    (item) => item.name.toLowerCase() === searchTerm.toLowerCase()
+    (item) => item.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const [field, setField] = useState('');
