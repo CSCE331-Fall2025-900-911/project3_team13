@@ -38,5 +38,11 @@
     "sending": "Sending...",
     "orderSent": "Order sent successfully!",
     "ok": "OK"
+  },
+
+  "modify": {
+    "temperature": "Temperature",
+    "toppings": "Toppings",
+    "quantity": "Quantity"
   }
 }

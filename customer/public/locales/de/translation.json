@@ -38,5 +38,11 @@
     "sending": "Senden...",
     "orderSent": "Bestellung erfolgreich gesendet!",
     "ok": "OK"
+  },
+
+  "modify": {
+    "temperature": "Temperatur",
+    "toppings": "Beläge",
+    "quantity": "Menge"
   }
 }

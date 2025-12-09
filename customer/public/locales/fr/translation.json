@@ -38,5 +38,11 @@
     "sending": "Envoi...",
     "orderSent": "Commande envoyée avec succès !",
     "ok": "OK"
+  },
+
+  "modify": {
+    "temperature": "Température",
+    "toppings": "Garnitures",
+    "quantity": "Quantité"
   }
 }

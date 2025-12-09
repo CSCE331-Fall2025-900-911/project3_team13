@@ -39,11 +39,32 @@
     "size": "Tamaño",
     "shots": "Shots adicionales",
     "notes": "Notas especiales",
+    "temperature": "Temperatura",
+    "toppings": "Ingredientes adicionales",
+    "quantity": "Cantidad",
     "addToOrder": "Agregar al pedido",
     "small": "Pequeño",
     "medium": "Mediano",
     "large": "Grande",
-    "none": "Ninguno"
+    "none": "Ninguno",
+    "toppingsList": {
+      "Regular Pearl": "Perla Regular",
+      "Lychee Jelly": "Gelatina de Lichi",
+      "Pudding": "Pudín",
+      "Ice Cream": "Helado",
+      "Mini Pearls": "Mini Perlas",
+      "Aiyu Jelly": "Gelatina Aiyu",
+      "Creama": "Crema",
+      "Sub Creama": "Sub Crema",
+      "Crystal Boba": "Boba Cristal",
+      "Mango Popping Boba": "Boba Explosiva de Mango",
+      "Strawberry Popping Boba": "Boba Explosiva de Fresa",
+      "Coffee Jelly": "Gelatina de Café",
+      "Honey Jelly": "Gelatina de Miel",
+      "Peach Popping Boba": "Boba Explosiva de Durazno",
+      "Fresh Milk": "Leche Fresca",
+      "Matcha Creama": "Crema de Matcha"
+    }
   },
 
   "cart": {
@@ -62,6 +83,8 @@
   "app": {
     "requestAssistance": "Solicitar asistencia",
     "disableVoiceAssistance": "Desactivar asistencia de voz",
-    "enableVoiceAssistance": "Activar asistencia de voz"
+    "enableVoiceAssistance": "Activar asistencia de voz",
+    "cart": "Carrito",
+    "textToSpeech": "Texto a Voz"
   }
 }
