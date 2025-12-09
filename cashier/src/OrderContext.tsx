@@ -30,7 +30,7 @@ export const OrderContext = createContext<{
     orderStatus: OrderStatus;
     orderItems: OrderItem[];
     createOrder: () => Promise<number | null>;
-    completeOrder: () => Promise<void>;
+    checkout: () => Promise<void>;
     loadOrder: (orderId: number) => Promise<void>;
     cancelOrder: () => Promise<void>;
     addItemToOrder: (item: OrderItem) => void;
@@ -50,8 +50,7 @@ export default function OrderProvider({ children }: { children: React.ReactNode 
     const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
     const [orderStatus, setOrderStatus] = useState<OrderStatus>('pending');
 
-    // Creates a new order. Intended to happen on first render, when an order is cancelled, or when a  order is completed.
-    // Known issue: Refreshing causes this to be called
+    // Creates a new order
     const createOrder = async () => {
         try {
             const res = await axios.post('http://localhost:3000/api/new-order');
@@ -106,7 +105,7 @@ export default function OrderProvider({ children }: { children: React.ReactNode 
     }
 
     // Checkout process
-    const completeOrder = async () => {
+    const checkout = async () => {
         // update transactions table
         const total = orderItems.reduce((sum: number, item: OrderItem) => sum + item.price, 0);
         try {
@@ -117,6 +116,7 @@ export default function OrderProvider({ children }: { children: React.ReactNode 
             });
             setOrderStatus('in progress');
             alert("Checkout successful!");
+            await createOrder();
         } catch(error) {
             alert("Checkout failed.");
             console.error(error);
@@ -156,7 +156,7 @@ export default function OrderProvider({ children }: { children: React.ReactNode 
                 await deleteItemFromOrder(item.comboId);
             }
             setOrderStatus('canceled');
-            setOrderItems([]);
+            await createOrder();
         } catch (error) {
             alert("Could not cancel order.");
             console.error("Error trying to cancel order:", error);
@@ -185,7 +185,7 @@ export default function OrderProvider({ children }: { children: React.ReactNode 
         orderStatus,
         orderItems,
         createOrder,
-        completeOrder,
+        checkout,
         loadOrder,
         cancelOrder,
         addItemToOrder,
