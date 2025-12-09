@@ -116,6 +116,7 @@ export default function CustomerMenu({ onCartOpen }: Props) {
       fontWeight: 600,
       marginBottom: "20px"
     }}
+    role="header"
   >
     {t('menu.welcome') || "Welcome"}, {customerPhone}!
   </Box>

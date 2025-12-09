@@ -79,7 +79,7 @@ const handleGo = async () => {
     <div className="login-container">
       <div className="login-box">
 
-        <h1 className="login-title">{t('login.welcome')}</h1>
+        <h1 className="login-title" role="header">{t('login.welcome')}</h1>
             <Button
   variant="outlined"
   className="skip-button"

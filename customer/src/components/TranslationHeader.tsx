@@ -13,7 +13,7 @@ export default function TranslationHeader() {
     }
     // More languages will be added.
     return (
-        <div className="language-label">
+        <div className="language-label" role="header">
             <label htmlFor="languages">{t('header.selectLanguage')} </label>
             <select
                 name="languages"
