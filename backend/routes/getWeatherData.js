@@ -3,6 +3,7 @@ const router = express.Router();
 const pool = require('../db/pool');
 const axios = require('axios');
 
+// Weather API Integration
 router.get('/', async (req, res) => {
     try {
         const city = "College Station"; // Default city
