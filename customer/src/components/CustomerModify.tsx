@@ -122,7 +122,7 @@ export default function CustomerModify({ open, item, onClose, onAddToCart }: Pro
           {/* Temperature */}
           <TextField
             select
-            label="Temperature"
+            label={t('modify.temperature')}
             value={drinkTemp}
             
             onChange={(e) => {
@@ -207,17 +207,17 @@ export default function CustomerModify({ open, item, onClose, onAddToCart }: Pro
 
           {/* Toppings */}
           <div style={{ marginTop: "10px" }}>
-            <h3>Toppings</h3>
-            {TOPPINGS.map((t) => (
+            <h3>{t('modify.toppings')}</h3>
+            {TOPPINGS.map((topping) => (
               <FormControlLabel
-                key={t}
+                key={topping}
                 control={
                   <Checkbox
-                    checked={selectedToppings.includes(t)}
-                    onChange={() => toggleTopping(t)}
+                    checked={selectedToppings.includes(topping)}
+                    onChange={() => toggleTopping(topping)}
                   />
                 }
-                label={t}
+                label={t(`modify.toppingsList.${topping}`)}
               />
             ))}
           </div>
@@ -236,7 +236,7 @@ export default function CustomerModify({ open, item, onClose, onAddToCart }: Pro
           {/* Quantity */}
           <TextField
             select
-            label="Quantity"
+            label={t('modify.quantity')}
             value={quantity}
             onChange={(e) => {
               const num = parseInt(e.target.value);

@@ -187,7 +187,7 @@ function AppContent() {
             "&:hover": { backgroundColor: "#f0f0f0" },
           }}
         >
-          <span className="cart-text">Cart</span>
+          <span className="cart-text">{t('app.cart')}</span>
           <ShoppingCartIcon />
         </IconButton>
       )}
@@ -341,9 +341,7 @@ function AppContent() {
     >
       {enabled ? <VolumeUpIcon /> : <VolumeOffIcon />}
      <span style={{ marginTop: 4, fontSize: 12, textAlign: "center" }}>
-  
-  Text-To-Speech
-  {/* {t('app.textToSpeech')} */}
+  {t('app.textToSpeech')}
 </span>
       {/* or full text: "Text-To-Speech" */}
     </Box>
