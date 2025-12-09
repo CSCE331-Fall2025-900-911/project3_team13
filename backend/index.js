@@ -54,6 +54,8 @@ app.use('/auth', require('./routes/authRoute'));
 app.use('/api/inventory', require('./routes/managerInventoryRoutes'));
 app.use('/api/employees', require('./routes/managerEmployeeRoutes'));
 app.use('/api/manager-analytics', require('./routes/managerAnalyticsRoutes'));
+app.use('/api/menu', require('./routes/addMenuItem'));
+app.use('/api/menu', require('./routes/deleteMenuItem'));
 
 app.use('/api/weather', require('./routes/getWeatherData'));
 app.use('/api/assistance', require('./routes/assistanceRoute'));
