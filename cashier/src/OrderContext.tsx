@@ -35,6 +35,7 @@ export const OrderContext = createContext<{
     cancelOrder: () => Promise<void>;
     addItemToOrder: (item: OrderItem) => void;
     deleteItemFromOrder: (itemId: number) => void;
+    markAsCompleted: (orderId: number) => Promise<void>;
 } | undefined>(undefined);
 
 export function useOrder() {
@@ -161,7 +162,23 @@ export default function OrderProvider({ children }: { children: React.ReactNode 
             console.error("Error trying to cancel order:", error);
         }
     }
+    const markAsCompleted = async (orderId: number) => {
+        console.log("Marking order completed:", orderId); 
+    try {
+        await axios.patch("http://localhost:3000/api/update-order-status", {
+            orderId,
+            status: "completed"
+        });
+        
+        // Reload the order to update UI
+        await loadOrder(orderId);
 
+        alert("Order marked as completed.");
+    } catch (err) {
+        console.error("Failed to mark order completed:", err);
+        alert("Error marking order complete.");
+    }
+};
     // Below are the attributes we will use for our order context.
     const value = {
         orderId,
@@ -172,7 +189,8 @@ export default function OrderProvider({ children }: { children: React.ReactNode 
         loadOrder,
         cancelOrder,
         addItemToOrder,
-        deleteItemFromOrder
+        deleteItemFromOrder,
+        markAsCompleted            
     };
 
     return (
