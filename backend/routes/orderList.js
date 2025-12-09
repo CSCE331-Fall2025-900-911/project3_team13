@@ -24,6 +24,22 @@ router.get("/", async (req, res) => {
 
         // Attach drink items + modifications
         for (const order of orders) {
+            // if customer ID for this order != 1, leave order.name as is, else set order.name = name from order table
+            const transaction_order_res = await pool.query(
+                `SELECT o.id, o.name, t.customerid
+                FROM orders o
+                LEFT JOIN transactions t on o.id = t.id
+                WHERE o.id = $1`,
+                [order.id]
+            );
+            
+            if (transaction_order_res.rows.length > 0) {
+                const transaction_order = transaction_order_res.rows[0];
+                if (transaction_order.customerid === 1) {
+                    order.customer_name = transaction_order.name;
+                }
+            }
+
             const itemsResult = await pool.query(
                 `SELECT 
                     mio.id AS combo_id,
