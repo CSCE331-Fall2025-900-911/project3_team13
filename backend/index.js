@@ -35,6 +35,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Routes
+app.use('/api/login', require('./routes/loginRoute'));
 app.use('/api/new-order', require('./routes/newOrderRoute'));
 app.use('/api/add-customer', require('./routes/addCustomerRoute'));
 app.use('/api/link-customer-to-order', require('./routes/linkCustomerToOrder'));
@@ -44,6 +45,7 @@ app.use('/api/cart', require('./routes/cartRoute'));
 app.use('/api/get-menu-items', require('./routes/getMenuItemsRoute'));
 app.use('/api/get-all-items', require('./routes/getAllItemsRoute'));
 app.use('/api/checkout', require('./routes/checkoutRoute'));
+app.use('/api/load-order', require('./routes/loadOrderRoute'));
 app.use('/api/order-list', require('./routes/orderList'));
 app.use('/api/get-x-report', require('./routes/getXReportInfoRoute'));
 app.use('/api/get-z-report', require('./routes/getZReportInfoRoute'));
@@ -53,12 +55,18 @@ app.use('/auth', require('./routes/authRoute'));
 app.use('/api/inventory', require('./routes/managerInventoryRoutes'));
 app.use('/api/employees', require('./routes/managerEmployeeRoutes'));
 app.use('/api/manager-analytics', require('./routes/managerAnalyticsRoutes'));
-app.use('/api/customers', require('./routes/getCustomerPoints'));
-app.use('/api/customers', require('./routes/redeemCustomerPoints'));
+app.use('/api/menu', require('./routes/addMenuItem'));
+app.use('/api/menu', require('./routes/deleteMenuItem'));
 
 app.use('/api/weather', require('./routes/getWeatherData'));
 app.use('/api/assistance', require('./routes/assistanceRoute'));
 
+app.use('/api/customer-by-phone', require('./routes/getCustomerPhone'));
+
+app.use("/api/update-order-name", require("./routes/updateOrderName"));
+app.use('/api/customer-loyalty', require('./routes/getCustomerLoyalty'));
+
+app.use('/api/update-order-status', require('./routes/updateOrderStatus'));
 //manager update
 app.use('/api/update-menu-item', require('./routes/updateMenuItem'));
 

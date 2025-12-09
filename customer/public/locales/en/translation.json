@@ -11,14 +11,16 @@
   "login": {
     "welcome": "Welcome!",
     "enterName": "Enter your name",
+    "enterPhone": "Enter your phone number",
     "go": "Go",
+    "continueAsGuest": "Continue as Guest",
     "createError": "Could not establish customer/order"
   },
 
   "menu": {
     "searchPlaceholder": "Search items...",
     "noItemsFound": "No items found",
-    "viewModify": "View / Modify",
+    "viewModify": "Modify",
     "itemNotFound": "Item not found",
     "goBack": "Go Back",
     "defaultDescription": "Delicious drink from our menu!",
@@ -26,7 +28,7 @@
       "MilkTea": "Milk Tea",
       "FruitTea": "Fruit Tea",
       "SpecialtyDrink": "Specialty Drink",
-      "SeasonalItem": "Seasonal Item"
+      "SeasonalDrink": "Seasonal Drink"
     }
   },
 
@@ -37,11 +39,32 @@
     "size": "Size",
     "shots": "Extra Shots",
     "notes": "Special Notes",
+    "temperature": "Temperature",
+    "toppings": "Toppings",
+    "quantity": "Quantity",
     "addToOrder": "Add to Order",
     "small": "Small",
     "medium": "Medium",
     "large": "Large",
-    "none": "None"
+    "none": "None",
+    "toppingsList": {
+      "Regular Pearl": "Regular Pearl",
+      "Lychee Jelly": "Lychee Jelly",
+      "Pudding": "Pudding",
+      "Ice Cream": "Ice Cream",
+      "Mini Pearls": "Mini Pearls",
+      "Aiyu Jelly": "Aiyu Jelly",
+      "Creama": "Creama",
+      "Sub Creama": "Sub Creama",
+      "Crystal Boba": "Crystal Boba",
+      "Mango Popping Boba": "Mango Popping Boba",
+      "Strawberry Popping Boba": "Strawberry Popping Boba",
+      "Coffee Jelly": "Coffee Jelly",
+      "Honey Jelly": "Honey Jelly",
+      "Peach Popping Boba": "Peach Popping Boba",
+      "Fresh Milk": "Fresh Milk",
+      "Matcha Creama": "Matcha Creama"
+    }
   },
 
   "cart": {
@@ -60,6 +83,8 @@
   "app": {
     "requestAssistance": "Request Assistance",
     "disableVoiceAssistance": "Disable voice assistance",
-    "enableVoiceAssistance": "Enable voice assistance"
+    "enableVoiceAssistance": "Enable voice assistance",
+    "cart": "Cart",
+    "textToSpeech": "Text-To-Speech"
   }
 }

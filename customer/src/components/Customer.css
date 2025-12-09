@@ -19,29 +19,45 @@ html, body, #root {
 
 /* === LOGIN PAGE === */
 .login-container {
+  height: 100vh;
+  width: 100vw;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  width: 100vw;
+
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+
+  background-color: #f0f0f0;
 }
 
 .login-box {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 90%;
-  max-width: 400px;
-  padding: 2rem;
+
+  width: 100%;
+  max-width: 540px;        /* kiosk size */
+  padding: 40px;
+
   background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border-radius: 24px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+
+  box-sizing: border-box;
+
+  /* ⭐ This forces everything to fit vertically */
+  max-height: 100vh;
+  overflow: hidden;
+
+  gap: 16px;               /* even spacing */
 }
 
 .login-title {
   font-size: 2rem;
   font-weight: 600;
-  margin-bottom: 1.5rem;
   text-align: center;
 }
 
@@ -177,6 +193,9 @@ button:hover {
   font-size: 1.1rem;
   font-weight: 600;
   margin: 6px 0;
+  width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .series-item-desc {
@@ -396,9 +415,91 @@ button:hover {
   gap: 20px;
 }
 
+h4 {
+  text-align: center;
+}
+
 .item-text .MuiButton-root {
   width: 200px;
   height: 60px;
   align-self: center;
   font-size: x-large;
+}
+
+
+/* === login === */
+/* Wrapper keeps keypad centered */
+.keypad-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* FORCE the keypad to shrink vertically so it never hits the GO button */
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+
+  /* ⭐ reduce overall keypad footprint */
+  width: 230px;
+  max-height: 280px;
+
+  /* ⭐ shrink content inside it */
+  transform: scale(0.80);
+  transform-origin: top center;
+}
+
+.keypad-button {
+  background: #555;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+
+  /* ⭐ smaller text so buttons can shrink */
+  font-size: 1.3rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  aspect-ratio: 1 / 1;
+}
+
+/* DELETE button wider but not tall */
+.keypad-button.delete {
+  grid-column: span 2;
+  aspect-ratio: auto;
+  height: 45px;
+}
+
+.keypad-button.clear {
+  background-color: #c44;
+}
+
+
+.go-button {
+  width: 100%;
+  padding: 18px 0;
+
+  font-size: 1.6rem;
+  font-weight: 700;
+
+  border-radius: 14px !important;
+  background-color: #1976d2 !important;
+  color: white !important;
+
+  flex-shrink: 0;
+}
+
+.go-button:active {
+  background-color: #145ca1 !important;
+}
+
+.language-label {
+  position: absolute;
+  z-index: 1000;
+  font-weight: 600;
+  margin: 20px;
 }

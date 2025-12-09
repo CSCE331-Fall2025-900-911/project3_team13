@@ -48,13 +48,19 @@ export function ManagerOverview() {
 
     const getOrdersPerItem = async () => {
         try {
+            const menuRes = await axios.get<{ items: { name: string }[] }>(
+                "http://localhost:3000/api/get-all-items"
+            );
             const res = await axios.get<{ ordersPerItem: { item_name: string; count: number }[] }>(
                 "https://project3-team13-backend.onrender.com/api/manager-analytics/orders-per-item-today"
             );
-
-            const mapped: OrdersPerItemResponse[] = res.data.ordersPerItem.map(item => ({
-                name: item.item_name,
-                value: Number(item.count),
+            const ordersMap: Record<string, number> = {};
+            res.data.ordersPerItem.forEach(item => {
+                ordersMap[item.item_name] = Number(item.count);
+            });
+            const mapped: OrdersPerItemResponse[] = menuRes.data.items.map(item => ({
+                name: item.name,
+                value: ordersMap[item.name] || 0,
             }));
 
             setOrdersPerItem(mapped);

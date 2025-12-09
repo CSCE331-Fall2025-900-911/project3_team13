@@ -11,14 +11,16 @@
   "login": {
     "welcome": "Bienvenue !",
     "enterName": "Entrez votre nom",
+    "enterPhone": "Entrez votre numéro de téléphone",
     "go": "Aller",
+    "continueAsGuest": "Continuer en tant qu'invité",
     "createError": "Impossible de créer le client/commande"
   },
 
   "menu": {
     "searchPlaceholder": "Rechercher des articles...",
     "noItemsFound": "Aucun article trouvé",
-    "viewModify": "Afficher / Modifier",
+    "viewModify": "Modifier",
     "itemNotFound": "Article non trouvé",
     "goBack": "Retour",
     "defaultDescription": "Une boisson délicieuse de notre menu!",
@@ -26,7 +28,7 @@
       "MilkTea": "Thé au lait",
       "FruitTea": "Thé aux fruits",
       "SpecialtyDrink": "Boisson spéciale",
-      "SeasonalItem": "Article saisonnier"
+      "SeasonalDrink": "Boisson saisonnière"
     }
   },
 
@@ -37,11 +39,32 @@
     "size": "Taille",
     "shots": "Shots supplémentaires",
     "notes": "Notes spéciales",
+    "temperature": "Température",
+    "toppings": "Garnitures",
+    "quantity": "Quantité",
     "addToOrder": "Ajouter à la commande",
     "small": "Petit",
     "medium": "Moyen",
     "large": "Grand",
-    "none": "Aucun"
+    "none": "Aucun",
+    "toppingsList": {
+      "Regular Pearl": "Perle Régulière",
+      "Lychee Jelly": "Gelée de Litchi",
+      "Pudding": "Pudding",
+      "Ice Cream": "Crème Glacée",
+      "Mini Pearls": "Mini Perles",
+      "Aiyu Jelly": "Gelée Aiyu",
+      "Creama": "Crème",
+      "Sub Creama": "Sous-Crème",
+      "Crystal Boba": "Boba Cristal",
+      "Mango Popping Boba": "Boba Éclatante à la Mangue",
+      "Strawberry Popping Boba": "Boba Éclatante à la Fraise",
+      "Coffee Jelly": "Gelée au Café",
+      "Honey Jelly": "Gelée au Miel",
+      "Peach Popping Boba": "Boba Éclatante à la Pêche",
+      "Fresh Milk": "Lait Frais",
+      "Matcha Creama": "Crème au Matcha"
+    }
   },
 
   "cart": {
@@ -60,6 +83,8 @@
   "app": {
     "requestAssistance": "Demander de l'aide",
     "disableVoiceAssistance": "Désactiver l'assistance vocale",
-    "enableVoiceAssistance": "Activer l'assistance vocale"
+    "enableVoiceAssistance": "Activer l'assistance vocale",
+    "cart": "Panier",
+    "textToSpeech": "Synthèse Vocale"
   }
 }

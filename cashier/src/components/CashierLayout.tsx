@@ -20,9 +20,23 @@ import { useOrder } from '../OrderContext';
 export function CashierLayout() {
   const [tabValue, setTabValue] = useState<'menu' | 'library' | 'orders'>('menu');
   const [open, setOpen] = useState(false);
-  const { orderId, createOrder, cancelOrder, completeOrder } = useOrder();
+  const { orderId, createOrder, cancelOrder, checkout } = useOrder();
   
   const [assistance, setAssistance] = useState<any[]>([]);
+
+  const [currentTime, setCurrentTime] = useState(() => {
+    const now = new Date();
+    return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = new Date();
+      setCurrentTime(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(async () => {
@@ -57,7 +71,7 @@ export function CashierLayout() {
     
     <div className="layout-content">
       <header className="top-bar" role="banner" aria-label="Top navigation">
-        <h1 style={{ margin: 0, fontSize: '1.25rem' }}>12:00</h1>
+        <h1 style={{ margin: 0, fontSize: '1.25rem' }}>{currentTime}</h1>
 
           <div style={{ marginLeft: 'auto', marginRight: '48px', display: 'flex', gap: '12px', alignItems: 'center' }}>
           {/* Assistance Alert */}
@@ -119,8 +133,9 @@ export function CashierLayout() {
             <Button 
               variant="contained" 
               className="white-button" 
-              onClick={() => {
-                console.log("Order saving to be implemented");
+              onClick={async () => {
+                alert("Order saved successfully.");
+                await createOrder();
               }}
             >
               Save Order
@@ -130,7 +145,6 @@ export function CashierLayout() {
               className="white-button"
               onClick={async () => {
                 await cancelOrder();
-                await createOrder();
               }}
             >
               Cancel Order
@@ -142,8 +156,7 @@ export function CashierLayout() {
               className='success-button' 
               size="large" 
               onClick={async () => {
-                await completeOrder();
-                await createOrder();
+                await checkout();
               }}
             >
               Checkout

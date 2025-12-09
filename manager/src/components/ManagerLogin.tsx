@@ -1,18 +1,38 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, TextField } from '@mui/material';
+import axios from 'axios';
 import './ManagerLogin.css';
+
+interface LoginResp {
+  message: string;
+  employee?: {
+    id: number;
+    name: string;
+    username: string;
+    permissions: 0 | 1;
+  }
+}
 
 export default function ManagerLogin() {
   const [username, setUserame] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleGo = () => {
+  const handleGo = async () => {
     if (username.trim() !== '' && password.trim() !== '') {
-      localStorage.setItem('username', username);
-      localStorage.setItem('password', password);
-      navigate('/layout');
+      try {
+        await axios.post<LoginResp>('http://localhost:3000/api/login/manager', {
+          username: username.trim(),
+          password: password.trim()
+        });
+        localStorage.setItem('username', username);
+        localStorage.setItem('password', password);
+        navigate('/layout');
+      } catch (error) {
+        console.error('Login failed:', error);
+        alert('Login failed. Please check your credentials and try again.');
+      }
     }
   };
 

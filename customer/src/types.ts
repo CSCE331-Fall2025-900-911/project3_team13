@@ -1,5 +1,6 @@
 export interface FoodItem {
   id: number;
+  comboId?: number
   name: string;
   description: string;
   price: number;
@@ -11,4 +12,5 @@ export interface FoodItem {
     size?: string;
     notes?: string;
   };
+  isFree?: boolean;  
 }

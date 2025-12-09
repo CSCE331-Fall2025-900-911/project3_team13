@@ -118,8 +118,7 @@ export function EditorPopup<T extends { id: number; name: string }>(
           body: JSON.stringify({
             name: "New Menu Item",
             category: "Uncategorized",
-            price: 0,
-            image: ""
+            price: 0
           })
         });
 

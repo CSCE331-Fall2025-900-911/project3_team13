@@ -83,7 +83,7 @@ export default function CustomerSeries({ onCartOpen }: CustomerSeriesProps) {
           items.map((item) => (
             <Box key={item.id} className="series-item-card">
               <img src={drink} className='series-item-image'/>
-              <h2>{item.translatedName || item.name}</h2>
+              <h2 className='series-item-name'>{item.translatedName || item.name}</h2>
               {/* Convert price to number safely */}
               <p>${item.price != null ? Number(item.price).toFixed(2) : 'N/A'}</p>
               <Button

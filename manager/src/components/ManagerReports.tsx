@@ -234,7 +234,7 @@ export function ManagerReports() {
             <Dialog open={xOpen} onClose={() => setXOpen(false)}>
                 <div className='report-dialog'>
                     <h1>X Report</h1>
-                    <h3>Total Sales: {xReportData?.totalSales}</h3>
+                    <h3>Total Sales: ${xReportData?.totalSales}</h3>
                     <h3>Cancellations: {xReportData?.cancellations}</h3>
                     <h3>Award Points Used: {xReportData?.usedPoints}</h3>
                 </div>
@@ -242,7 +242,7 @@ export function ManagerReports() {
             <Dialog open={zOpen} onClose={() => setZOpen(false)}>
                 <div className='report-dialog'>
                     <h1>Z Report</h1>
-                    <h3>Total Sales: {zReportData?.totalSales}</h3>
+                    <h3>Total Sales: ${zReportData?.totalSales}</h3>
                     <h3>Customers: {zReportData?.numCustomers}</h3>
                     <h3>Transactions: {zReportData?.numTransactions}</h3>
                 </div>

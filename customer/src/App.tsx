@@ -30,6 +30,13 @@ import CustomerCheckout from "./components/CustomerCheckout";
 import { FoodItem } from "./types";
 import { TTSProvider, useTTS } from "./useTTS";
 import { useTranslation } from "react-i18next";
+import CustomerName from "./components/CustomerName";
+import GuestName from "./components/GuestName";
+
+interface AddModifiedItemResp {
+  message: string;
+  comboId: number;
+}
 
 function AppContent() {
   const location = useLocation();
@@ -107,32 +114,35 @@ function AppContent() {
 
   // Add item to cart
   const addToCart = async (item: FoodItem) => {
-    try {
-      const orderIdStr = localStorage.getItem("orderId");
-      if (orderIdStr === null) {
-        console.error("No valid order");
-        return;
-      }
+  try {
+    const orderIdStr = localStorage.getItem("orderId");
+    if (!orderIdStr) return;
 
-      await axios.post("https://project3-team13-backend.onrender.com/api/add-modified-menu-item", {
-        orderId: orderIdStr ? parseInt(orderIdStr) : -1,
-        menuItemId: item.id,
-        sugar: item.customizations ? item.customizations.sugar : "100%",
-        ice: item.customizations ? item.customizations.ice : "100%",
-        size: item.customizations ? item.customizations.size : "Medium",
-        shots: item.customizations ? item.customizations.shots : "0",
-        notes: item.customizations ? item.customizations.notes : "",
-      });
+    const res = await axios.post<AddModifiedItemResp>("https://project3-team13-backend.onrender.com/api/add-modified-menu-item", {
+      orderId: parseInt(orderIdStr),
+      menuItemId: item.id,
+      sugar: item.customizations?.sugar ?? "100%",
+      ice: item.customizations?.ice ?? "100%",
+      size: item.customizations?.size ?? "Medium",
+      shots: item.customizations?.shots ?? "0",
+      notes: item.customizations?.notes ?? "",
+    });
 
-      setCartItems((prev) => [...prev, item]);
-      setCartOpen(true);
+    const comboId = res.data.comboId;  // ⭐ IMPORTANT
 
-      speak(`${item.name} added to cart.`);
-    } catch (error) {
-      console.error(error);
-      alert("Failed to add item to cart.");
-    }
-  };
+    setCartItems((prev) => [
+      ...prev,
+      { ...item, comboId }  // ⭐ Attach comboId
+    ]);
+
+    setCartOpen(true);
+    speak(`${item.name} added to cart.`);
+  } catch (error) {
+    console.error(error);
+    alert("Failed to add item to cart.");
+  }
+};
+
 
   // Clear cart
   const clearCart = () => {
@@ -183,7 +193,7 @@ function AppContent() {
             "&:hover": { backgroundColor: "#f0f0f0" },
           }}
         >
-          <span className="cart-text">Cart</span>
+          <span className="cart-text">{t('app.cart')}</span>
           <ShoppingCartIcon />
         </IconButton>
       )}
@@ -253,7 +263,8 @@ function AppContent() {
             </Box>
           }
         />
-
+    <Route path="/enter-name" element={<CustomerName />} />
+          <Route path="/guest-name" element={<GuestName />} />
         <Route
           path="/checkout"
           element={
@@ -304,24 +315,44 @@ function AppContent() {
       </Slide>
 
       {/* TTS Toggle Button */}
-      <Tooltip
-        title={enabled ? t('app.disableVoiceAssistance') : t('app.enableVoiceAssistance')}
-        placement="left"
-      >
-        <Fab
-          onClick={toggle}
-          color={enabled ? "primary" : "default"}
-          size="medium"
-          sx={{
-            position: "fixed",
-            bottom: 24,
-            left: 24,          // left 
-            zIndex: 4000,
-          }}
-        >
-          {enabled ? <VolumeUpIcon /> : <VolumeOffIcon />}
-        </Fab>
-      </Tooltip>
+<Tooltip
+  title={enabled ? t('app.disableVoiceAssistance') : t('app.enableVoiceAssistance')}
+  placement="left"
+>
+  <Fab
+    onClick={toggle}
+    color={enabled ? "primary" : "default"}
+    size="medium"
+    sx={{
+      position: "fixed",
+      bottom: 24,
+      left: 24,
+      zIndex: 4000,
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      width: 120,       // optional: makes room for text
+      height: 80,      // optional: keeps shape balanced
+      paddingTop: 1,
+      paddingBottom: 1,
+    }}
+  >
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        fontSize: 10,
+      }}
+    >
+      {enabled ? <VolumeUpIcon /> : <VolumeOffIcon />}
+     <span style={{ marginTop: 4, fontSize: 12, textAlign: "center" }}>
+  {t('app.textToSpeech')}
+</span>
+      {/* or full text: "Text-To-Speech" */}
+    </Box>
+  </Fab>
+</Tooltip>
     </Box>
   );
 }

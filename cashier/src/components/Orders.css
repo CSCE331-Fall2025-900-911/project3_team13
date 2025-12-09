@@ -13,12 +13,10 @@
     height: 180px;
     width: 180px;
     padding: 5px;
+    color: #2c2c2c;
 }
 
 .order-item-card h2, .order-item-card p {
     text-overflow: ellipsis;
-}
-
-.order-item-card h2, .order-item-card p {
     margin: 0;
 }

@@ -3,7 +3,7 @@ import Button from '@mui/material/Button'
 import './Orders.css'
 import dayjs from "dayjs";
 import axios from 'axios';
-
+import { useOrder } from '../OrderContext';
 interface Order {
     id: number;
     status: string;
@@ -28,6 +28,7 @@ interface Order {
 export function Orders() {
     const [orderData, setOrderData] = useState<Order[] | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const { loadOrder, markAsCompleted } = useOrder();
 
     const fetchItemData = async () => {
         const res = await axios.get(encodeURI(`https://project3-team13-backend.onrender.com/api/order-list`));
@@ -36,13 +37,9 @@ export function Orders() {
             id: customerOrder.id,
             status: customerOrder.status,
             timestamp: dayjs(customerOrder.timestamp).format("MMM D, YYYY h:mm A"),
-            customer_name: customerOrder.customer_name
+            customer_name: customerOrder.customer_name ? customerOrder.customer_name : "Guest",
             // items: customerOrder.items
         })));
-    }
-
-    async function orderToSummary(orderId: number) {
-        await axios.post(encodeURI(`https://project3-team13-backend.onrender.com/api/load-order?id=${orderId}`))
     }
     
     useEffect(() => {
@@ -75,7 +72,26 @@ export function Orders() {
                     <h3>{item.customer_name}</h3>
                     <p>{item.status}</p>
                     <p>{item.timestamp}</p>
-                    <Button variant='contained' onClick={() => orderToSummary(item.id)}>Add to Order</Button>
+
+                    {/* Existing button */}
+                    <Button variant='contained' onClick={() => loadOrder(item.id)}>
+                    Add to Order
+                    </Button>
+
+                    {/* NEW conditional Completed button */}
+                    {item.status === "in progress" && (
+                    <Button
+                        variant="contained"
+                        color="success"
+                        
+                        onClick={async () => {
+                            await markAsCompleted(item.id);
+                            await fetchItemData();
+                        }}
+                    >
+                        Completed
+                    </Button>
+                    )}
                 </div>
             ))}
         </div>

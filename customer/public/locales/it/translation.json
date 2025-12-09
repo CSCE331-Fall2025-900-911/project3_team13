@@ -11,14 +11,16 @@
   "login": {
     "welcome": "Benvenuto!",
     "enterName": "Inserisci il tuo nome",
+    "enterPhone": "Inserisci il tuo numero di telefono",
     "go": "Vai",
+    "continueAsGuest": "Continua come ospite",
     "createError": "Impossibile creare cliente/ordine"
   },
 
   "menu": {
     "searchPlaceholder": "Cerca articoli...",
     "noItemsFound": "Nessun articolo trovato",
-    "viewModify": "Visualizza / Modifica",
+    "viewModify": "Modifica",
     "itemNotFound": "Articolo non trovato",
     "goBack": "Indietro",
     "defaultDescription": "Una bevanda deliziosa dal nostro menu!",
@@ -26,7 +28,7 @@
       "MilkTea": "Tè al latte",
       "FruitTea": "Tè alla frutta",
       "SpecialtyDrink": "Bevanda speciale",
-      "SeasonalItem": "Articolo stagionale"
+      "SeasonalDrink": "Bevanda stagionale"
     }
   },
 
@@ -37,11 +39,32 @@
     "size": "Dimensione",
     "shots": "Shot extra",
     "notes": "Note speciali",
+    "temperature": "Temperatura",
+    "toppings": "Condimenti",
+    "quantity": "Quantità",
     "addToOrder": "Aggiungi all'ordine",
     "small": "Piccolo",
     "medium": "Medio",
     "large": "Grande",
-    "none": "Nessuno"
+    "none": "Nessuno",
+    "toppingsList": {
+      "Regular Pearl": "Perla Regolare",
+      "Lychee Jelly": "Gelatina di Litchi",
+      "Pudding": "Budino",
+      "Ice Cream": "Gelato",
+      "Mini Pearls": "Mini Perle",
+      "Aiyu Jelly": "Gelatina Aiyu",
+      "Creama": "Crema",
+      "Sub Creama": "Sotto Crema",
+      "Crystal Boba": "Boba Cristallo",
+      "Mango Popping Boba": "Boba Scoppiettante al Mango",
+      "Strawberry Popping Boba": "Boba Scoppiettante alla Fragola",
+      "Coffee Jelly": "Gelatina al Caffè",
+      "Honey Jelly": "Gelatina al Miele",
+      "Peach Popping Boba": "Boba Scoppiettante alla Pesca",
+      "Fresh Milk": "Latte Fresco",
+      "Matcha Creama": "Crema al Matcha"
+    }
   },
 
   "cart": {
@@ -60,6 +83,8 @@
   "app": {
     "requestAssistance": "Richiedi assistenza",
     "disableVoiceAssistance": "Disabilita assistenza vocale",
-    "enableVoiceAssistance": "Abilita assistenza vocale"
+    "enableVoiceAssistance": "Abilita assistenza vocale",
+    "cart": "Carrello",
+    "textToSpeech": "Sintesi Vocale"
   }
 }

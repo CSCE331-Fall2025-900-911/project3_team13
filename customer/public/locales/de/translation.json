@@ -11,14 +11,16 @@
   "login": {
     "welcome": "Willkommen!",
     "enterName": "Geben Sie Ihren Namen ein",
+    "enterPhone": "Geben Sie Ihre Telefonnummer ein",
     "go": "Los",
+    "continueAsGuest": "Als Gast fortfahren",
     "createError": "Konnte Kunde/Bestellung nicht erstellen"
   },
 
   "menu": {
     "searchPlaceholder": "Artikel suchen...",
     "noItemsFound": "Keine Artikel gefunden",
-    "viewModify": "Anzeigen / Ändern",
+    "viewModify": "Ändern",
     "itemNotFound": "Artikel nicht gefunden",
     "goBack": "Zurück",
     "defaultDescription": "Ein köstliches Getränk aus unserem Menü!",
@@ -26,7 +28,7 @@
       "MilkTea": "Milchtee",
       "FruitTea": "Früchtetee",
       "SpecialtyDrink": "Spezialgetränk",
-      "SeasonalItem": "Saisonartikel"
+      "SeasonalDrink": "Saisonales Getränk"
     }
   },
 
@@ -37,11 +39,32 @@
     "size": "Größe",
     "shots": "Zusätzliche Shots",
     "notes": "Spezielle Notizen",
+    "temperature": "Temperatur",
+    "toppings": "Beläge",
+    "quantity": "Menge",
     "addToOrder": "Zur Bestellung hinzufügen",
     "small": "Klein",
     "medium": "Mittel",
     "large": "Groß",
-    "none": "Keine"
+    "none": "Keine",
+    "toppingsList": {
+      "Regular Pearl": "Normale Perle",
+      "Lychee Jelly": "Litschi-Gelee",
+      "Pudding": "Pudding",
+      "Ice Cream": "Eiscreme",
+      "Mini Pearls": "Mini-Perlen",
+      "Aiyu Jelly": "Aiyu-Gelee",
+      "Creama": "Sahne",
+      "Sub Creama": "Unter-Sahne",
+      "Crystal Boba": "Kristall-Boba",
+      "Mango Popping Boba": "Mango-Popping-Boba",
+      "Strawberry Popping Boba": "Erdbeer-Popping-Boba",
+      "Coffee Jelly": "Kaffee-Gelee",
+      "Honey Jelly": "Honig-Gelee",
+      "Peach Popping Boba": "Pfirsich-Popping-Boba",
+      "Fresh Milk": "Frische Milch",
+      "Matcha Creama": "Matcha-Sahne"
+    }
   },
 
   "cart": {
@@ -60,6 +83,8 @@
   "app": {
     "requestAssistance": "Hilfe anfordern",
     "disableVoiceAssistance": "Sprachassistent deaktivieren",
-    "enableVoiceAssistance": "Sprachassistent aktivieren"
+    "enableVoiceAssistance": "Sprachassistent aktivieren",
+    "cart": "Warenkorb",
+    "textToSpeech": "Sprachausgabe"
   }
 }

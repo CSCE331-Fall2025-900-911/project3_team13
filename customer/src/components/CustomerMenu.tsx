@@ -37,12 +37,14 @@ export default function CustomerMenu({ onCartOpen }: Props) {
   const [filteredItems, setFilteredItems] = useState<MenuItem[]>([]);
   const [loading, setLoading] = useState(true);
   const { t, i18n } = useTranslation();
+  const customerName = localStorage.getItem("customerName") || "";
+  const customerPhone = localStorage.getItem("phoneNumber") || "";
 
   const seriesList = [
     { id: 'Milk Tea', name: 'Milk Tea', icon: milk },
     { id: 'Fruit Tea', name: 'Fruit Tea', icon: fruit },
     { id: 'Specialty Drink', name: 'Specialty Drink', icon: special },
-    { id: 'Seasonal Item', name: 'Seasonal Item', icon: seasonal }
+    { id: 'Seasonal Drink', name: 'Seasonal Drink', icon: seasonal }
   ];
 
   const categories = seriesList.map(s => s.name);
@@ -89,6 +91,36 @@ export default function CustomerMenu({ onCartOpen }: Props) {
 
   return (
     <Box className="menu-page" position="relative">
+      {/* CUSTOMER WELCOME BANNER */}
+{customerName && (
+  <Box 
+    sx={{
+      width: "100%",
+      textAlign: "center",
+      fontSize: "2rem",
+      fontWeight: 600,
+      marginBottom: "20px"
+    }}
+  >
+     Welcome, {customerName || customerPhone} {customerPhone}!
+  </Box>
+)}
+
+{/* If name is blank (new customer), show phone number */}
+{!customerName && customerPhone && (
+  <Box 
+    sx={{
+      width: "100%",
+      textAlign: "center",
+      fontSize: "2rem",
+      fontWeight: 600,
+      marginBottom: "20px"
+    }}
+  >
+    {t('menu.welcome') || "Welcome"}, {customerPhone}!
+  </Box>
+)}
+
       <Box className="menu-top-bar">
         <TextField
           placeholder={t('menu.searchPlaceholder')}

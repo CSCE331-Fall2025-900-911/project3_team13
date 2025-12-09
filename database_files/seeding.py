@@ -5,7 +5,7 @@ from faker import Faker
 import secrets
 import string
 import re
-
+from menu_items import menu_items_data, DEFAULT_MODIFICATIONS
 # Initialize faker
 fake = Faker()
 Faker.seed(42)
@@ -33,68 +33,6 @@ inventory_items = [ # possibly expand later into more detailed items with set qu
     "Tapioca", "Oolong Tea", "Honey", "Cream", "Taro Powder",
     "Matcha", "Whipped Cream", "Chocolate Syrup", "Caramel",
     "Brown Sugar", "Coconut Jelly"
-]
-menu_items_data = [
-    {
-        "Name": "Classic Milk Tea",
-        "Ingredients": ["Black Tea", "Milk", "Sugar", "Boba", "Ice"],
-        "Category": "Milk Tea",
-        "Price": 4.50,
-        "Modifications": {
-            "Sugar": ["0%", "25%", "50%", "100%", "150%", "200%"],
-            "Ice": ["0%", "25%", "50%", "100%", "150%", "200%"],
-            "Size": ["Small", "Medium", "Large"],
-            "Shots": ["0", "1", "2", "3", "4", "5"]
-        }
-    },
-    {
-        "Name": "Taro Milk Tea",
-        "Ingredients": ["Taro Powder", "Milk", "Sugar", "Boba", "Ice"],
-        "Category": "Milk Tea",
-        "Price": 9.50,
-        "Modifications": {
-           "Sugar": ["0%", "25%", "50%", "100%", "150%", "200%"],
-            "Ice": ["0%", "25%", "50%", "100%", "150%", "200%"],
-            "Size": ["Small", "Medium", "Large"],
-            "Shots": ["0", "1", "2", "3", "4", "5"]
-        }
-    },
-    {
-        "Name": "Matcha Latte",
-        "Ingredients": ["Matcha", "Milk", "Sugar", "Ice"],
-        "Category": "Milk Tea",
-        "Price": 5.00,
-        "Modifications": {
-           "Sugar": ["0%", "25%", "50%", "100%", "150%", "200%"],
-            "Ice": ["0%", "25%", "50%", "100%", "150%", "200%"],
-            "Size": ["Small", "Medium", "Large"],
-            "Shots": ["0", "1", "2", "3", "4", "5"]
-        }
-    },
-    {
-        "Name": "Strawberry Smoothie",
-        "Ingredients": ["Strawberry Syrup", "Milk", "Ice", "Whipped Cream"],
-        "Category": "Specialty Drink",
-        "Price": 6.50,
-        "Modifications": {
-            "Sugar": ["0%", "25%", "50%", "100%", "150%", "200%"],
-            "Ice": ["0%", "25%", "50%", "100%", "150%", "200%"],
-            "Size": ["Small", "Medium", "Large"],
-            "Shots": ["0", "1", "2", "3", "4", "5"]
-        }
-    },
-    {
-        "Name": "Brown Sugar Boba",
-        "Ingredients": ["Brown Sugar", "Milk", "Boba", "Ice"],
-        "Category": "Milk Tea",
-        "Price": 5.50,
-        "Modifications": {
-            "Sugar": ["0%", "25%", "50%", "100%", "150%", "200%"],
-            "Ice": ["0%", "25%", "50%", "100%", "150%", "200%"],
-            "Size": ["Small", "Medium", "Large"],
-            "Shots": ["0", "1", "2", "3", "4", "5"]
-        }
-    }
 ]
 
 # -----------------------------------------------
@@ -168,17 +106,55 @@ def gen_employees(n=25):
 # -----------------------------------------------
 # 2. Customers
 # -----------------------------------------------
+
+def generate_phone_number():
+    # Generates a realistic 10-digit US phone number (no formatting)
+    first = random.randint(200, 999)
+    second = random.randint(200, 999)
+    last = random.randint(1000, 9999)
+    return f"{first}{second}{last}"
+
+
 def gen_customers(n=2500):
     payment_methods = ["Cash", "Card", "Gift Card"]
-    for i in range(1, n + 1):
+    seen_phones = set()
+
+    customers.clear()
+
+    # ⭐ ID = 1 is RESERVED for Guest (inserted in SQL, NOT here)
+    # So we begin at ID = 2
+    next_id = 2
+
+    for _ in range(n):
+        # Create unique phone
+        phone = generate_phone_number()
+        while phone in seen_phones:
+            phone = generate_phone_number()
+        seen_phones.add(phone)
+
+        # Always generate a valid name (NO empty names—schema requires NOT NULL)
+        name = fake.name()
+
         customers.append({
-            "ID": i,
-            "Name": fake.name(),
-            "Phone": fake.phone_number(),
+            "ID": next_id,
+            "Name": name,
+            "Phone": phone,
             "Payment": random.choice(payment_methods),
-            "Points": int(0)
+            "Points": 0,
+            "Free_Drinks": 0
         })
 
+        next_id += 1
+
+    # ⭐ Add Ian as the final entry
+    customers.append({
+        "ID": next_id,
+        "Name": "Ian",
+        "Phone": "1234567890",
+        "Payment": random.choice(payment_methods),
+        "Points": 5,
+        "Free_Drinks": 1
+    })
 # -----------------------------------------------
 # 3. Inventory
 # -----------------------------------------------
@@ -202,7 +178,7 @@ def gen_menu_items():
             "Name": item["Name"],
             "Category": item["Category"],
             "Price": item["Price"],
-            "Modifications": item.get("Modifications", {})
+            "Modifications": item.get("Modifications", DEFAULT_MODIFICATIONS)
         })
 
         # Link ingredients to inventory
@@ -264,7 +240,8 @@ def gen_orders_transactions():
         order = {
             "ID": order_id,
             "Status": status,
-            "Timestamp": ts.strftime("%Y-%m-%d %H:%M")
+            "Timestamp": ts.strftime("%Y-%m-%d %H:%M"),
+            "Name": customer["Name"] if customer["ID"] != 1 else fake.name()
         }
 
         total = 0.0
@@ -285,7 +262,8 @@ def gen_orders_transactions():
                 "Sugar": random.choice(["0%", "25%", "50%", "100%", "150%", "200%"]),
                 "Ice": random.choice(["0%", "25%", "50%", "100%", "150%", "200%"]),
                 "Size": random.choice(["Small", "Medium", "Large"]),
-                "Shots": random.choice(["0", "1", "2", "3", "4", "5"])
+                "Shots": random.choice(["0", "1", "2", "3", "4", "5"]),
+                "Toppings": random.choices(DEFAULT_MODIFICATIONS["Toppings"], k=random.randint(1,2))
             }
 
             item_editing_table.append({
@@ -294,7 +272,7 @@ def gen_orders_transactions():
                 "Ice": modifications["Ice"],
                 "Size": modifications["Size"],
                 "Shots": modifications["Shots"],
-                "Notes": "test"
+                "Notes": f"Temp: Iced; Toppings: {', '.join(modifications['Toppings'])}; test"
             })
 
             combo_counter += 1
@@ -325,7 +303,7 @@ def write_csv(filename, fieldnames, data):
             writer.writerow(row)
 
 def export_all():
-    write_csv("customers.csv", ["ID", "Name", "Phone", "Payment", "Points"], customers)
+    write_csv("customers.csv", ["ID", "Name", "Phone", "Payment", "Points", "Free_Drinks"], customers)
     
     write_csv("employees.csv", ["ID", "Name", "Username", "Password", "Permissions"], employees)
     write_csv("inventory.csv", ["ID", "Name", "Quantity"], inventory)
@@ -333,7 +311,7 @@ def export_all():
         {**m, "Modifications": str(m["Modifications"])} for m in menu_items
     ])
     write_csv("menu_item_inventory.csv", ["MenuItemID", "InventoryID"], menu_item_inventory)
-    write_csv("orders.csv", ["ID", "Status", "Timestamp"], orders)
+    write_csv("orders.csv", ["ID", "Status", "Timestamp", "Name"], orders)
     write_csv("transactions.csv", ["ID", "CustomerID", "EmployeeID", "Total", "Timestamp"], transactions)
     write_csv("menu_item_order.csv", ["ID", "MenuItemID", "OrderID"], menu_item_order)
     write_csv("item_editing_table.csv", ["ComboID", "Sugar", "Ice", "Size", "Shots", "Notes"], item_editing_table)
