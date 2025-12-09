@@ -19,7 +19,7 @@ router.get('/', async (req, res) => {
         const client = await pool.connect();
 
         const result = await client.query(
-            `SELECT free_drinks 
+            `SELECT free_drinks, points 
              FROM customers
              WHERE id = $1`,
             [customerId]
@@ -32,7 +32,8 @@ router.get('/', async (req, res) => {
         }
 
         return res.json({
-            free_drinks: result.rows[0].free_drinks
+            free_drinks: result.rows[0].free_drinks,
+            points: result.rows[0].points
         });
 
     } catch (err) {
