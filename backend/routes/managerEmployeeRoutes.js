@@ -73,20 +73,4 @@ router.patch('/update-employee', async (req, res) => {
 	}
 });
 
-// PATCH /api/employees/promote-employee?id=<employee id>
-router.patch('/promote-employee', async (req, res) => {
-	const { id } = req.query;
-	if (!id) return res.status(400).json({ error: 'Missing id parameter' });
-
-	try {
-		const client = await pool.connect();
-		const updateRes = await client.query('UPDATE employees SET permissions = 1 WHERE id = $1 RETURNING id, name, permissions;', [id]);
-		if (updateRes.rowCount === 0) return res.status(404).json({ error: 'Employee not found' });
-		res.status(200).json({ message: 'Employee promoted', employee: updateRes.rows[0] });
-	} catch (err) {
-		console.error('Error promoting employee:', err);
-		res.status(500).json({ error: 'Internal server error' });
-	}
-});
-
 module.exports = router;
