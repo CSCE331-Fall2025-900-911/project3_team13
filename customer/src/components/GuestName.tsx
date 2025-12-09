@@ -13,19 +13,19 @@ export default function GuestName() {
 
     try {
       // STEP 1 — create new order
-      const newOrder = await axios.post("http://localhost:3000/api/new-order");
+      const newOrder = await axios.post<{ orderId: number }>("https://project3-team13-backend.onrender.com/api/new-order");
       const orderId = newOrder.data.orderId;
       localStorage.setItem("orderId", orderId.toString());
 
       // STEP 2 — link to Guest customer (ID = 1)
-      await axios.post("http://localhost:3000/api/link-customer-to-order", {
+      await axios.post("https://project3-team13-backend.onrender.com/api/link-customer-to-order", {
         orderId,
         customerId: 1,
         employeeId: 1
       });
 
       // STEP 3 — update order name
-      await axios.patch("http://localhost:3000/api/update-order-name", {
+      await axios.patch("https://project3-team13-backend.onrender.com/api/update-order-name", {
         orderId,
         name
       });

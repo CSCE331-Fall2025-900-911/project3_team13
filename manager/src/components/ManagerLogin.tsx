@@ -22,7 +22,7 @@ export default function ManagerLogin() {
   const handleGo = async () => {
     if (username.trim() !== '' && password.trim() !== '') {
       try {
-        await axios.post<LoginResp>('http://localhost:3000/api/login/manager', {
+        await axios.post<LoginResp>('http://project3-team13-backend.onrender.com/api/login/manager', {
           username: username.trim(),
           password: password.trim()
         });
@@ -49,7 +49,6 @@ export default function ManagerLogin() {
         />
         <TextField
           label="Enter password"
-          type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           variant="outlined"

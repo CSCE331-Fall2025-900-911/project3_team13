@@ -21,7 +21,7 @@ export default function CashierLogin() {
   const handleGo = async () => {
     if (username.trim() !== '' && password.trim() !== '') {
       try {
-        await axios.post<LoginResp>('http://localhost:3000/api/login/cashier', {
+        await axios.post<LoginResp>('https://project3-team13-backend.onrender.com/api/login/cashier', {
           username: username.trim(),
           password: password.trim()
         });

@@ -127,7 +127,7 @@ export default function OrderProvider({ children }: { children: React.ReactNode 
     // Loads order by ID
     const loadOrder = async (orderId: number) => {
         try {
-            const res = await axios.get(encodeURI(`http://localhost:3000/api/load-order?id=${orderId}`));
+            const res = await axios.get(encodeURI(`https://project3-team13-backend.onrender.com/api/load-order?id=${orderId}`));
             setOrderId(orderId);
             setOrderStatus(res.data.status);
             const mappedItems = res.data.items.map((item: any) => ({
@@ -165,7 +165,7 @@ export default function OrderProvider({ children }: { children: React.ReactNode 
     const markAsCompleted = async (orderId: number) => {
         console.log("Marking order completed:", orderId); 
     try {
-        await axios.patch("http://localhost:3000/api/update-order-status", {
+        await axios.patch("https://project3-team13-backend.onrender.com/api/update-order-status", {
             orderId,
             status: "completed"
         });

@@ -7,13 +7,13 @@ function App() {
       <div className="login-box">
         <h1 className="login-title">Login in as a...</h1>
         <div className="route-buttons">
-          <a href="http://localhost:5174">
+          <a href="https://customer-project3-team13.vercel.app/">
             <button className="route-button">Customer</button>
           </a>
-          <a href="http://localhost:5173">
+          <a href="https://cashier-project3-team13.vercel.app/">
             <button className="route-button">Cashier</button>
           </a>
-          <a href="http://localhost:5175">
+          <a href="https://manager-project3-team13.vercel.app/">
             <button className="route-button">Manager</button>
           </a>
         </div>

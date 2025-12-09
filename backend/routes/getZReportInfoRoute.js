@@ -41,9 +41,9 @@ router.get('/', async (req, res) => {
 
         // note that once z report is generated, no more transactions can take place for the remainder of the day
         res.status(200).json({ 
-            total_sales: totalSales || 0.0,
-            num_transactions: numTransactions || 0,
-            num_customers: numCustomers || 0
+            totalSales: totalSales || 0.0,
+            numTransactions: numTransactions || 0,
+            numCustomers: numCustomers || 0
         });
     } catch(error) {
         console.error(error);

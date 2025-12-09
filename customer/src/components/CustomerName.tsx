@@ -4,6 +4,10 @@ import axios from "axios";
 import { Button, TextField } from "@mui/material";
 import "./Customer.css";
 
+interface AddCustomerResp {
+  message: string;
+  customerId: number;
+}
 export default function CustomerName() {
   const [name, setName] = useState("");
   const navigate = useNavigate();
@@ -15,17 +19,17 @@ export default function CustomerName() {
 
     try {
       // STEP 1: Create customer
-      const res = await axios.post("https://project3-team13-backend.onrender.com/api/add-customer", {
+      const res = await axios.post<AddCustomerResp>("https://project3-team13-backend.onrender.com/api/add-customer", {
         customerName: name,
         customerPhone: phone
       });
 
       const customerId = res.data.customerId;
       localStorage.setItem("customerName", name);
-      localStorage.setItem("customerId", customerId);
+      localStorage.setItem("customerId", customerId.toString());
 
       // STEP 2: Create order
-      const newOrder = await axios.post("https://project3-team13-backend.onrender.com/api/new-order");
+      const newOrder = await axios.post<{ orderId: number }>("https://project3-team13-backend.onrender.com/api/new-order");
       const orderId = newOrder.data.orderId;
       localStorage.setItem("orderId", orderId.toString());
 

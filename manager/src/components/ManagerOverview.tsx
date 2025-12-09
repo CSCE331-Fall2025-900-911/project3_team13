@@ -49,7 +49,7 @@ export function ManagerOverview() {
     const getOrdersPerItem = async () => {
         try {
             const menuRes = await axios.get<{ items: { name: string }[] }>(
-                "http://localhost:3000/api/get-all-items"
+                "https://project3-team13-backend.onrender.com/api/get-all-items"
             );
             const res = await axios.get<{ ordersPerItem: { item_name: string; count: number }[] }>(
                 "https://project3-team13-backend.onrender.com/api/manager-analytics/orders-per-item-today"
