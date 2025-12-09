@@ -54,19 +54,19 @@ router.post('/add-item', async (req, res) => {
     }
 });
 
-// PATCH api/inventory/update-quantity (body: { id, quantity })
-router.patch('/update-quantity', async (req, res) => {
-    const { id, quantity } = req.body;
+// PATCH api/inventory/update-inventory (body: { id, field, value })
+router.patch('/update-inventory', async (req, res) => {
+    const { id, field, value } = req.body;
 
-    if(!id || !quantity) {
-        return res.status(400).json({ message: "Missing/invalid ID or quantity" });
+    if(!id || !value || (field !== 'name' && field !== 'quantity')) {
+        return res.status(400).json({ message: "Missing/invalid ID, field, or value" });
     }
 
     try {
         const client = await pool.connect();
-        const updateRes = await client.query('UPDATE inventory SET quantity = $1 WHERE id = $2 RETURNING id;', [quantity, id]);
+        const updateRes = await client.query(`UPDATE inventory SET ${field} = $1 WHERE id = $2 RETURNING id;`, [value, id]);
 		if (updateRes.rowCount === 0) return res.status(404).json({ error: 'Item not found' });
-        res.status(200).json({ message: "Item updated successfully", id: updateRes.rows[0].id, quantity }); 
+        res.status(200).json({ message: "Item updated successfully", id: updateRes.rows[0].id, field, value }); 
     } catch(error) {
         console.error(error);
         res.status(500).json({ message: "Internal Server Error" });

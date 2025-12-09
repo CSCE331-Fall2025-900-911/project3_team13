@@ -21,7 +21,7 @@ export function EditorPopup<T extends { id: number; name: string }>(
 ) {
   const [searchTerm, setSearchTerm] = useState('');
   const selected = data.find(
-    (item) => item.name.toLowerCase() === searchTerm.toLowerCase()
+    (item) => item.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const [field, setField] = useState('');
@@ -43,22 +43,19 @@ export function EditorPopup<T extends { id: number; name: string }>(
 
     try {
       if (tableType === "inventory") {
-        const res = await fetch(`https://project3-team13-backend.onrender.com/api/inventory/update-quantity`, {
+        const res = await fetch(`https://project3-team13-backend.onrender.com/api/inventory/update-inventory`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ id: selected.id, quantity: updatedValue })
+          body: JSON.stringify({ id: selected.id, field: field, value: updatedValue })
         });
         if (!res.ok) throw new Error("Update failed");
       } else if (tableType === "employees") {
-        if (field === "permissions") {
-          const res = await fetch(
-            `https://project3-team13-backend.onrender.com/api/employees/promote-employee?id=${selected.id}`,
-            { method: "PATCH" }
-          );
-          if (!res.ok) throw new Error("Promotion failed");
-        } else {
-          console.log("Only permissions are supported for employees.");
-        }
+        const res = await fetch(`https://project3-team13-backend.onrender.com/api/employees/update-employee`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: selected.id, field: field, value: updatedValue })
+        });
+        if (!res.ok) throw new Error("Update failed");
       } else if (tableType === "menu") {
         const res = await await fetch(`https://project3-team13-backend.onrender.com/api/update-menu-item/${selected.id}`, {
             method: "PUT",
