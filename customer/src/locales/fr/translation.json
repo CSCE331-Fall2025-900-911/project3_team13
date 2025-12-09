@@ -20,7 +20,7 @@
   "menu": {
     "searchPlaceholder": "Rechercher des articles...",
     "noItemsFound": "Aucun article trouvé",
-    "viewModify": "Afficher / Modifier",
+    "viewModify": "Modifier",
     "itemNotFound": "Article non trouvé",
     "goBack": "Retour",
     "defaultDescription": "Une boisson délicieuse de notre menu!",

@@ -193,6 +193,9 @@ button:hover {
   font-size: 1.1rem;
   font-weight: 600;
   margin: 6px 0;
+  width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .series-item-desc {
@@ -410,6 +413,10 @@ button:hover {
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+h4 {
+  text-align: center;
 }
 
 .item-text .MuiButton-root {
