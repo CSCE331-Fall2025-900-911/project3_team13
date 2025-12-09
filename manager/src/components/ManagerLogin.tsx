@@ -22,7 +22,7 @@ export default function ManagerLogin() {
   const handleGo = async () => {
     if (username.trim() !== '' && password.trim() !== '') {
       try {
-        await axios.post<LoginResp>('http://project3-team13-backend.onrender.com/api/login/manager', {
+        await axios.post<LoginResp>('https://project3-team13-backend.onrender.com/api/login/manager', {
           username: username.trim(),
           password: password.trim()
         });
