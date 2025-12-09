@@ -63,11 +63,11 @@ export function ManagerReports() {
 
     const OpenZReport = async () => {
         try {
-            const res = await axios.get<ZReport>("http://localhost:3000/api/get-z-report", { timeout: 1000 });
+            const res = await axios.get<any>("http://localhost:3000/api/get-z-report", { timeout: 1000 });
             setZReportData({
-                totalSales: res.data.totalSales,
-                numCustomers: res.data.numCustomers,
-                numTransactions: res.data.numTransactions
+                totalSales: res.data.total_sales,
+                numCustomers: res.data.num_customers,
+                numTransactions: res.data.num_transactions
             });
             setZOpen(true)
         } catch (err) {
@@ -234,7 +234,7 @@ export function ManagerReports() {
             <Dialog open={xOpen} onClose={() => setXOpen(false)}>
                 <div className='report-dialog'>
                     <h1>X Report</h1>
-                    <h3>Total Sales: {xReportData?.totalSales}</h3>
+                    <h3>Total Sales: ${xReportData?.totalSales}</h3>
                     <h3>Cancellations: {xReportData?.cancellations}</h3>
                     <h3>Award Points Used: {xReportData?.usedPoints}</h3>
                 </div>
@@ -242,7 +242,7 @@ export function ManagerReports() {
             <Dialog open={zOpen} onClose={() => setZOpen(false)}>
                 <div className='report-dialog'>
                     <h1>Z Report</h1>
-                    <h3>Total Sales: {zReportData?.totalSales}</h3>
+                    <h3>Total Sales: ${zReportData?.totalSales}</h3>
                     <h3>Customers: {zReportData?.numCustomers}</h3>
                     <h3>Transactions: {zReportData?.numTransactions}</h3>
                 </div>
