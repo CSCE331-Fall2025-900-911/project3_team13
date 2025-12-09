@@ -20,7 +20,7 @@ import { useOrder } from '../OrderContext';
 export function CashierLayout() {
   const [tabValue, setTabValue] = useState<'menu' | 'library' | 'orders'>('menu');
   const [open, setOpen] = useState(false);
-  const { orderId, createOrder, cancelOrder, completeOrder } = useOrder();
+  const { orderId, createOrder, cancelOrder, checkout } = useOrder();
   
   const [assistance, setAssistance] = useState<any[]>([]);
 
@@ -133,8 +133,9 @@ export function CashierLayout() {
             <Button 
               variant="contained" 
               className="white-button" 
-              onClick={() => {
-                console.log("Order saving to be implemented");
+              onClick={async () => {
+                alert("Order saved successfully.");
+                await createOrder();
               }}
             >
               Save Order
@@ -144,7 +145,6 @@ export function CashierLayout() {
               className="white-button"
               onClick={async () => {
                 await cancelOrder();
-                await createOrder();
               }}
             >
               Cancel Order
@@ -156,8 +156,7 @@ export function CashierLayout() {
               className='success-button' 
               size="large" 
               onClick={async () => {
-                await completeOrder();
-                await createOrder();
+                await checkout();
               }}
             >
               Checkout
