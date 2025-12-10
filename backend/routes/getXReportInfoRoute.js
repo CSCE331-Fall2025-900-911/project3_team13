@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
         const total_sales_query = "SELECT SUM(total) as total_sales FROM transactions WHERE DATE(timestamp) = CURRENT_DATE;";
         const salesRes = await client.query(total_sales_query);
 
-        const cancellations_query = "SELECT COUNT(*) as cancellation_count FROM transactions WHERE DATE(timestamp) = CURRENT_DATE AND status = 'cancelled';";
+        const cancellations_query = "SELECT COUNT(*) as cancellation_count FROM orders WHERE DATE(timestamp) = CURRENT_DATE AND status = 'cancelled';";
         const cancellationsRes = await client.query(cancellations_query);
 
         const points_query = `SELECT COUNT(*) AS redeemed_drinks
