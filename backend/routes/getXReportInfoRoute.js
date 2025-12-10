@@ -7,6 +7,7 @@ const { hasZReportBeenGeneratedToday } = require('../utils/zReportHelper');
 router.get('/', async (req, res) => {
     try {
         if(hasZReportBeenGeneratedToday()) {
+            console.log("Z-report already generated today, cannot fetch X-report data.");
             return res.status(200).json({
                 totalSales: 0.0,
                 cancellations: 0,
