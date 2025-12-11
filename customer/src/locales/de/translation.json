@@ -30,7 +30,9 @@
       "FruitTea": "Früchtetee",
       "SpecialtyDrink": "Spezialgetränk",
       "SeasonalDrink": "Saisonales Getränk"
-    }
+    },
+    "addCart": "Zur Bestellung hinzufügen",
+    "welcomeMessage": "Willkommen"
   },
 
   "modify": {
@@ -78,7 +80,11 @@
     "sending": "Senden...",
     "orderSent": "Bestellung erfolgreich gesendet!",
     "ok": "OK",
-    "sendError": "Fehler beim Senden der Bestellung. Bitte versuchen Sie es erneut."
+    "sendError": "Fehler beim Senden der Bestellung. Bitte versuchen Sie es erneut.",
+    "selectDrinksToRedeem": "Wählen Sie die Getränke zum Einlösen aus:",
+    "freeDrinksMessage": "🎉 Sie haben {{count}} kostenloses Getränk{{plural}}!",
+    "rewardPointsMessage": "⭐ Sie haben {{points}}/10 Belohnungspunkt{{plural}}.",
+    "discount": "Rabatt: {{discount}}"
   },
 
   "app": {

@@ -30,7 +30,9 @@
       "FruitTea": "Té de frutas",
       "SpecialtyDrink": "Bebida especial",
       "SeasonalDrink": "Bebida de temporada"
-    }
+    },
+    "addCart": "Agregar al pedido",
+    "welcomeMessage": "¡Bienvenido"
   },
 
   "modify": {
@@ -78,7 +80,11 @@
     "sending": "Enviando...",
     "orderSent": "¡Pedido enviado con éxito!",
     "ok": "Aceptar",
-    "sendError": "Error al enviar el pedido. Inténtalo de nuevo."
+    "sendError": "Error al enviar el pedido. Inténtalo de nuevo.",
+    "selectDrinksToRedeem": "Seleccione las bebidas para canjear:",
+    "freeDrinksMessage": "🎉 ¡Tienes {{count}} bebida{{plural}} gratis!",
+    "rewardPointsMessage": "⭐ Tienes {{points}}/10 punto{{plural}} de recompensa.",
+    "discount": "Descuento: {{discount}}"
   },
 
   "app": {

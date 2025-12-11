@@ -102,7 +102,7 @@ export default function CustomerMenu({ onCartOpen }: Props) {
       marginBottom: "20px"
     }}
   >
-     Welcome, {customerName || customerPhone} {customerPhone}!
+     {t('menu.welcomeMessage')}, {customerName || customerPhone} {customerPhone}!
   </Box>
 )}
 
