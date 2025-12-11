@@ -83,7 +83,8 @@
     "sendError": "Failed to send order. Please try again.",
     "selectDrinksToRedeem": "Select drinks to redeem:",
     "freeDrinksMessage": "🎉 You have {{count}} free drink{{plural}}!",
-    "rewardPointsMessage": "⭐ You have {{points}}/10 reward point{{plural}}."
+    "rewardPointsMessage": "⭐ You have {{points}}/10 reward point{{plural}}.",
+    "discount": "Discount: {{discount}}"
 
   },
 

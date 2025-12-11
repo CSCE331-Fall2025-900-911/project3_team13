@@ -242,7 +242,7 @@ console.log("🟢 Setting points =", res.data.points);
 
           {selectedRedemptions.length > 0 && (
             <Typography sx={{ mt: 2, fontWeight: "bold" }}>
-              Discount: -${discount.toFixed(2)}
+              {t("cart.discount", { discount: `-${discount.toFixed(2)}` })}
             </Typography>
           )}
         </Box>

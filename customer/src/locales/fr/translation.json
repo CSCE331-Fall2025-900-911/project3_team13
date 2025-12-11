@@ -83,7 +83,8 @@
     "sendError": "Erreur lors de l'envoi de la commande. Veuillez réessayer.",
     "selectDrinksToRedeem": "Sélectionnez les boissons à échanger :",
     "freeDrinksMessage": "🎉 Vous avez {{count}} boisson{{plural}} gratuite{{plural}} !",
-    "rewardPointsMessage": "⭐ Vous avez {{points}}/10 point{{plural}} de récompense."
+    "rewardPointsMessage": "⭐ Vous avez {{points}}/10 point{{plural}} de récompense.",
+    "discount": "Remise : {{discount}}"
   },
 
   "app": {

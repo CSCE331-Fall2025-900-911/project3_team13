@@ -83,7 +83,8 @@
     "sendError": "Error al enviar el pedido. Inténtalo de nuevo.",
     "selectDrinksToRedeem": "Seleccione las bebidas para canjear:",
     "freeDrinksMessage": "🎉 ¡Tienes {{count}} bebida{{plural}} gratis!",
-    "rewardPointsMessage": "⭐ Tienes {{points}}/10 punto{{plural}} de recompensa."
+    "rewardPointsMessage": "⭐ Tienes {{points}}/10 punto{{plural}} de recompensa.",
+    "discount": "Descuento: {{discount}}"
   },
 
   "app": {
