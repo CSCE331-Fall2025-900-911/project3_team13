@@ -100,7 +100,7 @@ export default function CustomerItem({ onBack, onAddToCart, onModify }: Customer
         </Box>
 
         <Box className='item-text' display="flex" flexDirection="column" alignItems="center" justifyContent="center" width="40%" textAlign="center">
-          <Button variant="contained" color="primary" sx={{ mb: 1 }} onClick={() => onAddToCart(item)}>Add to Order</Button>
+          <Button variant="contained" color="primary" sx={{ mb: 1 }} onClick={() => onAddToCart(item)}>{t('menu.addCart')}</Button>
           <Typography variant="h6" sx={{ mb: 1, color: '#000' }}>{item.description}</Typography>
           <Button variant="outlined" color="secondary" onClick={() => { if (onModify) onModify(item); else setModifyOpen(true); }}>
             {t('menu.viewModify')}

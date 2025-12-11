@@ -169,7 +169,7 @@ console.log("🟢 Setting points =", res.data.points);
     <Box sx={{ p: 4, color: "#000", width: "100%" }}>
       {/* TITLE */}
       <Typography variant="h4" sx={{ mb: 3, fontWeight: "bold", textAlign: "center" }}>
-        Total: ${total.toFixed(2)}
+        {t('cart.total')} ${total.toFixed(2)}
       </Typography>
 
       <Divider sx={{ mb: 2 }} />
@@ -186,9 +186,13 @@ console.log("🟢 Setting points =", res.data.points);
       textAlign: "center"
     }}
   >
-    <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-      ⭐ You have {points}/10 reward point{points !== 1 ? "s" : ""}.
-    </Typography>
+      <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+        {t("cart.rewardPointsMessage", {
+          points,
+          plural: points !== 1 ? "s" : ""
+        })}
+      </Typography>
+
   </Box>
 )}
 
@@ -208,11 +212,14 @@ console.log("🟢 Setting points =", res.data.points);
           }}
         >
           <Typography variant="h6" sx={{ fontWeight: "bold", mb: 1 }}>
-            🎉 You have {freeDrinks} free drink{freeDrinks > 1 ? "s" : ""}!
+            {t("cart.freeDrinksMessage", {
+                count: freeDrinks,
+                plural: freeDrinks > 1 ? "s" : ""
+              })}
           </Typography>
 
           <Typography variant="body1" sx={{ mb: 2 }}>
-            Select drinks to redeem:
+            {t('cart.selectDrinksToRedeem')}
           </Typography>
 
           {items.map((item, index) => (
@@ -283,16 +290,16 @@ console.log("🟢 Setting points =", res.data.points);
           onClick={handleSend}
           disabled={items.length === 0 || loading}
         >
-          {loading ? "Processing..." : "Send to Cashier"}
+          {loading ? t('cart.sending') : t('cart.sendToCashier')}
         </Button>
       </Box>
 
       {/* CONFIRMATION DIALOG */}
       <Dialog open={doneOpen}>
         <Box sx={{ p: 3, textAlign: "center" }}>
-          <Typography variant="h6">Order sent!</Typography>
+          <Typography variant="h6">{t('cart.orderSent')}</Typography>
           <Button sx={{ mt: 2 }} onClick={handleClose}>
-            OK
+            {t('cart.ok')}
           </Button>
         </Box>
       </Dialog>
