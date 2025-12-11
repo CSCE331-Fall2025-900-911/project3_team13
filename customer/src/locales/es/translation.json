@@ -18,6 +18,7 @@
   },
 
   "menu": {
+    "welcome": "¡Bienvenido",
     "searchPlaceholder": "Buscar artículos...",
     "noItemsFound": "No se encontraron artículos",
     "viewModify": "Modificar",
