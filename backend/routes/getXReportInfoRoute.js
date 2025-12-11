@@ -5,15 +5,16 @@ const { hasZReportBeenGeneratedToday } = require('../utils/zReportHelper');
 
 // GET /api/get-x-report
 router.get('/', async (req, res) => {
+    if(await hasZReportBeenGeneratedToday()) {
+        return res.status(200).json({
+            totalSales: 0.0,
+            cancellations: 0,
+            usedPoints: 0
+        });
+    }
+    
+    const client = await pool.connect();
     try {
-        if(await hasZReportBeenGeneratedToday()) {
-            return res.status(200).json({
-                totalSales: 0.0,
-                cancellations: 0,
-                usedPoints: 0
-            });
-        }
-        const client = await pool.connect();
         const total_sales_query = "SELECT SUM(total) as total_sales FROM transactions WHERE DATE(timestamp) = CURRENT_DATE;";
         const salesRes = await client.query(total_sales_query);
 
@@ -27,7 +28,6 @@ router.get('/', async (req, res) => {
                                 AND o.timestamp::date = CURRENT_DATE;`;
         const pointsRes = await client.query(points_query);
 
-        client.release();
         res.status(200).json({ 
             totalSales: salesRes.rows[0].total_sales || 0.0,
             cancellations: cancellationsRes.rows[0].cancellation_count || 0,
@@ -36,6 +36,8 @@ router.get('/', async (req, res) => {
     } catch(error) {
         console.error(error);
         res.status(500).json({ message: "Internal Server Error" });
+    } finally {
+        client.release();
     }
 });
 
