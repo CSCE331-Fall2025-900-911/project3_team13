@@ -6,8 +6,8 @@ router.get('/', async (req, res) => {
     try {
         const inventoryQuery = await pool.query("SELECT id, name, quantity FROM inventory ORDER BY id;");
         const menuQuery = await pool.query("SELECT id, name, category, price FROM menu_items ORDER BY id;");
-        const employeeQuery = await pool.query("SELECT id, name, username, permissions FROM employees ORDER BY id;");
-
+        const employeeQuery = await pool.query("SELECT id, name, username, email, role, password FROM users ORDER BY id;");
+        
         const [inventoryResult, menuResult, employeeResult] = await Promise.all([
             inventoryQuery, menuQuery, employeeQuery
         ]);
