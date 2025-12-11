@@ -6,7 +6,7 @@ const { hasZReportBeenGeneratedToday } = require('../utils/zReportHelper');
 // GET /api/get-x-report
 router.get('/', async (req, res) => {
     try {
-        if(hasZReportBeenGeneratedToday()) {
+        if(await hasZReportBeenGeneratedToday()) {
             return res.status(200).json({
                 totalSales: 0.0,
                 cancellations: 0,
@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
         const total_sales_query = "SELECT SUM(total) as total_sales FROM transactions WHERE DATE(timestamp) = CURRENT_DATE;";
         const salesRes = await client.query(total_sales_query);
 
-        const cancellations_query = "SELECT COUNT(*) as cancellation_count FROM transactions WHERE DATE(timestamp) = CURRENT_DATE AND status = 'cancelled';";
+        const cancellations_query = "SELECT COUNT(*) as cancellation_count FROM orders WHERE DATE(timestamp) = CURRENT_DATE AND status = 'canceled';";
         const cancellationsRes = await client.query(cancellations_query);
 
         const points_query = `SELECT COUNT(*) AS redeemed_drinks
