@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Button from '@mui/material/Button'
 import './Orders.css'
 import dayjs from "dayjs";
@@ -29,6 +29,9 @@ export function Orders() {
     const [orderData, setOrderData] = useState<Order[] | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const { loadOrder, markAsCompleted } = useOrder();
+    
+    // Ref to prevent double-loading in StrictMode
+    const dataFetchedRef = useRef(false);
 
     const fetchItemData = async () => {
         const res = await axios.get(encodeURI(`http://localhost:3000/api/order-list`));
@@ -43,6 +46,10 @@ export function Orders() {
     }
     
     useEffect(() => {
+        // Prevent double-fetch in StrictMode
+        if (dataFetchedRef.current) return;
+        dataFetchedRef.current = true;
+
         async function loadData() {
             try {
                 setIsLoading(true);

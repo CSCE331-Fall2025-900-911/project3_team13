@@ -13,14 +13,15 @@ export default function GuestName() {
 
     try {
       // STEP 1 — create new order
-      const newOrder = await axios.post("http://localhost:3000/api/new-order");
+      const newOrder = await axios.post<{ orderId: number }>("http://localhost:3000/api/new-order");
       const orderId = newOrder.data.orderId;
       localStorage.setItem("orderId", orderId.toString());
 
       // STEP 2 — link to Guest customer (ID = 1)
       await axios.post("http://localhost:3000/api/link-customer-to-order", {
         orderId,
-        customerId: 1,
+        customerName: "Guest",
+        customerPhone: "0000000000",
         employeeId: 1
       });
 

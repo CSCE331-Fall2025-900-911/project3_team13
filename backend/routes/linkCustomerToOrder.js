@@ -5,6 +5,12 @@ const pool = require('../db/pool');
 router.post('/', async (req, res) => {
     const { orderId, customerName, customerPhone, employeeId } = req.body;
 
+    if (!customerName || !customerPhone || !orderId) {
+        return res.status(400).json({ 
+            message: "Missing required fields: customerName, customerPhone, or orderId" 
+        });
+    }
+
     const client = await pool.connect();
     try {
         // find customer
@@ -16,7 +22,9 @@ router.post('/', async (req, res) => {
         let customerId = null;
         if(findCustomer.rows.length == 0) {
             // insert new customer
-            const insertRes = await client.query('INSERT INTO customers (name, phone) VALUES ($1, $2) RETURNING id;', [
+            const insertRes = await client.query(`INSERT INTO customers 
+                (name, phone, payment, points, free_drinks) 
+                VALUES ($1, $2, 'Card', 0, 0) RETURNING id;`, [
                 customerName,
                 customerPhone
             ]);
@@ -30,7 +38,7 @@ router.post('/', async (req, res) => {
         await client.query('INSERT INTO transactions VALUES ($1, $2, $3, $4, $5);', [
             orderId,
             customerId,
-            employeeId,
+            employeeId || 1,
             0.00,
             orderTimestampRes.rows[0].timestamp
         ]);

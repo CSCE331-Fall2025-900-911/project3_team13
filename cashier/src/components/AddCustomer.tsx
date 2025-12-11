@@ -32,7 +32,8 @@ export function AddCustomer({ orderID }: { orderID: number }) {
         try {
             await axios.post('http://localhost:3000/api/link-customer-to-order', {
                 orderId: orderID,
-                customerId: customerId,
+                customerName: customerName,
+                customerPhone: customerPhone,
                 employeeId: 2
             });
             alert("Customer linked to order successfully!");
