@@ -86,7 +86,7 @@ export function Orders() {
                         
                         onClick={async () => {
                             await markAsCompleted(item.id);
-                            await fetchItemData();
+                            setOrderData(prev => prev?.filter(order => order.id !== item.id) ?? null);
                         }}
                     >
                         Completed

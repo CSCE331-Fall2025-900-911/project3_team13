@@ -164,21 +164,19 @@ export default function OrderProvider({ children }: { children: React.ReactNode 
     }
     const markAsCompleted = async (orderId: number) => {
         console.log("Marking order completed:", orderId); 
-    try {
-        await axios.patch("http://localhost:3000/api/update-order-status", {
-            orderId,
-            status: "completed"
-        });
-        
-        // Reload the order to update UI
-        await loadOrder(orderId);
+        try {
+            await axios.patch("http://localhost:3000/api/update-order-status", {
+                orderId,
+                status: "completed"
+            });
 
-        alert("Order marked as completed.");
-    } catch (err) {
-        console.error("Failed to mark order completed:", err);
-        alert("Error marking order complete.");
+            alert("Order marked as completed.");
+        } catch (err) {
+            console.error("Failed to mark order completed:", err);
+            alert("Error marking order complete.");
+        }
     }
-};
+
     // Below are the attributes we will use for our order context.
     const value = {
         orderId,

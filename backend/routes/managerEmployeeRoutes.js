@@ -55,6 +55,24 @@ router.delete('/delete-employee', async (req, res) => {
 	}
 });
 
+// PATCH /api/employees/update-employee (body: { id, field, value })
+router.patch('/update-employee', async (req, res) => {
+	const { id, field, value } = req.body;
+	if (!id || (field !== 'name' && field !== 'permissions' && field !== 'username')) {
+		return res.status(400).json({ error: 'Missing or invalid id/field' });
+	}
+
+	try {
+		const client = await pool.connect();
+		const updateRes = await client.query(`UPDATE employees SET ${field} = $1 WHERE id = $2 RETURNING id, name, username, permissions;`, [value, id]);
+		if (updateRes.rowCount === 0) return res.status(404).json({ error: 'Employee not found' });
+		res.status(200).json({ message: 'Employee updated', employee: updateRes.rows[0] });
+	} catch (err) {
+		console.error('Error updating employee:', err);
+		res.status(500).json({ error: 'Internal server error' });
+	}
+});
+
 // PATCH /api/employees/promote-employee?id=<employee id>
 router.patch('/promote-employee', async (req, res) => {
 	const { id } = req.query;
