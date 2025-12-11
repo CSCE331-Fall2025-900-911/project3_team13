@@ -6,28 +6,32 @@ import './ManagerLogin.css';
 
 interface LoginResp {
   message: string;
-  employee?: {
+  user?: {
     id: number;
     name: string;
     username: string;
-    permissions: 0 | 1;
+    email: string;
+    role: string;
   }
 }
 
 export default function ManagerLogin() {
-  const [username, setUserame] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const handleGo = async () => {
     if (username.trim() !== '' && password.trim() !== '') {
       try {
-        await axios.post<LoginResp>('http://localhost:3000/api/login/manager', {
+        const res = await axios.post<LoginResp>('http://localhost:3000/api/login/manager', {
           username: username.trim(),
           password: password.trim()
         });
+
+        // Save to localStorage if needed
         localStorage.setItem('username', username);
         localStorage.setItem('password', password);
+
         navigate('/layout');
       } catch (error) {
         console.error('Login failed:', error);
@@ -39,21 +43,26 @@ export default function ManagerLogin() {
   return (
     <div className="login-container">
       <div className="login-box">
-        <h1 className="login-title">Welcome!</h1>
+        <h1 className="login-title">Manager Login</h1>
+
         <TextField
           label="Enter username"
           value={username}
-          onChange={(e) => setUserame(e.target.value)}
+          onChange={(e) => setUsername(e.target.value)}
           variant="outlined"
           fullWidth
         />
+
         <TextField
           label="Enter password"
+          type="password"         // ✅ hides password
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           variant="outlined"
           fullWidth
+          sx={{ mt: 2 }}
         />
+
         <Button
           variant="contained"
           onClick={handleGo}
