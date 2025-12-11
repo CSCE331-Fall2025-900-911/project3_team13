@@ -36,7 +36,13 @@ export function ManagerStore({
 }: ManagerStoreProps) {
 
     const [popup, setPopup] = useState<null | 'inventory' | 'menu' | 'employees'>(null);
-
+    const [showPassword, setShowPassword] = useState<Record<number, boolean>>({});
+    const togglePassword = (id: number) => {
+    setShowPassword(prev => ({
+        ...prev,
+        [id]: !prev[id]
+    }));
+};
     useEffect(() => {
         fetch("http://localhost:3000/api/store")
             .then(res => res.json())
@@ -104,35 +110,50 @@ export function ManagerStore({
                 Edit Menu
             </Button>
 
-            {/* EMPLOYEES */}
-            <Typography variant="h5" sx={{ mb: 1 }}>Employees</Typography>
-            <Paper sx={{ overflow: 'hidden', mb: 2 }}>
-                <Table>
-                                    <TableHead>
-                    <TableRow>
-                        <TableCell>ID</TableCell>
-                        <TableCell>Name</TableCell>
-                        <TableCell>Username</TableCell>
-                        <TableCell>Password</TableCell>
-                        <TableCell>Email</TableCell>
-                        <TableCell>Role</TableCell>
-                    </TableRow>
-                </TableHead>
+           {/* EMPLOYEES */}
+<Typography variant="h5" sx={{ mb: 1 }}>Employees</Typography>
+<Paper sx={{ overflow: 'hidden', mb: 2 }}>
+    <Table>
+        <TableHead>
+            <TableRow>
+                <TableCell>ID</TableCell>
+                <TableCell>Name</TableCell>
+                <TableCell>Username</TableCell>
+                <TableCell>Password</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Role</TableCell>
+            </TableRow>
+        </TableHead>
 
-                    <TableBody>
-                        {employees.map(emp => (
-                            <TableRow key={emp.id}>
-                                <TableCell>{emp.id}</TableCell>
-                                <TableCell>{emp.name}</TableCell>
-                                <TableCell>{emp.username}</TableCell>
-                                <TableCell>{emp.password || "—"}</TableCell>
-                                <TableCell>{emp.email}</TableCell>
-                                <TableCell>{emp.role}</TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </Paper>
+        <TableBody>
+            {employees.map(emp => (
+                <TableRow key={emp.id}>
+                    <TableCell>{emp.id}</TableCell>
+                    <TableCell>{emp.name}</TableCell>
+                    <TableCell>{emp.username}</TableCell>
+
+                    {/* PASSWORD CELL WITH TOGGLE */}
+                    <TableCell
+                        onClick={() => emp.password && togglePassword(emp.id)}
+                        style={{ 
+                            cursor: emp.password ? "pointer" : "default",
+                            userSelect: "none"
+                        }}
+                    >
+                        {emp.password
+                            ? (showPassword[emp.id] ? emp.password : "••••••")
+                            : "—"
+                        }
+                    </TableCell>
+
+                    <TableCell>{emp.email}</TableCell>
+                    <TableCell>{emp.role}</TableCell>
+                </TableRow>
+            ))}
+        </TableBody>
+    </Table>
+</Paper>
+
             <Button variant="contained" sx={{ mb: 2 }} onClick={() => setPopup('employees')}>
                 Edit Employees
             </Button>
