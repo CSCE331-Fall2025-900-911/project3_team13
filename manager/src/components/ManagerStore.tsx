@@ -8,7 +8,14 @@ import './ManagerStore.css';
 
 type InventoryItem = { id: number; name: string; quantity: number };
 type MenuItem = { id: number; name: string; category: string; price: number };
-type Employee = { id: number; name: string; username: string; permissions: number };
+type Employee = {
+    id: number;
+    name: string;
+    username: string;
+    email: string;
+    role: string;
+    password: string | null;
+};
 
 interface ManagerStoreProps {
     inventory: InventoryItem[];
@@ -101,21 +108,26 @@ export function ManagerStore({
             <Typography variant="h5" sx={{ mb: 1 }}>Employees</Typography>
             <Paper sx={{ overflow: 'hidden', mb: 2 }}>
                 <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>ID</TableCell>
-                            <TableCell>Name</TableCell>
-                            <TableCell>Username</TableCell>
-                            <TableCell>Permissions</TableCell>
-                        </TableRow>
-                    </TableHead>
+                                    <TableHead>
+                    <TableRow>
+                        <TableCell>ID</TableCell>
+                        <TableCell>Name</TableCell>
+                        <TableCell>Username</TableCell>
+                        <TableCell>Password</TableCell>
+                        <TableCell>Email</TableCell>
+                        <TableCell>Role</TableCell>
+                    </TableRow>
+                </TableHead>
+
                     <TableBody>
                         {employees.map(emp => (
                             <TableRow key={emp.id}>
                                 <TableCell>{emp.id}</TableCell>
                                 <TableCell>{emp.name}</TableCell>
                                 <TableCell>{emp.username}</TableCell>
-                                <TableCell>{emp.permissions}</TableCell>
+                                <TableCell>{emp.password || "—"}</TableCell>
+                                <TableCell>{emp.email}</TableCell>
+                                <TableCell>{emp.role}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

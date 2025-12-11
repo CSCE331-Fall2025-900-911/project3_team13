@@ -2,91 +2,113 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../db/pool');
 
-// GET /api/employees/get-all-employees
+// ------------------------------------------------------------
+// GET ALL EMPLOYEES (from users table, not employees table)
+// ------------------------------------------------------------
 router.get('/get-all-employees', async (req, res) => {
-	try {
-		const client = await pool.connect();
-		const employeesRes = await client.query('SELECT id, name, username, permissions FROM employees ORDER BY id ASC;');
-		res.status(200).json({ employees: employeesRes.rows });
-	} catch (err) {
-		console.error('Error fetching employees:', err);
-		res.status(500).json({ error: 'Internal server error' });
-	}
+    try {
+        const result = await pool.query(
+            `SELECT id, name, username, email, role 
+             FROM users 
+             ORDER BY id ASC;`
+        );
+
+        res.status(200).json({ employees: result.rows });
+    } catch (err) {
+        console.error('Error fetching employees:', err);
+        res.status(500).json({ error: 'Internal server error' });
+    }
 });
 
-// POST /api/employees/add-employee (body: { name, permissions })
+// ------------------------------------------------------------
+// ADD EMPLOYEE (local account)
+// body: { name }
+// ------------------------------------------------------------
 router.post('/add-employee', async (req, res) => {
-	const { name, permissions } = req.body;
-	if (!name || (permissions !== 0 && permissions !== 1)) {
-		return res.status(400).json({ error: 'Missing or invalid name/permissions' });
-	}
+    const { name } = req.body;
 
-	try {
-		const client = await pool.connect();
+    if (!name) {
+        return res.status(400).json({ error: 'Missing name' });
+    }
 
-		const username = name.toLowerCase().replace(" ", "_");
-		const password = Math.random().toString(36).slice(-6);
+    try {
+        const username = name.toLowerCase().replace(/\s+/g, "_");
+        const password = Math.random().toString(36).slice(-6);
 
-		const insertRes = await client.query(
-			'INSERT INTO employees (name, username, password, permissions) VALUES ($1, $2, $3, $4) RETURNING id, username;', 
-			[name, username, password, permissions]
-		);
-		res.status(201).json({ message: 'Employee added', employee: insertRes.rows[0], password });
-	} catch (err) {
-		console.error('Error adding employee:', err);
-		res.status(500).json({ error: 'Internal server error' });
-	}
+        const result = await pool.query(
+            `INSERT INTO users (name, username, password, role, auth_method)
+             VALUES ($1, $2, $3, $4, $5)
+             RETURNING id, name, username, email, role`,
+            [name, username, password, "pending", "local"]
+        );
 
+        res.status(201).json({
+            message: "Employee added",
+            employee: result.rows[0],
+            password  // return temporary password
+        });
+
+    } catch (err) {
+        console.error('Error adding employee:', err);
+        res.status(500).json({ error: 'Internal server error' });
+    }
 });
 
-// DELETE /api/employees/delete-employee?id=<employee id>
+// ------------------------------------------------------------
+// DELETE EMPLOYEE
+// ------------------------------------------------------------
 router.delete('/delete-employee', async (req, res) => {
-	const { id } = req.query;
-	if (!id) return res.status(400).json({ error: 'Missing id parameter' });
+    const { id } = req.query;
+    if (!id) return res.status(400).json({ error: 'Missing id parameter' });
 
-	try {
-		const client = await pool.connect();
-		const deleteRes = await client.query('DELETE FROM employees WHERE id = $1 RETURNING id;', [id]);
-		if (deleteRes.rowCount === 0) return res.status(404).json({ error: 'Employee not found' });
-		res.status(200).json({ message: 'Employee deleted', id: deleteRes.rows[0].id });
-	} catch (err) {
-		console.error('Error deleting employee:', err);
-		res.status(500).json({ error: 'Internal server error' });
-	}
+    try {
+        const result = await pool.query(
+            `DELETE FROM users WHERE id = $1 RETURNING id`,
+            [id]
+        );
+
+        if (result.rowCount === 0)
+            return res.status(404).json({ error: "Employee not found" });
+
+        res.status(200).json({ message: "Employee deleted", id: result.rows[0].id });
+    } catch (err) {
+        console.error("Error deleting employee:", err);
+        res.status(500).json({ error: "Internal server error" });
+    }
 });
 
-// PATCH /api/employees/update-employee (body: { id, field, value })
+// ------------------------------------------------------------
+// UPDATE EMPLOYEE
+// Only editable fields: name, username, email, role
+// ------------------------------------------------------------
 router.patch('/update-employee', async (req, res) => {
-	const { id, field, value } = req.body;
-	if (!id || (field !== 'name' && field !== 'permissions' && field !== 'username')) {
-		return res.status(400).json({ error: 'Missing or invalid id/field' });
-	}
+    const { id, field, value } = req.body;
 
-	try {
-		const client = await pool.connect();
-		const updateRes = await client.query(`UPDATE employees SET ${field} = $1 WHERE id = $2 RETURNING id, name, username, permissions;`, [value, id]);
-		if (updateRes.rowCount === 0) return res.status(404).json({ error: 'Employee not found' });
-		res.status(200).json({ message: 'Employee updated', employee: updateRes.rows[0] });
-	} catch (err) {
-		console.error('Error updating employee:', err);
-		res.status(500).json({ error: 'Internal server error' });
-	}
-});
+    const allowedFields = ["name", "username", "email", "role", "password"];
 
-// PATCH /api/employees/promote-employee?id=<employee id>
-router.patch('/promote-employee', async (req, res) => {
-	const { id } = req.query;
-	if (!id) return res.status(400).json({ error: 'Missing id parameter' });
+    if (!id || !allowedFields.includes(field)) {
+        return res.status(400).json({ error: "Invalid id or field" });
+    }
 
-	try {
-		const client = await pool.connect();
-		const updateRes = await client.query('UPDATE employees SET permissions = 1 WHERE id = $1 RETURNING id, name, permissions;', [id]);
-		if (updateRes.rowCount === 0) return res.status(404).json({ error: 'Employee not found' });
-		res.status(200).json({ message: 'Employee promoted', employee: updateRes.rows[0] });
-	} catch (err) {
-		console.error('Error promoting employee:', err);
-		res.status(500).json({ error: 'Internal server error' });
-	}
+    try {
+        const updateRes = await pool.query(
+            `UPDATE users SET ${field} = $1 WHERE id = $2 
+             RETURNING id, name, username, email, role`,
+            [value, id]
+        );
+
+        if (updateRes.rowCount === 0)
+            return res.status(404).json({ error: "Employee not found" });
+
+        res.status(200).json({
+            message: "Employee updated",
+            employee: updateRes.rows[0]
+        });
+
+    } catch (err) {
+        console.error("Error updating employee:", err);
+        res.status(500).json({ error: "Internal server error" });
+    }
 });
 
 module.exports = router;
