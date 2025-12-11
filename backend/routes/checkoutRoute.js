@@ -31,14 +31,16 @@ router.patch('/', async (req, res) => {
       [orderId]
     );
 
-    if (txRes.rows.length === 0) {
-      client.release();
-      return res.status(404).json({
-        message: "Transaction for order not found--likely no customer was linked to the order."
-      });
-    }
+    // if (txRes.rows.length === 0) {
+    //   client.release();
+      
+    //   // instead of this we will assume it's a guest checkout
+    //   return res.status(404).json({
+    //     message: "Transaction for order not found--likely no customer was linked to the order."
+    //   });
+    // }
 
-    const customerId = txRes.rows[0].customerid;
+    const customerId = txRes.rows.length > 0 ? txRes.rows[0].customerid : 1;
     let points = 0;
     let free_drinks = 0;
     let redeemedIds = [];
