@@ -30,7 +30,9 @@
       "FruitTea": "Fruit Tea",
       "SpecialtyDrink": "Specialty Drink",
       "SeasonalDrink": "Seasonal Drink"
-    }
+    },
+    "addCart": "Add to Order",
+    "welcomeMessage": "Welcome"
   },
 
   "modify": {
@@ -78,7 +80,12 @@
     "sending": "Sending...",
     "orderSent": "Order sent successfully!",
     "ok": "OK",
-    "sendError": "Failed to send order. Please try again."
+    "sendError": "Failed to send order. Please try again.",
+    "selectDrinksToRedeem": "Select drinks to redeem:",
+    "freeDrinksMessage": "🎉 You have {{count}} free drink{{plural}}!",
+    "rewardPointsMessage": "⭐ You have {{points}}/10 reward point{{plural}}.",
+    "discount": "Discount: {{discount}}"
+
   },
 
   "app": {
