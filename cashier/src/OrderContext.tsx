@@ -156,6 +156,7 @@ export default function OrderProvider({ children }: { children: React.ReactNode 
                 await deleteItemFromOrder(item.comboId);
             }
             setOrderStatus('canceled');
+            alert("Order canceled.");
             await createOrder();
         } catch (error) {
             alert("Could not cancel order.");
