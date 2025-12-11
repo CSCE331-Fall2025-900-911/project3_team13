@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './CashierLayout.css';
 import customerIcon from '../assets/person.svg'
 import { AddCustomer } from './AddCustomer';
@@ -21,7 +21,7 @@ export function CashierLayout() {
   const [tabValue, setTabValue] = useState<'menu' | 'library' | 'orders'>('menu');
   const [open, setOpen] = useState(false);
   const { orderId, createOrder, cancelOrder, checkout } = useOrder();
-  
+  const orderCreatedRef = useRef(false);
   const [assistance, setAssistance] = useState<any[]>([]);
 
   const [currentTime, setCurrentTime] = useState(() => {
@@ -62,7 +62,8 @@ export function CashierLayout() {
   }, []);
 
   useEffect(() => {
-    if(!orderId) {
+    if(!orderId && !orderCreatedRef.current) {
+      orderCreatedRef.current = true;
       createOrder();
     }
   }, []);

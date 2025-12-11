@@ -33,48 +33,68 @@ passport.use(
         const name = profile.displayName;
         const email = profile.emails[0].value;
 
-        // Check if user exists
-        const result = await pool.query('SELECT * FROM users WHERE google_id = $1', [googleId]);
-        let user;
+        // 1️⃣ Check if email exists in users table
+        const result = await pool.query(
+          'SELECT * FROM users WHERE email = $1',
+          [email]
+        );
 
         if (result.rows.length === 0) {
-          // Insert new user
-          const insert = await pool.query(
-            'INSERT INTO users (google_id, name, email, role) VALUES ($1, $2, $3, $4) RETURNING *',
-            [googleId, name, email, 'pending']
-          );
-          user = insert.rows[0];
-        } else {
-          user = result.rows[0];
+          // ❌ Email not in system → Not authorized
+          return done(null, false, { message: "Email not registered" });
         }
 
-        done(null, user);
+        let user = result.rows[0];
+
+        // 2️⃣ If google_id is missing, update it
+        if (!user.google_id) {
+          const update = await pool.query(
+            'UPDATE users SET google_id = $1, name = $2 WHERE id = $3 RETURNING *',
+            [googleId, name, user.id]
+          );
+          user = update.rows[0];
+        }
+
+        // 3️⃣ Login success
+        return done(null, user);
+
       } catch (err) {
         console.error('Error with Google OAuth:', err);
-        done(err, null);
+        return done(err, null);
       }
     }
   )
 );
 
+
 passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((user, done) => done(null, user));
 
 // Route to start login
-router.get(
-  '/google',
-  passport.authenticate('google', { scope: ['profile', 'email'] })
+router.get('/google',
+  passport.authenticate('google', { 
+    scope: ['profile', 'email'],
+    prompt: 'select_account'   // 🔥 Forces account chooser
+  })
 );
 
 //Callback route after login
 router.get(
   '/google/callback',
   passport.authenticate('google', {
-    failureRedirect: 'https://cashier-project3-team13.vercel.app' //will change later when deploying
+    failureRedirect: 'https://cashier-project3-team13.vercel.app/not-authorized' //will change later when deploying
   }),
-  (req, res) => {
-    res.redirect('https://cashier-project3-team13.vercel.app/layout'); 
+(req, res) => {
+  const role = req.user?.role;
+
+  if (role === "manager" || role === "cashier") {
+    return res.redirect("https://cashier-project3-team13.vercel.app/layout");
   }
+
+  // Anything else
+  return res.redirect("https://cashier-project3-team13.vercel.app/not-authorized");
+}
+
 );
 
 router.get('/me', (req, res) => { //returns logged in user info

@@ -9,6 +9,7 @@ import {
 import { Box, IconButton, Slide } from "@mui/material";
 import CashierLogin from "./components/CashierLogin";
 import { CashierLayout } from "./components/CashierLayout";
+import NotAuthorized from "./components/NotAuthorized";
 
 function AppContent() {
   const location = useLocation();
@@ -20,6 +21,9 @@ function AppContent() {
         <Route path="/layout" element={<Box sx={styles.pageContainer}>
           <CashierLayout />
         </Box>} />
+      <Route path="/not-authorized" element={ <Box sx={styles.pageContainer}> <NotAuthorized /></Box>
+  }
+/>
 
       </Routes>
   );

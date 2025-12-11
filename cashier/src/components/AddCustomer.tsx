@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button, TextField } from '@mui/material';
 import axios from "axios";
 
-export function AddCustomer({ orderID}: {orderID: number}) {
+export function AddCustomer({ orderID }: { orderID: number }) {
     const [customerPhone, setCustomerPhone] = useState<string>("");
     const [customerName, setCustomerName] = useState<string>("");
     const [customerId, setCustomerId] = useState<number>(-1);
@@ -17,13 +17,14 @@ export function AddCustomer({ orderID}: {orderID: number}) {
     async function SaveCustomer() {
         try {
             const res = await axios.post('https://project3-team13-backend.onrender.com/api/add-customer', {
-                orderId: orderID,
                 customerName: customerName,
                 customerPhone: customerPhone
             });
             setCustomerId(res.data.customerId);
+            alert("Customer info saved successfully!");
         } catch (error) {
             console.error("Error adding customer:", error);
+            alert("Failed to save customer info.");
         }
     }
 
@@ -31,11 +32,14 @@ export function AddCustomer({ orderID}: {orderID: number}) {
         try {
             await axios.post('https://project3-team13-backend.onrender.com/api/link-customer-to-order', {
                 orderId: orderID,
-                customerId: customerId,
+                customerName: customerName,
+                customerPhone: customerPhone,
                 employeeId: 2
             });
+            alert("Customer linked to order successfully!");
         } catch (error) {
             console.error("Error linking customer to order:", error);
+            alert("Failed to link customer to order.");
         }
     }
 
@@ -53,10 +57,10 @@ export function AddCustomer({ orderID}: {orderID: number}) {
                 onChange={handleNameChange}
             />
             <Button variant="contained" onClick={SaveCustomer}>
-                Save Info
+                Save Customer
             </Button>
             <Button variant="contained" onClick={LinkCustomerToOrder}>
-                Add
+                Add Customer to Order
             </Button>
         </div>
     );

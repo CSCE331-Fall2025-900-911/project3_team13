@@ -9,13 +9,12 @@ const pool = require('../db/pool');
 router.get('/', async (req, res) => {
   const phone = req.query.phone;
 
+  const client = await pool.connect();
   try {
-    const client = await pool.connect();
     const result = await client.query(
       'SELECT id, name FROM customers WHERE phone = $1 LIMIT 1;',
       [phone]
     );
-    client.release();
 
     if (result.rows.length > 0) {
       res.json({
@@ -28,10 +27,11 @@ router.get('/', async (req, res) => {
     } else {
       res.json({ found: false });
     }
-
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Internal server error" });
+  } finally {
+    client.release();
   }
 });
 

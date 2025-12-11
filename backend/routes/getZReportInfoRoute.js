@@ -6,18 +6,16 @@ const { hasZReportBeenGeneratedToday } = require('../utils/zReportHelper');
 
 // GET /api/get-z-report,
 router.get('/', async (req, res) => {
+    // Check if Z-report has already been generated today
+    const zReportExists = await hasZReportBeenGeneratedToday();
+    if (zReportExists) {
+        return res.status(409).json({ 
+            error: 'Z-report has already been generated for today. No further transactions are allowed.' 
+        });
+    }
 
+    const client = await pool.connect();
     try {
-        // Check if Z-report has already been generated today
-        const zReportExists = await hasZReportBeenGeneratedToday();
-        if (zReportExists) {
-            return res.status(409).json({ 
-                error: 'Z-report has already been generated for today. No further transactions are allowed.' 
-            });
-        }
-
-        const client = await pool.connect();
-
         // total net sales
         const totalSalesQuery = 'SELECT SUM(total) as total_sales FROM transactions WHERE DATE(timestamp) = CURRENT_DATE';
         const totalSalesRes = await client.query(totalSalesQuery);
@@ -37,8 +35,6 @@ router.get('/', async (req, res) => {
         const addZReportQuery = 'INSERT INTO z_reports (gen_time) VALUES (to_timestamp($1/1000.0));';
         await client.query(addZReportQuery, [Date.now()]);
 
-        client.release();
-
         // note that once z report is generated, no more transactions can take place for the remainder of the day
         res.status(200).json({ 
             totalSales: totalSales || 0.0,
@@ -48,6 +44,8 @@ router.get('/', async (req, res) => {
     } catch(error) {
         console.error(error);
         res.status(500).json({ message: "Internal Server Error" });
+    } finally {
+        client.release();
     }
 });
 

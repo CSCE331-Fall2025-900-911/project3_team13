@@ -7,9 +7,8 @@ router.post('/', async (req, res) => {
     // requests to this route should contain customer name and phone number
     const { customerName, customerPhone } = req.body;
     
+    const client = await pool.connect();
     try {
-        const client = await pool.connect();
-
         const findCustomer = await client.query('SELECT * FROM customers WHERE name = $1 AND phone = $2;', [
             customerName,
             customerPhone
@@ -26,11 +25,12 @@ router.post('/', async (req, res) => {
             customerId = findCustomer.rows[0].id;
         }
 
-        client.release();
         res.status(201).json({ message: 'Customer added to order successfully', customerId: customerId });
     } catch(err) {
         console.error(err);
         res.status(500).json({ error: 'Internal server error' });
+    } finally {
+        client.release();
     }
 });
 

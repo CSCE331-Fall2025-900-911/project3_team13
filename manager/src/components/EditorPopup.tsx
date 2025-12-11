@@ -13,7 +13,7 @@ interface EditorPopupProps<T> {
 const editableFields: Record<string, string[]> = {
   menu: ["name", "category", "price", "image"],
   inventory: ["name", "quantity"],
-  employees: ["name", "username", "permissions"]
+  employees: ["name", "username", "email", "role", "password"]
 };
 
 export function EditorPopup<T extends { id: number; name: string }>(
@@ -26,6 +26,7 @@ export function EditorPopup<T extends { id: number; name: string }>(
 
   const [field, setField] = useState('');
   const [value, setValue] = useState('');
+  const hiddenFields = ["google_id", "auth_method"];
 
   useEffect(() => {
     setField('');
@@ -94,20 +95,33 @@ export function EditorPopup<T extends { id: number; name: string }>(
         } as unknown as T;
         setData(prev => [...prev, newItem]);
       } else if (tableType === "employees") {
-        const res = await fetch("https://project3-team13-backend.onrender.com/api/employees/add-employee", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name: "New Employee", permissions: 0 })
-        });
-        const json = await res.json();
-        if (!res.ok) throw new Error(json.error);
-        const newEmployee = {
-          id: json.employee.id,
-          name: "New Employee",
-          username: json.employee.username,
-          permissions: 0
-        } as unknown as T;
-        setData(prev => [...prev, newEmployee]);
+                  const newEmployeePayload = {
+              name: "New Employee",
+              username: "",
+              password: "",
+              email: "",
+              role: "pending",
+              auth_method: "local"
+            };
+
+            const res = await fetch("https://project3-team13-backend.onrender.com/api/employees/add-employee", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(newEmployeePayload)
+            });
+
+            const json = await res.json();
+            if (!res.ok) throw new Error(json.error);
+
+            const newEmployee = {
+              id: json.employee.id,
+              name: json.employee.name,
+              username: json.employee.username,
+              email: json.employee.email,
+              role: json.employee.role
+            } as unknown as T;
+
+            setData(prev => [...prev, newEmployee]);
       } else if (tableType === "menu") {
         const res = await fetch("https://project3-team13-backend.onrender.com/api/menu/add-item", {
           method: "POST",
@@ -188,16 +202,21 @@ export function EditorPopup<T extends { id: number; name: string }>(
           <table className="popup-table">
             <thead>
               <tr>
-                {Object.keys(selected).map(key => (
-                  <th key={key}>{key}</th>
-                ))}
+                {Object.keys(selected)
+                    .filter(key => !hiddenFields.includes(key))
+                    .map(key => (
+                      <th key={key}>{key}</th>
+                  ))}
+
               </tr>
             </thead>
             <tbody>
               <tr>
-                {Object.values(selected).map((val, i) => (
-                  <td key={`${selected.id}-${i}`}>{val as string | number}</td>
-                ))}
+                {Object.entries(selected)
+                    .filter(([key]) => !hiddenFields.includes(key))
+                    .map(([key, val]) => (
+                      <td key={`${selected.id}-${key}`}>{String(val)}</td>
+                  ))}
               </tr>
             </tbody>
           </table>

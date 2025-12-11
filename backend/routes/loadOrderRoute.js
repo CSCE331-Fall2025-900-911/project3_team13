@@ -9,9 +9,8 @@ router.get('/', async (req, res) => {
         return res.status(400).json({ error: "Missing ID parameter" });
     }
 
+    const client = await pool.connect();
     try {
-        const client = await pool.connect();
-
         const menuItemsRes = await client.query(
             `SELECT 
                 mio.id AS comboid,
@@ -31,12 +30,13 @@ router.get('/', async (req, res) => {
         );
 
         const items = menuItemsRes.rows;
-        client.release();
 
         res.json({ items });
     } catch (error) {
         console.error('Error loading order:', error);
         res.status(500).json({ error: 'Failed to load order' });
+    } finally {
+        client.release();
     }
 });
 

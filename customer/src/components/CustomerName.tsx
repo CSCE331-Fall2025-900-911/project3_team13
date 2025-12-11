@@ -8,6 +8,7 @@ interface AddCustomerResp {
   message: string;
   customerId: number;
 }
+
 export default function CustomerName() {
   const [name, setName] = useState("");
   const navigate = useNavigate();
@@ -35,11 +36,17 @@ export default function CustomerName() {
 
       // STEP 3: Link
       await axios.post("https://project3-team13-backend.onrender.com/api/link-customer-to-order", {
-        orderId,
-        customerId,
+        orderId: orderId,
+        customerName: name,
+        customerPhone: phone,
         employeeId: 1
       });
+      await axios.patch("https://project3-team13-backend.onrender.com/api/update-order-name", {
+        orderId,
+        name
+      });
 
+      
       navigate("/menu");
 
     } catch (err) {

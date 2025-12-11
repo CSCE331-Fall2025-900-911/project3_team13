@@ -53,10 +53,12 @@ export default function CustomerLogin() {
           const orderId = newOrder.data.orderId;
           localStorage.setItem('orderId', orderId.toString());
 
+          
           // Link
           await axios.post("https://project3-team13-backend.onrender.com/api/link-customer-to-order", {
-            orderId,
-            customerId: existing ? existing.id : -1,
+            orderId: orderId,
+            customerName: existing?.name,
+            customerPhone: phoneNumber,
             employeeId: 1
           });
 

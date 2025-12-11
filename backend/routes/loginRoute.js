@@ -2,56 +2,70 @@ const express = require("express");
 const router = express.Router();
 const pool = require("../db/pool");
 
-// GET /api/login/cashier
-router.post('/cashier', async (req, res) => {
-    const { username, password } = req.body;
-    try {
-        const employeeRes = await pool.query(
-            `SELECT id, name, username, permissions 
-             FROM employees 
-             WHERE username = $1 AND password = $2`,
-            [username, password]
-        );
+// -----------------------------------------
+// POST /api/login/cashier
+// -----------------------------------------
+router.post("/cashier", async (req, res) => {
+  const { username, password } = req.body;
 
-        if (employeeRes.rows.length === 0) {
-            return res.status(401).json({ message: "Invalid username or password" });
-        }
-        
-        const employee = employeeRes.rows[0];
-        if(employee.permissions !== 0) {
-            return res.status(403).json({ message: "Access denied: Not a cashier" });
-        }
-        res.status(200).json({ message: "Login successful", employee });
-    } catch (error) {
-        console.error("Error during cashier login:", error);
-        res.status(500).json({ message: "Internal Server Error" });
+  try {
+    const result = await pool.query(
+      `SELECT id, name, username, password, role
+       FROM users
+       WHERE username = $1 
+         AND password = $2`,
+      [username, password]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(401).json({ message: "Invalid username or password" });
     }
+
+    const user = result.rows[0];
+
+    if (user.role !== "cashier") {
+      return res.status(403).json({ message: "Access denied: Not a cashier" });
+    }
+
+    return res.status(200).json({ message: "Login successful", user });
+
+  } catch (err) {
+    console.error("Error during cashier login:", err);
+    res.status(500).json({ message: "Internal server error" });
+  }
 });
 
-// GET /api/login/manager
-router.post('/manager', async (req, res) => {
-    const { username, password } = req.body;
-    try {
-        const employeeRes = await pool.query(
-            `SELECT id, name, username, permissions 
-             FROM employees 
-             WHERE username = $1 AND password = $2`,
-            [username, password]
-        );
+// -----------------------------------------
+// POST /api/login/manager
+// -----------------------------------------
+router.post("/manager", async (req, res) => {
+  const { username, password } = req.body;
 
-        if (employeeRes.rows.length === 0) {
-            return res.status(401).json({ message: "Invalid username or password" });
-        }
-        
-        const employee = employeeRes.rows[0];
-        if(employee.permissions !== 1) {
-            return res.status(403).json({ message: "Access denied: Not a manager" });
-        }
-        res.status(200).json({ message: "Login successful", employee });
-    } catch (error) {
-        console.error("Error during manager login:", error);
-        res.status(500).json({ message: "Internal Server Error" });
+  try {
+    const result = await pool.query(
+      `SELECT id, name, username, password, role
+       FROM users
+       WHERE username = $1 
+         AND password = $2`,
+      [username, password]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(401).json({ message: "Invalid username or password" });
     }
+
+    const user = result.rows[0];
+
+    if (user.role !== "manager") {
+      return res.status(403).json({ message: "Access denied: Not a manager" });
+    }
+
+    return res.status(200).json({ message: "Login successful", user });
+
+  } catch (err) {
+    console.error("Error during manager login:", err);
+    res.status(500).json({ message: "Internal server error" });
+  }
 });
 
 module.exports = router;
